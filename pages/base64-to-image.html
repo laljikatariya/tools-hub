@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Base64 to Image - Utilo</title>
+    <link rel="stylesheet" href="../css/style.css" />
+  </head>
+  <body>
+    <header>
+      <div class="header-content container">
+        <a href="../index.html" class="logo">🧰 Utilo</a>
+        <nav class="nav-links">
+          <a href="../index.html">← Back to Tools</a>
+          <button id="theme-toggle" class="theme-toggle">🌙</button>
+        </nav>
+      </div>
+    </header>
+
+    <div class="tool-container">
+      <div class="tool-panel">
+        <div class="tool-panel-input">
+          <label class="tool-panel-label">Base64 Input</label>
+          <textarea id="input-base64" placeholder='data:image/png;base64,...'></textarea>
+        </div>
+      </div>
+
+      <div class="tool-panel">
+        <div class="tool-panel-output">
+          <label class="tool-panel-label">Preview</label>
+          <img id="preview-img" style="max-width: 100%; border: 1px solid var(--border); border-radius: 0.5rem;" />
+          <p id="preview-error" class="text-muted"></p>
+        </div>
+        <div class="tool-controls">
+          <button id="decode-btn" class="btn btn-primary">Decode & Preview</button>
+          <button id="download-btn" class="btn btn-secondary">Download Image</button>
+          <button id="clear-btn" class="btn btn-danger">Clear</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="../js/utils.js"></script>
+    <script>
+      const inputBase64 = document.getElementById('input-base64');
+      const previewImg = document.getElementById('preview-img');
+      const previewError = document.getElementById('preview-error');
+      const decodeBtn = document.getElementById('decode-btn');
+      const downloadBtn = document.getElementById('download-btn');
+
+      decodeBtn.addEventListener('click', () => {
+        try {
+          previewImg.src = inputBase64.value;
+          previewError.textContent = '';
+        } catch (e) {
+          previewError.textContent = 'Error: ' + e.message;
+        }
+      });
+
+      downloadBtn.addEventListener('click', () => {
+        const link = document.createElement('a');
+        link.href = previewImg.src;
+        link.download = 'decoded-image.png';
+        link.click();
+      });
+
+      document.getElementById('clear-btn').addEventListener('click', () => {
+        inputBase64.value = '';
+        previewImg.src = '';
+        previewError.textContent = '';
+      });
+    </script>
+  </body>
+</html>

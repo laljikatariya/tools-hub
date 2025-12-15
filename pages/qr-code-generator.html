@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>QR Code Generator - Utilo</title>
+    <link rel="stylesheet" href="../css/style.css" />
+  </head>
+  <body>
+    <header>
+      <div class="header-content container">
+        <a href="../index.html" class="logo">🧰 Utilo</a>
+        <nav class="nav-links">
+          <a href="../index.html">← Back to Tools</a>
+          <button id="theme-toggle" class="theme-toggle">🌙</button>
+        </nav>
+      </div>
+    </header>
+
+    <div class="tool-container">
+      <div class="tool-panel">
+        <div class="tool-panel-input" style="gap: 1rem;">
+          <label class="tool-panel-label">Input Text/URL</label>
+          <textarea id="input-text" placeholder="Enter text or URL..."></textarea>
+          <div class="form-group">
+            <label class="tool-panel-label">Size (px)</label>
+            <input type="number" id="qr-size" value="300" min="100" max="600" />
+          </div>
+          <button id="generate-btn" class="btn btn-primary" style="width: 100%;">Generate QR Code</button>
+        </div>
+      </div>
+
+      <div class="tool-panel">
+        <div class="tool-panel-output">
+          <label class="tool-panel-label">QR Code</label>
+          <div id="qr-container" style="display: flex; justify-content: center; padding: 1rem; background: var(--surface); border-radius: 0.5rem;">
+            <canvas id="qr-canvas"></canvas>
+          </div>
+        </div>
+        <div class="tool-controls">
+          <button id="download-btn" class="btn btn-primary">Download PNG</button>
+          <button id="clear-btn" class="btn btn-danger">Clear</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="../js/utils.js"></script>
+    <script>
+      const inputText = document.getElementById('input-text');
+      const qrSize = document.getElementById('qr-size');
+      const generateBtn = document.getElementById('generate-btn');
+      const qrCanvas = document.getElementById('qr-canvas');
+      const qrContainer = document.getElementById('qr-container');
+      const downloadBtn = document.getElementById('download-btn');
+
+      let qrCode = null;
+
+      generateBtn.addEventListener('click', () => {
+        if (!inputText.value) return;
+
+        qrContainer.innerHTML = '';
+        qrCode = new QRCode(qrContainer, {
+          text: inputText.value,
+          width: parseInt(qrSize.value),
+          height: parseInt(qrSize.value),
+        });
+      });
+
+      downloadBtn.addEventListener('click', () => {
+        const img = qrContainer.querySelector('img');
+        if (img) {
+          const a = document.createElement('a');
+          a.href = img.src;
+          a.download = 'qr-code.png';
+          a.click();
+        }
+      });
+
+      document.getElementById('clear-btn').addEventListener('click', () => {
+        inputText.value = '';
+        qrContainer.innerHTML = '';
+      });
+    </script>
+  </body>
+</html>

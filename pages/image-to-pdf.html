@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Image to PDF - Utilo</title>
+    <link rel="stylesheet" href="../css/style.css" />
+  </head>
+  <body>
+    <header>
+      <div class="header-content container">
+        <a href="../index.html" class="logo">🧰 Utilo</a>
+        <nav class="nav-links">
+          <a href="../index.html">← Back to Tools</a>
+          <button id="theme-toggle" class="theme-toggle">🌙</button>
+        </nav>
+      </div>
+    </header>
+
+    <div class="tool-container">
+      <div class="tool-panel">
+        <div class="tool-panel-input" style="gap: 1rem;">
+          <label class="tool-panel-label">Upload Images</label>
+          <input type="file" id="image-input" accept="image/*" multiple />
+          <button id="convert-btn" class="btn btn-primary" style="width: 100%;">Convert to PDF</button>
+        </div>
+      </div>
+
+      <div class="tool-panel">
+        <div class="tool-panel-output">
+          <label class="tool-panel-label">Status</label>
+          <textarea id="status" readonly placeholder="Select images and convert..."></textarea>
+        </div>
+        <div class="tool-controls">
+          <button id="download-btn" class="btn btn-primary" disabled>Download PDF</button>
+          <button id="clear-btn" class="btn btn-danger">Clear</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="../js/utils.js"></script>
+    <script>
+      const imageInput = document.getElementById('image-input');
+      const convertBtn = document.getElementById('convert-btn');
+      const downloadBtn = document.getElementById('download-btn');
+      const status = document.getElementById('status');
+
+      convertBtn.addEventListener('click', async () => {
+        const files = imageInput.files;
+        if (files.length === 0) {
+          status.value = 'Please select at least one image';
+          return;
+        }
+
+        try {
+          status.value = 'Converting...';
+
+          const html = '<html><body>';
+          let imageHtml = '';
+
+          for (let file of files) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+              imageHtml += `<img src="${e.target.result}" style="width: 100%; page-break-after: always;" />`;
+            };
+            reader.readAsDataURL(file);
+          }
+
+          setTimeout(() => {
+            status.value = 'Ready to download!';
+            downloadBtn.disabled = false;
+          }, 1000);
+        } catch (e) {
+          status.value = 'Error: ' + e.message;
+        }
+      });
+
+      downloadBtn.addEventListener('click', async () => {
+        const files = imageInput.files;
+        const element = document.createElement('div');
+        for (let file of files) {
+          const img = document.createElement('img');
+          img.src = URL.createObjectURL(file);
+          img.style.width = '100%';
+          img.style.pageBreakAfter = 'always';
+          element.appendChild(img);
+        }
+
+        const opt = { margin: 10, filename: 'images.pdf', image: { type: 'jpeg', quality: 0.98 }, html2canvas: { scale: 2 }, jsPDF: { orientation: 'portrait' } };
+        html2pdf().set(opt).from(element).save();
+      });
+
+      document.getElementById('clear-btn').addEventListener('click', () => {
+        imageInput.value = '';
+        status.value = '';
+        downloadBtn.disabled = true;
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JSON Formatter - Utilo</title>
+    <link rel="stylesheet" href="../css/style.css" />
+  </head>
+  <body>
+    <header>
+      <div class="header-content container">
+        <a href="../index.html" class="logo">🧰 Utilo</a>
+        <nav class="nav-links">
+          <a href="../index.html">← Back to Tools</a>
+          <button id="theme-toggle" class="theme-toggle">🌙</button>
+        </nav>
+      </div>
+    </header>
+
+    <div class="tool-container">
+      <div class="tool-panel">
+        <div class="tool-panel-input">
+          <label class="tool-panel-label">Input JSON</label>
+          <textarea id="input-json" placeholder='{"key": "value"}'></textarea>
+        </div>
+      </div>
+
+      <div class="tool-panel">
+        <div class="tool-panel-output">
+          <label class="tool-panel-label">Output JSON</label>
+          <textarea id="output-json" readonly></textarea>
+        </div>
+        <div class="tool-controls">
+          <button id="beautify-btn" class="btn btn-primary">Beautify</button>
+          <button id="minify-btn" class="btn btn-primary">Minify</button>
+          <button id="validate-btn" class="btn btn-info">Validate</button>
+          <button id="copy-btn" class="btn btn-secondary">Copy</button>
+          <button id="clear-btn" class="btn btn-danger">Clear</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="../js/utils.js"></script>
+    <script>
+      const inputJson = document.getElementById('input-json');
+      const outputJson = document.getElementById('output-json');
+
+      document.getElementById('beautify-btn').addEventListener('click', () => {
+        try {
+          const parsed = JSON.parse(inputJson.value);
+          outputJson.value = JSON.stringify(parsed, null, 2);
+          outputJson.style.color = 'var(--success)';
+        } catch (e) {
+          outputJson.value = 'Invalid JSON: ' + e.message;
+          outputJson.style.color = 'var(--error)';
+        }
+      });
+
+      document.getElementById('minify-btn').addEventListener('click', () => {
+        try {
+          const parsed = JSON.parse(inputJson.value);
+          outputJson.value = JSON.stringify(parsed);
+          outputJson.style.color = 'var(--success)';
+        } catch (e) {
+          outputJson.value = 'Invalid JSON: ' + e.message;
+          outputJson.style.color = 'var(--error)';
+        }
+      });
+
+      document.getElementById('validate-btn').addEventListener('click', () => {
+        try {
+          JSON.parse(inputJson.value);
+          outputJson.value = '✓ Valid JSON';
+          outputJson.style.color = 'var(--success)';
+        } catch (e) {
+          outputJson.value = '✗ Invalid: ' + e.message;
+          outputJson.style.color = 'var(--error)';
+        }
+      });
+
+      document.getElementById('copy-btn').addEventListener('click', () => {
+        copyToClipboard(outputJson.value, document.getElementById('copy-btn'));
+      });
+
+      document.getElementById('clear-btn').addEventListener('click', () => {
+        inputJson.value = '';
+        outputJson.value = '';
+      });
+    </script>
+  </body>
+</html>

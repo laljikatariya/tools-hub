@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Word Counter - Utilo</title>
+    <link rel="stylesheet" href="../css/style.css" />
+  </head>
+  <body>
+    <header>
+      <div class="header-content container">
+        <a href="../index.html" class="logo">🧰 Utilo</a>
+        <nav class="nav-links">
+          <a href="../index.html">← Back to Tools</a>
+          <button id="theme-toggle" class="theme-toggle">🌙</button>
+        </nav>
+      </div>
+    </header>
+
+    <div class="tool-container">
+      <div class="tool-panel">
+        <div class="tool-panel-input">
+          <label class="tool-panel-label">Input Text</label>
+          <textarea id="input-text" placeholder="Enter your text here..."></textarea>
+        </div>
+      </div>
+
+      <div class="tool-panel">
+        <div class="tool-panel-output" style="gap: 1rem;">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div class="card">
+              <p class="tool-panel-label">Words</p>
+              <h2 id="word-count">0</h2>
+            </div>
+            <div class="card">
+              <p class="tool-panel-label">Characters</p>
+              <h2 id="char-count">0</h2>
+            </div>
+            <div class="card">
+              <p class="tool-panel-label">Sentences</p>
+              <h2 id="sentence-count">0</h2>
+            </div>
+            <div class="card">
+              <p class="tool-panel-label">Paragraphs</p>
+              <h2 id="paragraph-count">0</h2>
+            </div>
+            <div class="card">
+              <p class="tool-panel-label">Spaces</p>
+              <h2 id="space-count">0</h2>
+            </div>
+            <div class="card">
+              <p class="tool-panel-label">Avg Word Length</p>
+              <h2 id="avg-length">0</h2>
+            </div>
+          </div>
+        </div>
+        <div class="tool-controls">
+          <button id="copy-stats" class="btn btn-secondary">Copy Stats</button>
+          <button id="clear-btn" class="btn btn-danger">Clear</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="../js/utils.js"></script>
+    <script>
+      const inputText = document.getElementById('input-text');
+
+      function updateStats() {
+        const text = inputText.value;
+
+        const words = text.trim().split(/\s+/).filter((w) => w.length > 0).length;
+        const chars = text.length;
+        const charsNoSpaces = text.replace(/\s/g, '').length;
+        const sentences = text.split(/[.!?]+/).filter((s) => s.trim().length > 0).length;
+        const paragraphs = text.split(/\n\n+/).filter((p) => p.trim().length > 0).length;
+        const spaces = (text.match(/\s/g) || []).length;
+        const avgLength = words > 0 ? (charsNoSpaces / words).toFixed(2) : 0;
+
+        document.getElementById('word-count').textContent = words;
+        document.getElementById('char-count').textContent = chars;
+        document.getElementById('sentence-count').textContent = Math.max(1, sentences);
+        document.getElementById('paragraph-count').textContent = Math.max(1, paragraphs);
+        document.getElementById('space-count').textContent = spaces;
+        document.getElementById('avg-length').textContent = avgLength;
+      }
+
+      inputText.addEventListener('input', updateStats);
+
+      document.getElementById('copy-stats').addEventListener('click', () => {
+        const stats = `
+Words: ${document.getElementById('word-count').textContent}
+Characters: ${document.getElementById('char-count').textContent}
+Sentences: ${document.getElementById('sentence-count').textContent}
+Paragraphs: ${document.getElementById('paragraph-count').textContent}
+Spaces: ${document.getElementById('space-count').textContent}
+Average Word Length: ${document.getElementById('avg-length').textContent}
+        `.trim();
+        copyToClipboard(stats);
+      });
+
+      document.getElementById('clear-btn').addEventListener('click', () => {
+        inputText.value = '';
+        updateStats();
+      });
+
+      updateStats();
+    </script>
+  </body>
+</html>

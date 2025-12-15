@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Image Resizer - Utilo</title>
+    <link rel="stylesheet" href="../css/style.css" />
+  </head>
+  <body>
+    <header>
+      <div class="header-content container">
+        <a href="../index.html" class="logo">🧰 Utilo</a>
+        <nav class="nav-links">
+          <a href="../index.html">← Back to Tools</a>
+          <button id="theme-toggle" class="theme-toggle">🌙</button>
+        </nav>
+      </div>
+    </header>
+
+    <div class="tool-container">
+      <div class="tool-panel">
+        <div class="tool-panel-input" style="gap: 1rem;">
+          <label class="tool-panel-label">Upload Image</label>
+          <input type="file" id="file-input" accept="image/*" />
+          <div class="form-group">
+            <label class="tool-panel-label">Width (px)</label>
+            <input type="number" id="width" value="800" min="1" />
+          </div>
+          <div class="form-group">
+            <label class="tool-panel-label">Height (px)</label>
+            <input type="number" id="height" value="600" min="1" />
+          </div>
+          <button id="resize-btn" class="btn btn-primary" style="width: 100%;">Resize</button>
+        </div>
+      </div>
+
+      <div class="tool-panel">
+        <div class="tool-panel-output">
+          <label class="tool-panel-label">Preview</label>
+          <canvas id="canvas" style="max-width: 100%; border: 1px solid var(--border); border-radius: 0.5rem;"></canvas>
+        </div>
+        <div class="tool-controls">
+          <button id="download-btn" class="btn btn-primary">Download</button>
+          <button id="clear-btn" class="btn btn-danger">Clear</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="../js/utils.js"></script>
+    <script>
+      const fileInput = document.getElementById('file-input');
+      const widthInput = document.getElementById('width');
+      const heightInput = document.getElementById('height');
+      const resizeBtn = document.getElementById('resize-btn');
+      const canvas = document.getElementById('canvas');
+      const downloadBtn = document.getElementById('download-btn');
+
+      let originalImg = null;
+
+      fileInput.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = (event) => {
+            originalImg = new Image();
+            originalImg.onload = () => {
+              widthInput.value = originalImg.width;
+              heightInput.value = originalImg.height;
+            };
+            originalImg.src = event.target.result;
+          };
+          reader.readAsDataURL(file);
+        }
+      });
+
+      resizeBtn.addEventListener('click', () => {
+        if (!originalImg) return;
+        const width = parseInt(widthInput.value);
+        const height = parseInt(heightInput.value);
+
+        canvas.width = width;
+        canvas.height = height;
+        canvas.getContext('2d').drawImage(originalImg, 0, 0, width, height);
+      });
+
+      downloadBtn.addEventListener('click', () => {
+        canvas.toBlob((blob) => {
+          downloadFile(blob, 'resized-image.png', 'image/png');
+        });
+      });
+
+      document.getElementById('clear-btn').addEventListener('click', () => {
+        fileInput.value = '';
+        canvas.width = 0;
+        canvas.height = 0;
+        originalImg = null;
+      });
+    </script>
+  </body>
+</html>

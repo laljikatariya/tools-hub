@@ -1,0 +1,28 @@
+{
+  "name": "Utilo - Free Online Tools",
+  "short_name": "Utilo",
+  "description": "30+ powerful online tools for developers, designers, and content creators",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#4F46E5",
+  "orientation": "portrait-primary",
+  "categories": ["productivity", "utilities", "development"],
+  "shortcuts": [
+    {
+      "name": "JSON Formatter",
+      "url": "/tools/json-formatter",
+      "description": "Format and validate JSON"
+    },
+    {
+      "name": "Password Generator",
+      "url": "/tools/password-generator",
+      "description": "Generate secure passwords"
+    },
+    {
+      "name": "QR Code Generator",
+      "url": "/tools/qr-code-generator",
+      "description": "Create QR codes instantly"
+    }
+  ]
+}

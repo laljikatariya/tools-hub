@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Case Converter - Utilo</title>
+    <link rel="stylesheet" href="../css/style.css" />
+  </head>
+  <body>
+    <header>
+      <div class="header-content container">
+        <a href="../index.html" class="logo">🧰 Utilo</a>
+        <nav class="nav-links">
+          <a href="../index.html">← Back to Tools</a>
+          <button id="theme-toggle" class="theme-toggle">🌙</button>
+        </nav>
+      </div>
+    </header>
+
+    <div class="tool-container">
+      <div class="tool-panel">
+        <div class="tool-panel-input">
+          <label class="tool-panel-label">Input Text</label>
+          <textarea id="input-text" placeholder="Enter text to convert..."></textarea>
+        </div>
+      </div>
+
+      <div class="tool-panel">
+        <div class="tool-panel-output">
+          <label class="tool-panel-label">Conversion Type</label>
+          <select id="case-type">
+            <option value="upper">UPPERCASE</option>
+            <option value="lower">lowercase</option>
+            <option value="title">Title Case</option>
+            <option value="sentence">Sentence case</option>
+            <option value="toggle">tOGGLE cASE</option>
+            <option value="camel">camelCase</option>
+            <option value="snake">snake_case</option>
+            <option value="kebab">kebab-case</option>
+          </select>
+        </div>
+        <div class="tool-panel-output">
+          <label class="tool-panel-label">Result</label>
+          <textarea id="output-text" readonly></textarea>
+        </div>
+        <div class="tool-controls">
+          <button id="convert-btn" class="btn btn-primary">Convert</button>
+          <button id="copy-btn" class="btn btn-secondary">Copy</button>
+          <button id="clear-btn" class="btn btn-danger">Clear</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="../js/utils.js"></script>
+    <script>
+      const inputText = document.getElementById('input-text');
+      const outputText = document.getElementById('output-text');
+      const caseType = document.getElementById('case-type');
+      const convertBtn = document.getElementById('convert-btn');
+      const copyBtn = document.getElementById('copy-btn');
+      const clearBtn = document.getElementById('clear-btn');
+
+      function convert() {
+        let text = inputText.value;
+        const type = caseType.value;
+
+        switch (type) {
+          case 'upper':
+            outputText.value = text.toUpperCase();
+            break;
+          case 'lower':
+            outputText.value = text.toLowerCase();
+            break;
+          case 'title':
+            outputText.value = text
+              .toLowerCase()
+              .split(' ')
+              .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+              .join(' ');
+            break;
+          case 'sentence':
+            outputText.value = text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
+            break;
+          case 'toggle':
+            outputText.value = text
+              .split('')
+              .map((char) => (char === char.toUpperCase() ? char.toLowerCase() : char.toUpperCase()))
+              .join('');
+            break;
+          case 'camel':
+            outputText.value = text
+              .toLowerCase()
+              .replace(/[^a-z0-9]+(.)/g, (_, char) => char.toUpperCase());
+            break;
+          case 'snake':
+            outputText.value = text.toLowerCase().replace(/\s+/g, '_');
+            break;
+          case 'kebab':
+            outputText.value = text.toLowerCase().replace(/\s+/g, '-');
+            break;
+        }
+      }
+
+      convertBtn.addEventListener('click', convert);
+      caseType.addEventListener('change', convert);
+      inputText.addEventListener('input', convert);
+
+      copyBtn.addEventListener('click', () => {
+        copyToClipboard(outputText.value, copyBtn);
+      });
+
+      clearBtn.addEventListener('click', () => {
+        inputText.value = '';
+        outputText.value = '';
+      });
+    </script>
+  </body>
+</html>

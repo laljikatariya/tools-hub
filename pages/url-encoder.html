@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>URL Encoder/Decoder - Utilo</title>
+    <link rel="stylesheet" href="../css/style.css" />
+  </head>
+  <body>
+    <header>
+      <div class="header-content container">
+        <a href="../index.html" class="logo">🧰 Utilo</a>
+        <nav class="nav-links">
+          <a href="../index.html">← Back to Tools</a>
+          <button id="theme-toggle" class="theme-toggle">🌙</button>
+        </nav>
+      </div>
+    </header>
+
+    <div class="tool-container">
+      <div class="tool-panel">
+        <div class="tool-panel-input">
+          <label class="tool-panel-label">Input Text</label>
+          <textarea id="input-text" placeholder="Enter text to encode or URL to decode..."></textarea>
+        </div>
+      </div>
+
+      <div class="tool-panel">
+        <div class="tool-panel-output">
+          <label class="tool-panel-label">Encoded Result</label>
+          <textarea id="encoded-result" readonly></textarea>
+        </div>
+        <div class="tool-panel-output">
+          <label class="tool-panel-label">Decoded Result</label>
+          <textarea id="decoded-result" readonly></textarea>
+        </div>
+        <div class="tool-controls">
+          <button id="encode-btn" class="btn btn-primary">Encode</button>
+          <button id="decode-btn" class="btn btn-primary">Decode</button>
+          <button id="copy-encoded" class="btn btn-secondary">Copy Encoded</button>
+          <button id="clear-btn" class="btn btn-danger">Clear</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="../js/utils.js"></script>
+    <script>
+      const inputText = document.getElementById('input-text');
+      const encodedResult = document.getElementById('encoded-result');
+      const decodedResult = document.getElementById('decoded-result');
+
+      function encode() {
+        try {
+          encodedResult.value = encodeURIComponent(inputText.value);
+        } catch (e) {
+          encodedResult.value = 'Error: ' + e.message;
+        }
+      }
+
+      function decode() {
+        try {
+          decodedResult.value = decodeURIComponent(inputText.value);
+        } catch (e) {
+          decodedResult.value = 'Error: ' + e.message;
+        }
+      }
+
+      document.getElementById('encode-btn').addEventListener('click', encode);
+      document.getElementById('decode-btn').addEventListener('click', decode);
+
+      document.getElementById('copy-encoded').addEventListener('click', () => {
+        copyToClipboard(encodedResult.value, document.getElementById('copy-encoded'));
+      });
+
+      document.getElementById('clear-btn').addEventListener('click', () => {
+        inputText.value = '';
+        encodedResult.value = '';
+        decodedResult.value = '';
+      });
+
+      inputText.addEventListener('input', () => {
+        encode();
+        decode();
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RGB to HEX - Utilo</title>
+    <link rel="stylesheet" href="../css/style.css" />
+  </head>
+  <body>
+    <header>
+      <div class="header-content container">
+        <a href="../index.html" class="logo">🧰 Utilo</a>
+        <nav class="nav-links">
+          <a href="../index.html">← Back to Tools</a>
+          <button id="theme-toggle" class="theme-toggle">🌙</button>
+        </nav>
+      </div>
+    </header>
+
+    <div class="tool-container">
+      <div class="tool-panel">
+        <div class="tool-panel-input" style="gap: 1rem;">
+          <label class="tool-panel-label">RGB Input</label>
+          <textarea id="rgb-input" placeholder="rgb(255, 87, 51)"></textarea>
+        </div>
+      </div>
+
+      <div class="tool-panel">
+        <div class="tool-panel-output">
+          <label class="tool-panel-label">HEX Output</label>
+          <textarea id="hex-output" readonly></textarea>
+        </div>
+        <div class="tool-controls">
+          <button id="convert-btn" class="btn btn-primary">Convert</button>
+          <button id="copy-btn" class="btn btn-secondary">Copy</button>
+          <button id="clear-btn" class="btn btn-danger">Clear</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="../js/utils.js"></script>
+    <script>
+      const rgbInput = document.getElementById('rgb-input');
+      const hexOutput = document.getElementById('hex-output');
+
+      function rgbToHex() {
+        const match = rgbInput.value.match(/\d+/g);
+        if (!match || match.length !== 3) {
+          hexOutput.value = 'Invalid RGB format';
+          return;
+        }
+        const [r, g, b] = match.map(Number);
+        const hex =
+          '#' +
+          [r, g, b]
+            .map((x) => {
+              const h = x.toString(16);
+              return h.length === 1 ? '0' + h : h;
+            })
+            .join('')
+            .toUpperCase();
+        hexOutput.value = hex;
+      }
+
+      document.getElementById('convert-btn').addEventListener('click', rgbToHex);
+      rgbInput.addEventListener('input', rgbToHex);
+
+      document.getElementById('copy-btn').addEventListener('click', () => {
+        copyToClipboard(hexOutput.value, document.getElementById('copy-btn'));
+      });
+
+      document.getElementById('clear-btn').addEventListener('click', () => {
+        rgbInput.value = '';
+        hexOutput.value = '';
+      });
+    </script>
+  </body>
+</html>

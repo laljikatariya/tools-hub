@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Regex Tester - Utilo</title>
+    <link rel="stylesheet" href="../css/style.css" />
+  </head>
+  <body>
+    <header>
+      <div class="header-content container">
+        <a href="../index.html" class="logo">🧰 Utilo</a>
+        <nav class="nav-links">
+          <a href="../index.html">← Back to Tools</a>
+          <button id="theme-toggle" class="theme-toggle">🌙</button>
+        </nav>
+      </div>
+    </header>
+
+    <div class="tool-container">
+      <div class="tool-panel">
+        <div class="tool-panel-input" style="gap: 1rem;">
+          <div class="form-group">
+            <label class="tool-panel-label">Regex Pattern</label>
+            <input type="text" id="pattern" placeholder="^[a-z]+$" />
+          </div>
+          <div class="form-group">
+            <label class="tool-panel-label">Test String</label>
+            <textarea id="test-string" placeholder="Enter text to test..."></textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="tool-panel">
+        <div class="tool-panel-output">
+          <label class="tool-panel-label">Matches</label>
+          <textarea id="matches" readonly></textarea>
+        </div>
+        <div class="tool-controls">
+          <button id="test-btn" class="btn btn-primary">Test</button>
+          <button id="clear-btn" class="btn btn-danger">Clear</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="../js/utils.js"></script>
+    <script>
+      const patternInput = document.getElementById('pattern');
+      const testString = document.getElementById('test-string');
+      const matchesOutput = document.getElementById('matches');
+
+      function test() {
+        try {
+          const regex = new RegExp(patternInput.value, 'g');
+          const matches = testString.value.match(regex) || [];
+          matchesOutput.value = matches.length > 0 ? matches.join('\n') : 'No matches found';
+        } catch (e) {
+          matchesOutput.value = 'Invalid regex: ' + e.message;
+        }
+      }
+
+      document.getElementById('test-btn').addEventListener('click', test);
+      patternInput.addEventListener('input', test);
+      testString.addEventListener('input', test);
+
+      document.getElementById('clear-btn').addEventListener('click', () => {
+        patternInput.value = '';
+        testString.value = '';
+        matchesOutput.value = '';
+      });
+    </script>
+  </body>
+</html>

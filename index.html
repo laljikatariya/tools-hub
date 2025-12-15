@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Utilo - 30 Powerful Online Tools</title>
+    <meta
+      name="description"
+      content="Free online tools hub with text, image, PDF, color, developer, and security tools. No installation needed, works in your browser."
+    />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <!-- Header -->
+    <header>
+      <div class="header-content container">
+        <a href="index.html" class="logo">🧰 Utilo</a>
+        <nav class="nav-links">
+          <a href="#featured">Featured</a>
+          <a href="#tools">All Tools</a>
+          <button id="theme-toggle" class="theme-toggle" title="Toggle dark mode">
+            🌙
+          </button>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="container">
+        <h1>Welcome to Utilo</h1>
+        <p>30 Powerful Online Tools for Text, Images, PDFs, Colors & More</p>
+        <div class="search-container">
+          <div class="search-bar">
+            <input
+              type="text"
+              id="search-input"
+              placeholder="Search tools…"
+              aria-label="Search tools"
+            />
+            <button class="btn btn-primary">Search</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Categories -->
+    <section class="container mt-2">
+      <div class="categories" id="categories">
+        <button class="category-btn active" data-category="all">All Tools</button>
+        <button class="category-btn" data-category="text">📝 Text</button>
+        <button class="category-btn" data-category="image">🖼️ Image</button>
+        <button class="category-btn" data-category="pdf">📄 PDF</button>
+        <button class="category-btn" data-category="color">🎨 Color</button>
+        <button class="category-btn" data-category="developer">🔢 Developer</button>
+        <button class="category-btn" data-category="security">🔑 Security</button>
+      </div>
+    </section>
+
+    <!-- Featured Tools -->
+    <section class="container mt-2" id="featured">
+      <h2>⭐ Trending Tools</h2>
+      <div class="tools-grid" id="featured-tools"></div>
+    </section>
+
+    <!-- All Tools -->
+    <section class="container mt-2" id="tools">
+      <h2>All Tools (30 Available)</h2>
+      <div class="tools-grid" id="tools-grid"></div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <div class="container footer-content">
+        <div class="footer-section">
+          <h3>About Utilo</h3>
+          <p>
+            Utilo is your go-to platform for 30 powerful online tools. Convert,
+            format, encrypt, and process your data with ease. Fast, free, and
+            privacy-focused.
+          </p>
+        </div>
+        <div class="footer-section">
+          <h3>Categories</h3>
+          <ul>
+            <li><a href="#text-tools">Text Tools</a></li>
+            <li><a href="#image-tools">Image Tools</a></li>
+            <li><a href="#pdf-tools">PDF Tools</a></li>
+            <li><a href="#color-tools">Color Tools</a></li>
+            <li><a href="#dev-tools">Developer Tools</a></li>
+            <li><a href="#security-tools">Security & Utilities</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h3>Popular Tools</h3>
+          <ul>
+            <li><a href="pages/text-cleaner.html">Text Cleaner</a></li>
+            <li><a href="pages/json-formatter.html">JSON Formatter</a></li>
+            <li><a href="pages/uuid-generator.html">UUID Generator</a></li>
+            <li><a href="pages/qr-code-generator.html">QR Code Generator</a></li>
+            <li><a href="pages/color-picker.html">Color Picker</a></li>
+            <li><a href="pages/password-generator.html">Password Generator</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h3>Support</h3>
+          <ul>
+            <li><a href="#faq">FAQ</a></li>
+            <li><a href="#privacy">Privacy Policy</a></li>
+            <li><a href="#terms">Terms of Service</a></li>
+            <li><a href="#contact">Contact Us</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>
+          &copy; 2025 Utilo. All rights reserved. Free online tools for developers,
+          designers, and content creators.
+        </p>
+      </div>
+    </footer>
+
+    <script src="js/utils.js"></script>
+    <script>
+      // Tool Data
+      const toolsData = [
+        // Text Tools
+        {
+          id: 1,
+          name: 'Text Cleaner',
+          category: 'text',
+          icon: '🧹',
+          description: 'Remove extra spaces, line breaks, and formatting',
+          url: 'pages/text-cleaner.html',
+          trending: true,
+        },
+        {
+          id: 2,
+          name: 'Case Converter',
+          category: 'text',
+          icon: 'Aa',
+          description: 'Convert text to uppercase, lowercase, or title case',
+          url: 'pages/case-converter.html',
+        },
+        {
+          id: 3,
+          name: 'Word Counter',
+          category: 'text',
+          icon: '📊',
+          description: 'Count words, characters, sentences, and paragraphs',
+          url: 'pages/word-counter.html',
+          trending: true,
+        },
+        {
+          id: 4,
+          name: 'Character Counter',
+          category: 'text',
+          icon: '🔢',
+          description: 'Count total characters with and without spaces',
+          url: 'pages/character-counter.html',
+        },
+        {
+          id: 5,
+          name: 'JSON Formatter',
+          category: 'text',
+          icon: '{}',
+          description: 'Beautify, minify, and validate JSON code',
+          url: 'pages/json-formatter.html',
+          trending: true,
+        },
+        {
+          id: 6,
+          name: 'XML Formatter',
+          category: 'text',
+          icon: '⟨⟩',
+          description: 'Format and validate XML documents',
+          url: 'pages/xml-formatter.html',
+        },
+        {
+          id: 7,
+          name: 'Code Beautifier',
+          category: 'text',
+          icon: '✨',
+          description: 'Beautify and format source code',
+          url: 'pages/code-beautifier.html',
+        },
+        {
+          id: 8,
+          name: 'Lorem Ipsum Generator',
+          category: 'text',
+          icon: '📝',
+          description: 'Generate dummy text for mockups and designs',
+          url: 'pages/lorem-ipsum.html',
+        },
+        {
+          id: 9,
+          name: 'URL Encoder/Decoder',
+          category: 'text',
+          icon: '🔗',
+          description: 'Encode and decode URL parameters',
+          url: 'pages/url-encoder.html',
+        },
+
+        // Image Tools
+        {
+          id: 10,
+          name: 'Image Compressor',
+          category: 'image',
+          icon: '📦',
+          description: 'Compress images without losing quality',
+          url: 'pages/image-compressor.html',
+          trending: true,
+        },
+        {
+          id: 11,
+          name: 'Image to Base64',
+          category: 'image',
+          icon: '🔄',
+          description: 'Convert images to Base64 encoding',
+          url: 'pages/image-to-base64.html',
+        },
+        {
+          id: 12,
+          name: 'Base64 to Image',
+          category: 'image',
+          icon: '🔄',
+          description: 'Convert Base64 strings back to images',
+          url: 'pages/base64-to-image.html',
+        },
+        {
+          id: 13,
+          name: 'Image Resizer',
+          category: 'image',
+          icon: '📐',
+          description: 'Resize images to custom dimensions',
+          url: 'pages/image-resizer.html',
+        },
+        {
+          id: 14,
+          name: 'Image Cropper',
+          category: 'image',
+          icon: '✂️',
+          description: 'Crop images to desired size and aspect ratio',
+          url: 'pages/image-cropper.html',
+        },
+
+        // PDF Tools
+        {
+          id: 15,
+          name: 'PDF to Text',
+          category: 'pdf',
+          icon: '📄',
+          description: 'Extract text from PDF documents',
+          url: 'pages/pdf-to-text.html',
+        },
+        {
+          id: 16,
+          name: 'Image to PDF',
+          category: 'pdf',
+          icon: '📸',
+          description: 'Convert images to PDF documents',
+          url: 'pages/image-to-pdf.html',
+          trending: true,
+        },
+        {
+          id: 17,
+          name: 'Merge PDFs',
+          category: 'pdf',
+          icon: '🔗',
+          description: 'Combine multiple PDF files into one',
+          url: 'pages/merge-pdfs.html',
+        },
+        {
+          id: 18,
+          name: 'Split PDF',
+          category: 'pdf',
+          icon: '✂️',
+          description: 'Split PDF documents into separate pages',
+          url: 'pages/split-pdf.html',
+        },
+
+        // Color Tools
+        {
+          id: 19,
+          name: 'Color Picker',
+          category: 'color',
+          icon: '🎨',
+          description: 'Pick and explore colors interactively',
+          url: 'pages/color-picker.html',
+          trending: true,
+        },
+        {
+          id: 20,
+          name: 'HEX to RGB',
+          category: 'color',
+          icon: '#️⃣',
+          description: 'Convert hexadecimal colors to RGB format',
+          url: 'pages/hex-to-rgb.html',
+        },
+        {
+          id: 21,
+          name: 'RGB to HEX',
+          category: 'color',
+          icon: '#️⃣',
+          description: 'Convert RGB colors to hexadecimal format',
+          url: 'pages/rgb-to-hex.html',
+        },
+        {
+          id: 22,
+          name: 'Gradient Generator',
+          category: 'color',
+          icon: '🌈',
+          description: 'Create beautiful color gradients',
+          url: 'pages/gradient-generator.html',
+        },
+
+        // Developer Tools
+        {
+          id: 23,
+          name: 'UUID Generator',
+          category: 'developer',
+          icon: '🆔',
+          description: 'Generate unique identifier codes',
+          url: 'pages/uuid-generator.html',
+          trending: true,
+        },
+        {
+          id: 24,
+          name: 'Hash Generator',
+          category: 'developer',
+          icon: '🔐',
+          description: 'Generate SHA256 and MD5 hashes',
+          url: 'pages/hash-generator.html',
+        },
+        {
+          id: 25,
+          name: 'Regex Tester',
+          category: 'developer',
+          icon: '🔍',
+          description: 'Test and validate regular expressions',
+          url: 'pages/regex-tester.html',
+        },
+        {
+          id: 26,
+          name: 'JSON Validator',
+          category: 'developer',
+          icon: '✅',
+          description: 'Validate JSON syntax and structure',
+          url: 'pages/json-validator.html',
+        },
+
+        // Security & Utility Tools
+        {
+          id: 27,
+          name: 'Password Generator',
+          category: 'security',
+          icon: '🔑',
+          description: 'Generate strong, secure passwords',
+          url: 'pages/password-generator.html',
+          trending: true,
+        },
+        {
+          id: 28,
+          name: 'QR Code Generator',
+          category: 'security',
+          icon: '📱',
+          description: 'Create QR codes for text and URLs',
+          url: 'pages/qr-code-generator.html',
+          trending: true,
+        },
+        {
+          id: 29,
+          name: 'QR Code Scanner',
+          category: 'security',
+          icon: '📸',
+          description: 'Scan and decode QR codes',
+          url: 'pages/qr-code-scanner.html',
+        },
+        {
+          id: 30,
+          name: 'IP Address Lookup',
+          category: 'security',
+          icon: '🌐',
+          description: 'Get information about IP addresses',
+          url: 'pages/ip-lookup.html',
+        },
+      ];
+
+      // Render tools
+      function renderTools(tools) {
+        const grid = document.getElementById('tools-grid');
+        grid.innerHTML = '';
+        tools.forEach((tool) => {
+          const card = document.createElement('div');
+          card.className = 'card tool-card';
+          card.innerHTML = `
+            <div class="card-header">
+              <div class="card-icon">${tool.icon}</div>
+              <div>
+                <h3 class="card-title">${tool.name}</h3>
+              </div>
+            </div>
+            <p class="card-description">${tool.description}</p>
+            <a href="${tool.url}" class="btn btn-primary" style="display: block; text-align: center;">Open Tool →</a>
+          `;
+          grid.appendChild(card);
+        });
+      }
+
+      // Render featured tools
+      function renderFeatured() {
+        const featured = toolsData.filter((t) => t.trending);
+        const grid = document.getElementById('featured-tools');
+        grid.innerHTML = '';
+        featured.slice(0, 6).forEach((tool) => {
+          const card = document.createElement('div');
+          card.className = 'card tool-card';
+          card.innerHTML = `
+            <div class="card-header">
+              <div class="card-icon" style="font-size: 2.5rem;">${tool.icon}</div>
+            </div>
+            <h3 class="card-title">${tool.name}</h3>
+            <p class="card-description">${tool.description}</p>
+            <a href="${tool.url}" class="btn btn-primary" style="display: block; text-align: center;">Try Now</a>
+          `;
+          grid.appendChild(card);
+        });
+      }
+
+      // Filter tools by category
+      function filterByCategory(category) {
+        if (category === 'all') {
+          renderTools(toolsData);
+        } else {
+          renderTools(toolsData.filter((t) => t.category === category));
+        }
+      }
+
+      // Search tools
+      function searchTools(query) {
+        const results = toolsData.filter(
+          (tool) =>
+            tool.name.toLowerCase().includes(query.toLowerCase()) ||
+            tool.description.toLowerCase().includes(query.toLowerCase())
+        );
+        renderTools(results);
+      }
+
+      // Event listeners
+      document.getElementById('search-input').addEventListener('input', (e) => {
+        if (e.target.value.trim()) {
+          searchTools(e.target.value);
+        } else {
+          renderTools(toolsData);
+        }
+      });
+
+      document.querySelectorAll('.category-btn').forEach((btn) => {
+        btn.addEventListener('click', (e) => {
+          document.querySelectorAll('.category-btn').forEach((b) => {
+            b.classList.remove('active');
+          });
+          e.target.classList.add('active');
+          filterByCategory(e.target.dataset.category);
+        });
+      });
+
+      // Initial render
+      renderFeatured();
+      renderTools(toolsData);
+    </script>
+  </body>
+</html>

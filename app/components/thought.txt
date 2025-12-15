@@ -1,0 +1,3 @@
+there is no seo content in some tools pages like others.
+and in tools after getting the output the content will hiding. i want content in all the condition.
+i can see the theme issue in the color picker tool.
