@@ -72,6 +72,8 @@ export interface Translations {
   faq: string;
   privacyPolicy: string;
   contactUs: string;
+  about: string;
+  sitemap: string;
   allRightsReserved: string;
   madeWithLove: string;
 }
@@ -138,6 +140,8 @@ export const translations: Translations = {
   faq: 'FAQ',
   privacyPolicy: 'Privacy Policy',
   contactUs: 'Contact Us',
+  about: 'About',
+  sitemap: 'Sitemap',
   allRightsReserved: 'All rights reserved.',
   madeWithLove: 'Made with ❤️ for developers',
 };
@@ -164,6 +168,7 @@ export const toolNameTranslations: Record<string, string> = {
   'merge-pdfs': 'Merge PDFs',
   'password-generator': 'Password Generator',
   'pdf-to-text': 'PDF to Text',
+  'pdf-to-word': 'PDF to Word',
   'qr-code-generator': 'QR Code Generator',
   'qr-code-scanner': 'QR Code Scanner',
   'regex-tester': 'Regex Tester',
@@ -173,6 +178,7 @@ export const toolNameTranslations: Record<string, string> = {
   'url-encoder': 'URL Encoder',
   'uuid-generator': 'UUID Generator',
   'word-counter': 'Word Counter',
+  'word-to-pdf': 'Word to PDF',
   'xml-formatter': 'XML Formatter',
 };
 

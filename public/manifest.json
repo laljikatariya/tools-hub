@@ -1,7 +1,7 @@
 {
   "name": "Utilo - Free Online Tools",
   "short_name": "Utilo",
-  "description": "30+ powerful online tools for developers, designers, and content creators",
+  "description": "32+ powerful online tools for developers, designers, and content creators",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",

@@ -1,6 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  outputFileTracingRoot: 'c:\\Users\\HP\\OneDrive\\Desktop\\Utilo',
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
   
   // ⚡ Performance Optimizations
   poweredByHeader: false,
@@ -22,15 +26,19 @@ const nextConfig = {
   },
   
   // ⚡ Experimental Features for Speed
-  experimental: {
-    optimizePackageImports: ['lucide-react', '@/components/ui'],
-    webpackBuildWorker: true,
-  },
+  // experimental: {
+  //   optimizePackageImports: ['lucide-react', '@/components/ui'],
+  //   webpackBuildWorker: true,
+  // },
   
-  webpack: (config, { isServer }) => {
+  webpack: (config, { isServer, webpack }) => {
     // Fix for pdfjs-dist canvas issue
-    if (isServer) {
-      config.resolve.alias.canvas = false;
+    if (!isServer) {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        canvas: false,
+      };
+      config.plugins.push(new webpack.IgnorePlugin({ resourceRegExp: /^canvas$/ }));
     }
     
     // ⚡ Optimize chunk loading

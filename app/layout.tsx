@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import { RootProvider } from './providers';
 import './globals.css';
+import Script from 'next/script';
 
 // ⚡ Optimize viewport for performance
 export const viewport: Viewport = {
@@ -122,6 +123,7 @@ export default function RootLayout({
             }),
           }}
         />
+        <Script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js" strategy="beforeInteractive" />
       </head>
       <body className="antialiased">
         <RootProvider>{children}</RootProvider>

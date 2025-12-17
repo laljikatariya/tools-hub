@@ -170,10 +170,26 @@ export const toolsData: Tool[] = [
     description: 'Split PDF documents into separate pages',
     slug: 'split-pdf',
   },
+  {
+    id: 19,
+    name: 'PDF to Word',
+    category: 'pdf',
+    icon: '📝',
+    description: 'Convert PDF to editable Word with hybrid layout preservation',
+    slug: 'pdf-to-word',
+  },
+  {
+    id: 20,
+    name: 'Word to PDF',
+    category: 'pdf',
+    icon: '📄',
+    description: 'Convert Word documents to PDF format',
+    slug: 'word-to-pdf',
+  },
 
   // Color Tools
   {
-    id: 19,
+    id: 21,
     name: 'Color Picker',
     category: 'color',
     icon: '🎨',
@@ -182,7 +198,7 @@ export const toolsData: Tool[] = [
     trending: true,
   },
   {
-    id: 20,
+    id: 22,
     name: 'HEX to RGB',
     category: 'color',
     icon: '#️⃣',
@@ -190,7 +206,7 @@ export const toolsData: Tool[] = [
     slug: 'hex-to-rgb',
   },
   {
-    id: 21,
+    id: 23,
     name: 'RGB to HEX',
     category: 'color',
     icon: '#️⃣',
@@ -198,7 +214,7 @@ export const toolsData: Tool[] = [
     slug: 'rgb-to-hex',
   },
   {
-    id: 22,
+    id: 24,
     name: 'Gradient Generator',
     category: 'color',
     icon: '🌈',
@@ -208,7 +224,7 @@ export const toolsData: Tool[] = [
 
   // Developer Tools
   {
-    id: 23,
+    id: 25,
     name: 'UUID Generator',
     category: 'developer',
     icon: '🆔',
@@ -217,7 +233,7 @@ export const toolsData: Tool[] = [
     trending: true,
   },
   {
-    id: 24,
+    id: 26,
     name: 'Hash Generator',
     category: 'developer',
     icon: '🔐',
@@ -225,7 +241,7 @@ export const toolsData: Tool[] = [
     slug: 'hash-generator',
   },
   {
-    id: 25,
+    id: 27,
     name: 'Regex Tester',
     category: 'developer',
     icon: '🔍',
@@ -233,7 +249,7 @@ export const toolsData: Tool[] = [
     slug: 'regex-tester',
   },
   {
-    id: 26,
+    id: 28,
     name: 'JSON Validator',
     category: 'developer',
     icon: '✅',
@@ -243,7 +259,7 @@ export const toolsData: Tool[] = [
 
   // Security & Utility Tools
   {
-    id: 27,
+    id: 29,
     name: 'Password Generator',
     category: 'security',
     icon: '🔑',
@@ -252,7 +268,7 @@ export const toolsData: Tool[] = [
     trending: true,
   },
   {
-    id: 28,
+    id: 30,
     name: 'QR Code Generator',
     category: 'security',
     icon: '📱',
@@ -261,7 +277,7 @@ export const toolsData: Tool[] = [
     trending: true,
   },
   {
-    id: 29,
+    id: 31,
     name: 'QR Code Scanner',
     category: 'security',
     icon: '📸',
@@ -269,7 +285,7 @@ export const toolsData: Tool[] = [
     slug: 'qr-code-scanner',
   },
   {
-    id: 30,
+    id: 32,
     name: 'IP Address Lookup',
     category: 'security',
     icon: '🌐',

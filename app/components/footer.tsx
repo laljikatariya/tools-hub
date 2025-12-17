@@ -46,6 +46,8 @@ export function Footer() {
               <li><Link href="/faq" className="hover:text-[#4F46E5] transition-colors inline-block py-1">{t.faq}</Link></li>
               <li><Link href="/privacy" className="hover:text-[#4F46E5] transition-colors inline-block py-1">{t.privacyPolicy}</Link></li>
               <li><Link href="/contact" className="hover:text-[#4F46E5] transition-colors inline-block py-1">{t.contactUs}</Link></li>
+              <li><Link href="/about" className="hover:text-[#4F46E5] transition-colors inline-block py-1">{t.about}</Link></li>
+              <li><Link href="/sitemap" className="hover:text-[#4F46E5] transition-colors inline-block py-1">{t.sitemap}</Link></li>
             </ul>
           </div>
         </div>

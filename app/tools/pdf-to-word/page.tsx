@@ -6,24 +6,22 @@ import { Header } from '@/app/components/header';
 import { Footer } from '@/app/components/footer';
 import { getSEOContent } from '@/lib/seo-content';
 import { SEOContentSection } from '@/app/components/seo-content-section';
-import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { ArrowLeft, Copy, Upload, Check } from 'lucide-react';
+import { ArrowLeft, Upload } from 'lucide-react';
 
-export default function PdfToTextPage() {
-  const seoContent = getSEOContent('pdf-to-text');
-  const [extractedText, setExtractedText] = useState<string>('');
+export default function PdfToWordPage() {
+  const seoContent = getSEOContent('pdf-to-word');
   const [fileName, setFileName] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
-  const [copied, setCopied] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
+  const [converted, setConverted] = useState(false);
 
   const processFile = async (file: File) => {
-    // Validate file size (max 10MB)
-    const maxSize = 10 * 1024 * 1024;
+    // Validate file size (max 50MB for better quality)
+    const maxSize = 50 * 1024 * 1024;
     if (file.size > maxSize) {
-      setError('File size exceeds 10MB limit. Please choose a smaller PDF.');
+      setError('File size exceeds 50MB limit. Please choose a smaller PDF.');
       return;
     }
 
@@ -36,31 +34,34 @@ export default function PdfToTextPage() {
     setFileName(file.name);
     setLoading(true);
     setError('');
-    setExtractedText('');
+    setConverted(false);
 
     try {
-      const pdfjsLib = (window as any).pdfjsLib;
-      if (!pdfjsLib) {
-        throw new Error('PDF.js not loaded');
+      const formData = new FormData();
+      formData.append('file', file);
+
+      const response = await fetch('/api/convert/pdf-to-word', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Conversion failed');
       }
-      pdfjsLib.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.js`;
-      
-      const arrayBuffer = await file.arrayBuffer();
-      const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
-      
-      let text = '';
-      for (let i = 1; i <= pdf.numPages; i++) {
-        const page = await pdf.getPage(i);
-        const content = await page.getTextContent();
-        const pageText = content.items
-          .map((item: any) => item.str)
-          .join(' ');
-        text += `\n--- Page ${i} ---\n${pageText}\n`;
-      }
-      
-      setExtractedText(text.trim());
+
+      // Create download link from response
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = fileName.replace('.pdf', '.docx');
+      link.click();
+      URL.revokeObjectURL(url);
+
+      setConverted(true);
     } catch (err) {
-      setError('Failed to extract text from PDF: ' + (err as Error).message);
+      setError('Failed to convert PDF to Word: ' + (err as Error).message);
     } finally {
       setLoading(false);
     }
@@ -101,22 +102,6 @@ export default function PdfToTextPage() {
     }
   };
 
-  const handleCopy = () => {
-    navigator.clipboard.writeText(extractedText);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
-
-  const handleDownload = () => {
-    const blob = new Blob([extractedText], { type: 'text/plain' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = fileName.replace('.pdf', '.txt');
-    link.click();
-    URL.revokeObjectURL(url);
-  };
-
   return (
     <>
       <Header />
@@ -130,10 +115,21 @@ export default function PdfToTextPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             <Card>
               <CardHeader>
-                <CardTitle>📄 PDF to Text</CardTitle>
-                <CardDescription>Extract text from PDF documents</CardDescription>
+                <CardTitle>📝 PDF to Word</CardTitle>
+                <CardDescription>
+                  Convert PDF documents to Word format with exact visual layout preservation
+                </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
+                <div className="space-y-3">
+                  <div>
+                    <p className="text-sm font-medium text-slate-700 dark:text-slate-300">Conversion Mode: Hybrid Layout Preservation with Editable Paragraphs</p>
+                    <p className="text-xs text-amber-600 dark:text-amber-400 mt-2">
+                      Layout is preserved exactly as in the original PDF. Editing may be limited.
+                    </p>
+                  </div>
+                </div>
+
                 <div
                   onDragEnter={handleDragEnter}
                   onDragOver={handleDragOver}
@@ -163,7 +159,7 @@ export default function PdfToTextPage() {
                     }`}>
                       {isDragging ? 'Drop PDF here' : 'Click to upload or drag and drop PDF file'}
                     </p>
-                    <p className="text-xs text-slate-500 mt-2">PDF up to 10MB</p>
+                    <p className="text-xs text-slate-500 mt-2">PDF up to 50MB</p>
                   </label>
                 </div>
 
@@ -178,8 +174,14 @@ export default function PdfToTextPage() {
                   <div className="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
                     <div className="flex items-center gap-3">
                       <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-blue-600"></div>
-                      <p className="text-sm text-blue-600 dark:text-blue-400">Extracting text from PDF...</p>
+                      <p className="text-sm text-blue-600 dark:text-blue-400">Converting PDF to Word...</p>
                     </div>
+                  </div>
+                )}
+
+                {converted && (
+                  <div className="p-4 bg-green-50 dark:bg-green-900/20 rounded-lg">
+                    <p className="text-sm text-green-600 dark:text-green-400">Conversion completed! The Word document has been downloaded.</p>
                   </div>
                 )}
 
@@ -193,33 +195,25 @@ export default function PdfToTextPage() {
 
             <Card>
               <CardHeader>
-                <CardTitle>Extracted Text</CardTitle>
-                <CardDescription>Copy or download the extracted text</CardDescription>
+                <CardTitle>How it works</CardTitle>
+                <CardDescription>Learn about the PDF to Word conversion process</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
-                <textarea
-                  value={extractedText}
-                  readOnly
-                  placeholder="Extracted text will appear here..."
-                  className="w-full h-96 p-3 border border-slate-300 dark:border-slate-600 rounded-lg bg-slate-50 dark:bg-slate-800 focus:outline-none resize-none"
-                />
-                <div className="flex gap-2">
-                  <Button onClick={handleCopy} className="flex-1" disabled={!extractedText || loading}>
-                    {copied ? (
-                      <>
-                        <Check className="w-4 h-4 mr-2" />
-                        Copied!
-                      </>
-                    ) : (
-                      <>
-                        <Copy className="w-4 h-4 mr-2" />
-                        Copy Text
-                      </>
-                    )}
-                  </Button>
-                  <Button onClick={handleDownload} className="flex-1" disabled={!extractedText || loading}>
-                    Download as TXT
-                  </Button>
+                <div className="space-y-3 text-sm text-slate-600 dark:text-slate-400">
+                  <p>
+                    <strong>1. Upload PDF:</strong> Select a PDF file from your device or drag and drop it into the upload area.
+                  </p>
+                  <p>
+                    <strong>2. Advanced Processing:</strong> The PDF is processed using LibreOffice headless with exact layout preservation. Converted via intermediate ODT format to maintain visual fidelity.
+                  </p>
+                  <p>
+                    <strong>3. Download:</strong> The converted Word document (.docx) is automatically downloaded.
+                  </p>
+                </div>
+                <div className="p-3 bg-amber-50 dark:bg-amber-900/20 rounded-lg">
+                  <p className="text-xs text-amber-600 dark:text-amber-400">
+                    <strong>Note:</strong> Scanned PDFs are not supported. The PDF must contain selectable text for exact layout conversion.
+                  </p>
                 </div>
               </CardContent>
             </Card>
@@ -229,8 +223,8 @@ export default function PdfToTextPage() {
           {seoContent && (
             <SEOContentSection
               seoContent={seoContent}
-              toolName="PDF to Text"
-              slug="pdf-to-text"
+              toolName="PDF to Word"
+              slug="pdf-to-word"
             />
           )}
         </div>

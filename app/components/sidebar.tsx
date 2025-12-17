@@ -112,7 +112,7 @@ export function Sidebar() {
                           key={tool.id}
                           href={`/tools/${tool.slug}`}
                           onClick={closeMobileMenu}
-                          className={`block px-3 sm:px-4 py-2 rounded-lg text-sm sm:text-base transition-all duration-200 min-h-[40px] flex items-center ${
+                          className={`px-3 sm:px-4 py-2 rounded-lg text-sm sm:text-base transition-all duration-200 min-h-[40px] flex items-center ${
                             isToolActive(tool.slug)
                               ? 'bg-[#4F46E5] text-white font-medium'
                               : 'text-[#6B7280] hover:bg-gray-50 dark:hover:bg-[#1E293B] hover:text-[#111827] dark:hover:text-[#F9FAFB] active:scale-98'

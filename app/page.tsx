@@ -170,9 +170,7 @@ export default function Home() {
 
             {/* Title */}
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold mb-4 sm:mb-6 text-[#111827] dark:text-[#F9FAFB] leading-tight px-2">
-              {t.everythingYouNeed}
-              <br />
-              <span className="text-[#4F46E5]">{t.inOnePlace}</span>
+              Free Online Tools for PDF, Text, Images & Developers
             </h1>
 
             {/* Subtitle */}

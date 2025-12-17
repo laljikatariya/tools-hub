@@ -1,10 +1,10 @@
-# Utilo - 30 Powerful Online Tools
+# Utilo - 32 Powerful Online Tools
 
-A modern, responsive web application featuring 30 free online tools for text, images, PDFs, colors, developers, and security. Built with vanilla HTML, CSS, and JavaScript with dark mode support.
+A modern, responsive web application featuring 32 free online tools for text, images, PDFs, colors, developers, and security. Built with Next.js, Tailwind CSS, and ShadCN UI with dark mode support.
 
 ## 🎯 Features
 
-- **30 Powerful Tools** across 6 categories
+- **32 Powerful Tools** across 6 categories
 - **Dark Mode Toggle** with persistent storage
 - **Mobile-First Responsive Design** - works perfectly on all devices
 - **Fast & Lightweight** - No heavy frameworks, pure vanilla JavaScript
@@ -32,29 +32,49 @@ A modern, responsive web application featuring 30 free online tools for text, im
 13. **Image Resizer** - Resize images to custom dimensions
 14. **Image Cropper** - Crop images to desired size
 
-### 📄 PDF Tools (4 Tools)
+### 📄 PDF Tools (6 Tools)
 15. **PDF to Text** - Extract text from PDF documents
 16. **Image to PDF** - Convert images to PDF documents
 17. **Merge PDFs** - Combine multiple PDF files
 18. **Split PDF** - Split PDF into separate pages
+19. **PDF to Word** - Convert PDF documents to Word format with layout preservation
+20. **Word to PDF** - Convert Word documents to PDF format with full fidelity
+
+## 🔧 Conversion Engine
+
+The PDF ↔ Word conversion tools use a sophisticated backend pipeline:
+
+- **Primary Engine**: LibreOffice headless for maximum layout preservation
+- **Intermediate Formats**: PDF → ODT → DOCX for better quality
+- **OCR Support**: Automatic detection and processing of scanned PDFs
+- **Font Embedding**: Ensures fonts are preserved in conversions
+- **Layout Preservation**: Tables, margins, headers/footers, page breaks, multi-column layouts
+- **Fallback Logic**: Multiple conversion strategies for reliability
+
+**Quality Features:**
+- Supports complex documents with tables, images, and formatting
+- Handles scanned PDFs via OCR pipeline
+- Deterministic processing with proper temp file cleanup
+- Production-ready with health checks and error handling
+- Optimized for Google Cloud Run deployment
 
 ### 🎨 Color Tools (4 Tools)
-19. **Color Picker** - Interactive color selection with HEX, RGB, HSL
-20. **HEX to RGB** - Convert hexadecimal colors to RGB format
-21. **RGB to HEX** - Convert RGB colors to hexadecimal format
-22. **Gradient Generator** - Create beautiful color gradients
+21. **Color Picker** - Interactive color selection with HEX, RGB, HSL
+22. **HEX to RGB** - Convert hexadecimal colors to RGB format
+23. **RGB to HEX** - Convert RGB colors to hexadecimal format
+24. **Gradient Generator** - Create beautiful color gradients
 
 ### 🔢 Developer Tools (4 Tools)
-23. **UUID Generator** - Generate unique identifier codes
-24. **Hash Generator** - Generate SHA256 and MD5 hashes
-25. **Regex Tester** - Test and validate regular expressions
-26. **JSON Validator** - Validate JSON syntax and structure
+25. **UUID Generator** - Generate unique identifier codes
+26. **Hash Generator** - Generate SHA256 and MD5 hashes
+27. **Regex Tester** - Test and validate regular expressions
+28. **JSON Validator** - Validate JSON syntax and structure
 
 ### 🔑 Security & Utility Tools (4 Tools)
-27. **Password Generator** - Generate strong, secure passwords
-28. **QR Code Generator** - Create QR codes for text and URLs
-29. **QR Code Scanner** - Scan and decode QR codes
-30. **IP Address Lookup** - Get information about IP addresses
+29. **Password Generator** - Generate strong, secure passwords
+30. **QR Code Generator** - Create QR codes for text and URLs
+31. **QR Code Scanner** - Scan and decode QR codes
+32. **IP Address Lookup** - Get information about IP addresses
 
 ## 🚀 Quick Start
 
@@ -75,7 +95,7 @@ Utilo/
 │   └── style.css             # All styles with dark mode support
 ├── js/
 │   └── utils.js              # Shared utility functions
-├── pages/                    # Individual tool pages (30 files)
+├── pages/                    # Individual tool pages (32 files)
 │   ├── text-cleaner.html
 │   ├── case-converter.html
 │   ├── word-counter.html
@@ -129,14 +149,61 @@ Utilo/
 
 ## 🔧 Technical Stack
 
-- **HTML5** - Semantic markup
-- **CSS3** - Modern styling with CSS variables
-- **Vanilla JavaScript** - No frameworks, pure JS
-- **External Libraries** (CDN):
-  - QR Code JS - For QR code generation
-  - PDF.js - For PDF text extraction
-  - HTML2PDF - For image to PDF conversion
-  - jsQR - For QR code scanning
+- **Frontend**: Next.js, React, Tailwind CSS, ShadCN UI
+- **Backend**: Next.js API Routes with LibreOffice headless
+- **Conversion Engine**: LibreOffice for PDF/Word processing
+- **OCR**: Tesseract for scanned PDF processing
+- **Deployment**: Docker, Google Cloud Run
+- **External Libraries**:
+  - PDF.js - For PDF text extraction (legacy)
+  - Mammoth.js - For Word document parsing (legacy)
+  - html2pdf.js - For HTML to PDF (legacy)
+
+## 🚀 Deployment
+
+### Local Development
+```bash
+npm install
+npm run dev
+```
+
+**Prerequisites for PDF/Word Conversion:**
+- **LibreOffice**: Required for high-quality conversions
+  - Windows: Download from https://www.libreoffice.org/download/download/
+  - Make sure `soffice.exe` is in your PATH
+- **OCR Support** (optional, for scanned PDFs):
+  - Install Tesseract OCR and Poppler utils
+  - On Windows: Use Chocolatey or manual installation
+
+### Docker Build
+```bash
+npm run docker:build
+npm run docker:run
+```
+
+### Google Cloud Run Deployment
+1. Build and push Docker image:
+```bash
+docker tag utilo-app gcr.io/YOUR_PROJECT/utilo-app
+docker push gcr.io/YOUR_PROJECT/utilo-app
+```
+
+2. Deploy to Cloud Run:
+```bash
+gcloud run deploy utilo-app \
+  --image gcr.io/YOUR_PROJECT/utilo-app \
+  --platform managed \
+  --region us-central1 \
+  --allow-unauthenticated \
+  --memory 2Gi \
+  --cpu 1 \
+  --max-instances 10
+```
+
+### Health Checks
+- Health endpoint: `GET /api/health`
+- Checks LibreOffice availability
+- Used for container health probes
 
 ## 💾 How to Use
 
