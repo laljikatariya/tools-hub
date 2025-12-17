@@ -1,7 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  outputFileTracingRoot: 'c:\\Users\\HP\\OneDrive\\Desktop\\Utilo',
   eslint: {
     ignoreDuringBuilds: true,
   },
