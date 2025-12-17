@@ -74,7 +74,7 @@ export default function ToolPageClient({ slug }: { slug: string }) {
     const toolsWithDownload = [
       'image-compressor', 'image-resizer', 'image-cropper', 'image-to-pdf',
       'qr-code-generator', 'json-formatter', 'xml-formatter', 'code-beautifier',
-      'pdf-to-text', 'merge-pdfs', 'split-pdf', 'base64-to-image', 'pdf-to-word', 'word-to-pdf'
+      'pdf-to-text', 'merge-pdfs', 'split-pdf', 'base64-to-image'
     ];
     return toolsWithDownload.includes(slug);
   };

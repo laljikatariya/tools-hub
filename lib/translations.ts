@@ -168,7 +168,6 @@ export const toolNameTranslations: Record<string, string> = {
   'merge-pdfs': 'Merge PDFs',
   'password-generator': 'Password Generator',
   'pdf-to-text': 'PDF to Text',
-  'pdf-to-word': 'PDF to Word',
   'qr-code-generator': 'QR Code Generator',
   'qr-code-scanner': 'QR Code Scanner',
   'regex-tester': 'Regex Tester',
@@ -178,7 +177,6 @@ export const toolNameTranslations: Record<string, string> = {
   'url-encoder': 'URL Encoder',
   'uuid-generator': 'UUID Generator',
   'word-counter': 'Word Counter',
-  'word-to-pdf': 'Word to PDF',
   'xml-formatter': 'XML Formatter',
 };
 

@@ -170,23 +170,6 @@ export const toolsData: Tool[] = [
     description: 'Split PDF documents into separate pages',
     slug: 'split-pdf',
   },
-  {
-    id: 19,
-    name: 'PDF to Word',
-    category: 'pdf',
-    icon: '📝',
-    description: 'Convert PDF to editable Word with hybrid layout preservation',
-    slug: 'pdf-to-word',
-  },
-  {
-    id: 20,
-    name: 'Word to PDF',
-    category: 'pdf',
-    icon: '📄',
-    description: 'Convert Word documents to PDF format',
-    slug: 'word-to-pdf',
-  },
-
   // Color Tools
   {
     id: 21,
