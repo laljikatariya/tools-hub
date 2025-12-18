@@ -5,7 +5,7 @@ const nextConfig = {
     ignoreDuringBuilds: true,
   },
 
-  // ✅ DOMAIN REDIRECTS (IMPORTANT)
+  // ✅ DOMAIN REDIRECTS
   async redirects() {
     return [
       {
@@ -17,7 +17,17 @@ const nextConfig = {
           },
         ],
         destination: "https://utilo.in/:path*",
-        permanent: true, // 308
+        permanent: true,
+      },
+    ];
+  },
+
+  // ✅ SITEMAP FIX (VERY IMPORTANT)
+  async rewrites() {
+    return [
+      {
+        source: "/sitemap.xml",
+        destination: "/sitemap",
       },
     ];
   },
@@ -26,7 +36,6 @@ const nextConfig = {
   poweredByHeader: false,
   compress: true,
 
-  // ⚡ Image Optimization
   images: {
     formats: ["image/avif", "image/webp"],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
