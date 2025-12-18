@@ -29,16 +29,31 @@ export function FeedbackModal({ isOpen, onClose }: FeedbackModalProps) {
     setIsSubmitting(true);
     
     try {
-      // Save feedback to analytics
+      // Send feedback to API
+      const response = await fetch('/api/feedback', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          feedbackType: formData.feedbackType,
+          message: formData.message,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to submit feedback');
+      }
+
+      // Also track locally for immediate analytics access
       trackFeedback(
         formData.name,
         formData.email,
         formData.feedbackType as 'feedback' | 'bug' | 'suggestion' | 'newtool',
         formData.message
       );
-      
-      // Here you would typically also send the data to your backend
-      console.log('Feedback submitted:', formData);
       
       setSubmitStatus('success');
       setTimeout(() => {
@@ -47,6 +62,7 @@ export function FeedbackModal({ isOpen, onClose }: FeedbackModalProps) {
         onClose();
       }, 2000);
     } catch (error) {
+      console.error('Error submitting feedback:', error);
       setSubmitStatus('error');
       setTimeout(() => setSubmitStatus('idle'), 3000);
     } finally {

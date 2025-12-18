@@ -205,7 +205,19 @@ export function trackFeedback(
 }
 
 // Get all feedback entries
-export function getAllFeedback(): FeedbackEntry[] {
+export async function getAllFeedback(): Promise<FeedbackEntry[]> {
+  // Try to fetch from API first
+  try {
+    const response = await fetch('/api/feedback');
+    if (response.ok) {
+      const data = await response.json();
+      return data.feedback || [];
+    }
+  } catch (error) {
+    console.error('Error fetching feedback from API:', error);
+  }
+
+  // Fallback to localStorage
   const data = getAnalyticsData();
   return data.feedback.sort((a, b) => 
     new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
@@ -213,24 +225,23 @@ export function getAllFeedback(): FeedbackEntry[] {
 }
 
 // Get feedback by type
-export function getFeedbackByType(type: 'feedback' | 'bug' | 'suggestion' | 'newtool'): FeedbackEntry[] {
-  const data = getAnalyticsData();
-  return data.feedback
+export async function getFeedbackByType(type: 'feedback' | 'bug' | 'suggestion' | 'newtool'): Promise<FeedbackEntry[]> {
+  const allFeedback = await getAllFeedback();
+  return allFeedback
     .filter(fb => fb.feedbackType === type)
     .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
 }
 
 // Get feedback statistics
-export function getFeedbackStats() {
-  const data = getAnalyticsData();
-  const feedback = data.feedback;
+export async function getFeedbackStats() {
+  const allFeedback = await getAllFeedback();
 
   return {
-    total: feedback.length,
-    feedback: feedback.filter(fb => fb.feedbackType === 'feedback').length,
-    bugs: feedback.filter(fb => fb.feedbackType === 'bug').length,
-    suggestions: feedback.filter(fb => fb.feedbackType === 'suggestion').length,
-    newTools: feedback.filter(fb => fb.feedbackType === 'newtool').length,
+    total: allFeedback.length,
+    feedback: allFeedback.filter(fb => fb.feedbackType === 'feedback').length,
+    bugs: allFeedback.filter(fb => fb.feedbackType === 'bug').length,
+    suggestions: allFeedback.filter(fb => fb.feedbackType === 'suggestion').length,
+    newTools: allFeedback.filter(fb => fb.feedbackType === 'newtool').length,
   };
 }
 
