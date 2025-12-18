@@ -15,6 +15,7 @@
     "docker:push": "docker tag utilo-app gcr.io/YOUR_PROJECT/utilo-app && docker push gcr.io/YOUR_PROJECT/utilo-app"
   },
   "dependencies": {
+    "@vercel/analytics": "^1.6.1",
     "autoprefixer": "^10.4.16",
     "browser-image-compression": "^2.0.2",
     "class-variance-authority": "^0.7.0",

@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import { RootProvider } from './providers';
 import './globals.css';
 import Script from 'next/script';
+import { Analytics } from "@vercel/analytics/next";
 
 // ⚡ Optimize viewport for performance
 export const viewport: Viewport = {
@@ -127,6 +128,7 @@ export default function RootLayout({
       </head>
       <body className="antialiased">
         <RootProvider>{children}</RootProvider>
+        <Analytics />
       </body>
     </html>
   );
