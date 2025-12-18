@@ -11,6 +11,7 @@ import { toolsData, type Tool, getTranslatedToolName } from '@/lib/tools-data';
 import { getTrendingTools, trackSearch } from '@/lib/analytics';
 import { useLanguage } from './contexts/language-context';
 
+
 // ⚡ Lazy load footer (below the fold)
 const Footer = dynamic(() => import('./components/footer').then(mod => ({ default: mod.Footer })), {
   loading: () => null,
