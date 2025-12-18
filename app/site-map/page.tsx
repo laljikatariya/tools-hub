@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     type: 'website',
   },
   alternates: {
-    canonical: '/sitemap',
+    canonical: '/site-map',
   },
 };
 
