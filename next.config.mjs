@@ -22,17 +22,6 @@ const nextConfig = {
     ];
   },
 
-  // ✅ SITEMAP FIX (VERY IMPORTANT)
-  async rewrites() {
-    return [
-      {
-        source: "/sitemap.xml",
-        destination: "/sitemap",
-      },
-    ];
-  },
-
-  // ⚡ Performance Optimizations
   poweredByHeader: false,
   compress: true,
 
