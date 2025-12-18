@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: '/',
       disallow: ['/api/', '/admin/'],
     },
-    sitemap: 'https://utilo.app/sitemap/sitemap.xml',
+    sitemap: 'https://utilo.in/sitemap/sitemap.xml',
   };
 }

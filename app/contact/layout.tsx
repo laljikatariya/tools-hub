@@ -9,6 +9,9 @@ export const metadata: Metadata = {
     description: 'Get in touch with the Utilo team for support, feedback, or inquiries.',
     type: 'website',
   },
+  alternates: {
+    canonical: '/contact',
+  },
 };
 
 export default function ContactLayout({

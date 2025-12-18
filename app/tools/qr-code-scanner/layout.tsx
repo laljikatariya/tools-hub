@@ -3,7 +3,7 @@ import { getSEOContent } from '@/lib/seo-content';
 import { toolsData } from '@/lib/tools-data';
 
 export async function generateMetadata(): Promise<Metadata> {
-const slug = 'word-counter';
+const slug = 'qr-code-scanner';
 const tool = toolsData.find((t) => t.slug === slug);
 const seoContent = getSEOContent(slug);
 
@@ -49,12 +49,12 @@ follow: true,
 },
 },
 alternates: {
-canonical: '/tools/word-counter',
+canonical: '/tools/qr-code-scanner',
 },
 };
 }
 
-export default function word_counterLayout({
+export default function qr_code_scannerLayout({
 children,
 }: {
 children: React.ReactNode;

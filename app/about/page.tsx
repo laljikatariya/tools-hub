@@ -11,6 +11,9 @@ export const metadata: Metadata = {
     description: 'Discover Utilo\'s mission to provide accessible, powerful online tools for developers, designers, and content creators worldwide.',
     type: 'website',
   },
+  alternates: {
+    canonical: '/about',
+  },
 };
 
 export default function AboutPage() {

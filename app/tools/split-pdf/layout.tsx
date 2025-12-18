@@ -3,7 +3,7 @@ import { getSEOContent } from '@/lib/seo-content';
 import { toolsData } from '@/lib/tools-data';
 
 export async function generateMetadata(): Promise<Metadata> {
-const slug = 'word-counter';
+const slug = 'split-pdf';
 const tool = toolsData.find((t) => t.slug === slug);
 const seoContent = getSEOContent(slug);
 
@@ -49,12 +49,12 @@ follow: true,
 },
 },
 alternates: {
-canonical: '/tools/word-counter',
+canonical: '/tools/split-pdf',
 },
 };
 }
 
-export default function word_counterLayout({
+export default function split_pdfLayout({
 children,
 }: {
 children: React.ReactNode;

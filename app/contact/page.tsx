@@ -69,7 +69,7 @@ export default function ContactPage() {
     mainEntity: {
       '@type': 'Organization',
       name: 'Utilo',
-      url: 'https://utilo.app',
+      url: 'https://utilo.in',
       contactPoint: {
         '@type': 'ContactPoint',
         email: 'support@utilo.com',

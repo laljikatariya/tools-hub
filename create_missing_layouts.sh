@@ -1,9 +1,29 @@
+#!/bin/bash
+
+tools=(
+"image-compressor"
+"image-cropper"
+"image-resizer"
+"image-to-base64"
+"image-to-pdf"
+"ip-lookup"
+"merge-pdfs"
+"pdf-to-text"
+"qr-code-scanner"
+"split-pdf"
+"word-counter"
+)
+
+for tool in "${tools[@]}"; do
+dir="app/tools/$tool"
+if [ -d "$dir" ]; then
+cat > "$dir/layout.tsx" << LAYOUT_EOF
 import type { Metadata } from 'next';
 import { getSEOContent } from '@/lib/seo-content';
 import { toolsData } from '@/lib/tools-data';
 
 export async function generateMetadata(): Promise<Metadata> {
-const slug = 'word-counter';
+const slug = '$tool';
 const tool = toolsData.find((t) => t.slug === slug);
 const seoContent = getSEOContent(slug);
 
@@ -14,7 +34,7 @@ description: 'The requested tool could not be found.',
 };
 }
 
-const title = seoContent?.title || `${tool.name} - Free Online Tool | Utilo`;
+const title = seoContent?.title || \`\${tool.name} - Free Online Tool | Utilo\`;
 const description = seoContent?.metaDescription || tool.description;
 const keywords = seoContent?.keywords || [tool.name, tool.category, 'online tool', 'free'];
 
@@ -49,15 +69,19 @@ follow: true,
 },
 },
 alternates: {
-canonical: '/tools/word-counter',
+canonical: '/tools/$tool',
 },
 };
 }
 
-export default function word_counterLayout({
+export default function ${tool//-/_}Layout({
 children,
 }: {
 children: React.ReactNode;
 }) {
 return children;
 }
+LAYOUT_EOF
+echo "Created layout for $tool"
+fi
+done

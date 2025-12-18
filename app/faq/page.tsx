@@ -11,6 +11,9 @@ export const metadata: Metadata = {
     description: 'Get answers to your questions about using Utilo\'s 30+ free online tools for text, images, PDFs, and more.',
     type: 'website',
   },
+  alternates: {
+    canonical: '/faq',
+  },
 };
 
 const faqs = [

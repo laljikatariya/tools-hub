@@ -102,7 +102,7 @@ export function SEOContentSection({ seoContent, toolName, slug }: SEOContentSect
             '@type': seoContent.schemaType,
             name: toolName,
             description: seoContent.metaDescription,
-            url: `https://utilo.app/tools/${slug}`,
+            url: `https://utilo.in/tools/${slug}`,
             applicationCategory: 'UtilityApplication',
             operatingSystem: 'Any',
             offers: {

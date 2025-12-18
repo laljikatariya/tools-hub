@@ -2,7 +2,8 @@ import { MetadataRoute } from 'next';
 import { toolsData } from '@/lib/tools-data';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://utilo.app';
+  const baseUrl = 'https://utilo.in';
+
   
   // Homepage
   const routes: MetadataRoute.Sitemap = [

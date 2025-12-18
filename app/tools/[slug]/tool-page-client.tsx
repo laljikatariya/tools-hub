@@ -751,7 +751,7 @@ export default function ToolPageClient({ slug }: { slug: string }) {
                 '@type': seoContent.schemaType,
                 name: tool?.name,
                 description: tool?.description,
-                url: `https://utilo.app/tools/${slug}`,
+                url: `https://utilo.in/tools/${slug}`,
                 applicationCategory: 'UtilityApplication',
                 operatingSystem: 'Any',
                 offers: {

@@ -11,6 +11,9 @@ export const metadata: Metadata = {
     description: 'Your privacy is our priority. Most tools process data locally in your browser, and we never store your files.',
     type: 'website',
   },
+  alternates: {
+    canonical: '/privacy',
+  },
 };
 
 export default function PrivacyPage() {

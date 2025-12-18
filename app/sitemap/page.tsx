@@ -13,6 +13,9 @@ export const metadata: Metadata = {
     description: 'Complete directory of all Utilo tools organized by category. Find exactly what you need quickly.',
     type: 'website',
   },
+  alternates: {
+    canonical: '/sitemap',
+  },
 };
 
 const categories = [
