@@ -55,10 +55,10 @@ export default function AnalyticsPage() {
     });
   };
 
-  const loadAnalytics = () => {
+  const loadAnalytics = async () => {
     const trending = getTrendingTools(15);
     const searches = getPopularSearches(10);
-    const feedback = getAllFeedback();
+    const feedback = await getAllFeedback();
     const contactFormStats = getContactFormStats();
     const contactData = getContactPageAnalytics();
 
@@ -92,7 +92,9 @@ export default function AnalyticsPage() {
 
   useEffect(() => {
     if (isAuthenticated) {
-      loadAnalytics();
+      (async () => {
+        await loadAnalytics();
+      })();
     }
   }, [isAuthenticated, timeFilter]);
 
