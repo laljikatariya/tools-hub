@@ -23,7 +23,7 @@ export const metadata: Metadata = {
   authors: [{ name: 'Utilo' }],
   creator: 'Utilo',
   publisher: 'Utilo',
-  metadataBase: new URL('https://utilo.app'),
+  metadataBase: new URL('https://utilo.in'),
   manifest: '/manifest.json', // ⚡ PWA support
   openGraph: {
     title: 'Utilo - 30+ Free Online Tools',
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     type: 'website',
     siteName: 'Utilo',
     locale: 'en_US',
-    url: 'https://utilo.app',
+    url: 'https://utilo.in',
   },
   twitter: {
     card: 'summary_large_image',
@@ -53,12 +53,11 @@ export const metadata: Metadata = {
     icon: '🧰',
   },
   alternates: {
-    canonical: 'https://utilo.app',
+    canonical: '/',
   },
   // ⚡ Performance: Reduce redirect chains
   verification: {
-    // Add your verification codes here
-    // google: 'your-google-site-verification',
+    google: 'bY4xPPjBNNNKU7adeiYClY3AiS9vGOwaCK0s3IHJ3kQ',
     // yandex: 'your-yandex-verification',
     // bing: 'your-bing-verification',
   },
@@ -94,8 +93,8 @@ export default function RootLayout({
               '@context': 'https://schema.org',
               '@type': 'Organization',
               name: 'Utilo',
-              url: 'https://utilo.app',
-              logo: 'https://utilo.app/logo.png',
+              url: 'https://utilo.in',
+              logo: 'https://utilo.in/logo.png',
               description: 'Free online tools and utilities',
               sameAs: [
                 // Add your social media profiles
@@ -114,11 +113,11 @@ export default function RootLayout({
               '@context': 'https://schema.org',
               '@type': 'WebSite',
               name: 'Utilo',
-              url: 'https://utilo.app',
+              url: 'https://utilo.in',
               description: '30+ free online tools for text, image, PDF, color, and developer utilities',
               potentialAction: {
                 '@type': 'SearchAction',
-                target: 'https://utilo.app/?search={search_term_string}',
+                target: 'https://utilo.in/?search={search_term_string}',
                 'query-input': 'required name=search_term_string',
               },
             }),
