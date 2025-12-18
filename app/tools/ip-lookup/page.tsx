@@ -85,6 +85,15 @@ export default function IpLookupPage() {
     }
   };
 
+  const handlePaste = async () => {
+    try {
+      const pastedText = await navigator.clipboard.readText();
+      setIpAddress(pastedText);
+    } catch (error) {
+      alert('Failed to paste from clipboard. Please make sure you have granted clipboard permissions.');
+    }
+  };
+
   return (
     <>
       <Header />
@@ -113,6 +122,9 @@ export default function IpLookupPage() {
                       placeholder="e.g., 8.8.8.8"
                       onKeyPress={(e) => e.key === 'Enter' && lookupIP()}
                     />
+                    <Button onClick={handlePaste} variant="secondary">
+                      Paste
+                    </Button>
                     <Button onClick={lookupIP} disabled={loading}>
                       <Search className="w-4 h-4 mr-2" />
                       Lookup

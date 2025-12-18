@@ -40,6 +40,9 @@ export const generateSHA256 = async (str: string): Promise<string> => {
     return crypto.createHash('sha256').update(str).digest('hex');
   }
   // Browser - use Web Crypto API
+  if (typeof crypto === 'undefined' || !crypto.subtle) {
+    throw new Error('SHA256 hashing requires a secure context (HTTPS or localhost). Please access the site via HTTPS.');
+  }
   const encoder = new TextEncoder();
   const data = encoder.encode(str);
   const hashBuffer = await crypto.subtle.digest('SHA-256', data);

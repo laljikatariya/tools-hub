@@ -40,6 +40,15 @@ export default function Base64ToImagePage() {
     link.click();
   };
 
+  const handlePaste = async () => {
+    try {
+      const pastedText = await navigator.clipboard.readText();
+      setBase64Input(pastedText);
+    } catch (error) {
+      alert('Failed to paste from clipboard. Please make sure you have granted clipboard permissions.');
+    }
+  };
+
   return (
     <>
       <Header />
@@ -64,11 +73,16 @@ export default function Base64ToImagePage() {
                   className="w-full h-64 p-3 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none text-xs font-mono"
                 />
                 {error && <p className="text-red-500 text-sm">{error}</p>}
-                <div className="flex gap-2">
-                  <Button onClick={() => setBase64Input('')} variant="secondary" className="flex-1">
-                    Clear
-                  </Button>
-                  <Button onClick={handleConvert} className="flex-1">
+                <div className="space-y-2">
+                  <div className="flex gap-2">
+                    <Button onClick={handlePaste} variant="secondary" className="flex-1">
+                      Paste
+                    </Button>
+                    <Button onClick={() => setBase64Input('')} variant="secondary" className="flex-1">
+                      Clear
+                    </Button>
+                  </div>
+                  <Button onClick={handleConvert} className="w-full">
                     Convert
                   </Button>
                 </div>

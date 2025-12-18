@@ -65,6 +65,15 @@ export default function QrCodeGeneratorPage() {
     setTimeout(() => setCopied(false), 2000);
   };
 
+  const handlePaste = async () => {
+    try {
+      const pastedText = await navigator.clipboard.readText();
+      setText(pastedText);
+    } catch (error) {
+      alert('Failed to paste from clipboard. Please make sure you have granted clipboard permissions.');
+    }
+  };
+
   const presetExamples = [
     { label: 'Website', value: 'https://example.com' },
     { label: 'Email', value: 'mailto:hello@example.com' },
@@ -148,11 +157,16 @@ export default function QrCodeGeneratorPage() {
                   </div>
                 </div>
 
-                <div className="flex gap-2">
-                  <Button onClick={() => setText('')} variant="secondary" className="flex-1">
-                    {t.clear}
-                  </Button>
-                  <Button onClick={generateQRCode} className="flex-1" disabled={!text || loading}>
+                <div className="space-y-2">
+                  <div className="flex gap-2">
+                    <Button onClick={handlePaste} variant="secondary" className="flex-1">
+                      Paste
+                    </Button>
+                    <Button onClick={() => setText('')} variant="secondary" className="flex-1">
+                      {t.clear}
+                    </Button>
+                  </div>
+                  <Button onClick={generateQRCode} className="w-full" disabled={!text || loading}>
                     {loading ? `${t.generate}...` : t.generate}
                   </Button>
                 </div>

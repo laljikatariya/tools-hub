@@ -57,6 +57,15 @@ export default function WordCounterPage() {
     setTimeout(() => setCopiedItem(null), 2000);
   };
 
+  const handlePaste = async () => {
+    try {
+      const pastedText = await navigator.clipboard.readText();
+      setText(pastedText);
+    } catch (error) {
+      alert('Failed to paste from clipboard. Please make sure you have granted clipboard permissions.');
+    }
+  };
+
   const handleDownload = () => {
     const content = `Word Count Report
 Generated: ${new Date().toLocaleString()}
@@ -149,31 +158,41 @@ ${text}
                       ⚠️ Large text detected ({text.length.toLocaleString()} characters). Performance may be affected.
                     </div>
                   )}
-                  <div className="flex flex-wrap gap-2 mt-4">
-                    <Button 
-                      onClick={() => setText(SAMPLE_TEXT)} 
-                      variant="outline"
-                      aria-label="Load sample text"
-                    >
-                      Load Sample
-                    </Button>
-                    <Button 
-                      onClick={() => setText('')} 
-                      variant="secondary" 
-                      className="flex-1"
-                      aria-label="Clear text"
-                    >
-                      Clear (Ctrl+K)
-                    </Button>
-                    <Button 
-                      onClick={handleDownload} 
-                      className="flex-1"
-                      disabled={!text.trim()}
-                      aria-label="Download report"
-                    >
-                      <Download className="w-4 h-4 mr-2" />
-                      Download Report
-                    </Button>
+                  <div className="space-y-2 mt-4">
+                    <div className="flex gap-2">
+                      <Button 
+                        onClick={handlePaste} 
+                        variant="outline"
+                        aria-label="Paste from clipboard"
+                      >
+                        Paste
+                      </Button>
+                      <Button 
+                        onClick={() => setText('')} 
+                        variant="secondary" 
+                        aria-label="Clear text"
+                      >
+                        Clear (Ctrl+K)
+                      </Button>
+                    </div>
+                    <div className="flex gap-2">
+                      <Button 
+                        onClick={() => setText(SAMPLE_TEXT)} 
+                        variant="outline"
+                        aria-label="Load sample text"
+                      >
+                        Load Sample
+                      </Button>
+                      <Button 
+                        onClick={handleDownload} 
+                        className="flex-1"
+                        disabled={!text.trim()}
+                        aria-label="Download report"
+                      >
+                        <Download className="w-4 h-4 mr-2" />
+                        Download Report
+                      </Button>
+                    </div>
                   </div>
                 </CardContent>
               </Card>

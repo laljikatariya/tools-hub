@@ -251,6 +251,15 @@ export default function ToolPageClient({ slug }: { slug: string }) {
     alert('Copied to clipboard!');
   };
 
+  const handlePaste = async () => {
+    try {
+      const text = await navigator.clipboard.readText();
+      setInput(text);
+    } catch (error) {
+      alert('Failed to paste from clipboard. Please make sure you have granted clipboard permissions.');
+    }
+  };
+
   const handleDownload = () => {
     const element = document.createElement('a');
     element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(output));
@@ -600,9 +609,14 @@ export default function ToolPageClient({ slug }: { slug: string }) {
 
                 <div className="flex flex-col sm:flex-row gap-2">
                   {needsInputBox() && (
-                    <Button onClick={() => setInput('')} variant="secondary" className="flex-1 min-h-[44px] touch-manipulation text-sm sm:text-base">
-                      Clear
-                    </Button>
+                    <>
+                      <Button onClick={handlePaste} variant="secondary" className="flex-1 min-h-[44px] touch-manipulation text-sm sm:text-base">
+                        Paste
+                      </Button>
+                      <Button onClick={() => setInput('')} variant="secondary" className="flex-1 min-h-[44px] touch-manipulation text-sm sm:text-base">
+                        Clear
+                      </Button>
+                    </>
                   )}
                   <Button onClick={processInput} className="flex-1 min-h-[44px] touch-manipulation text-sm sm:text-base">
                     {getButtonText()}

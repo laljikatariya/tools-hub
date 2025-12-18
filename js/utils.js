@@ -148,6 +148,9 @@ function urlDecode(text) {
 
 // SHA256 Hash
 async function sha256(message) {
+  if (typeof crypto === 'undefined' || !crypto.subtle) {
+    throw new Error('SHA256 hashing requires a secure context (HTTPS or localhost). Please access the site via HTTPS.');
+  }
   const msgBuffer = new TextEncoder().encode(message);
   const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
   const hashArray = Array.from(new Uint8Array(hashBuffer));
