@@ -48,6 +48,8 @@ export function authenticateAdmin(password: string): boolean {
       hash: hashPassword(ADMIN_PASSWORD)
     };
     sessionStorage.setItem(ADMIN_SESSION_KEY, JSON.stringify(session));
+    // Also set cookie for server-side API auth
+    document.cookie = `${ADMIN_SESSION_KEY}=${JSON.stringify(session)}; path=/; max-age=3600; samesite=strict`;
     return true;
   }
   return false;
@@ -57,4 +59,6 @@ export function authenticateAdmin(password: string): boolean {
 export function logoutAdmin(): void {
   if (typeof window === 'undefined') return;
   sessionStorage.removeItem(ADMIN_SESSION_KEY);
+  // Also remove cookie
+  document.cookie = `${ADMIN_SESSION_KEY}=; path=/; max-age=0`;
 }

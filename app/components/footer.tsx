@@ -43,6 +43,7 @@ export function Footer() {
           <div>
             <h3 className="font-bold text-base sm:text-lg text-[#111827] dark:text-[#F9FAFB] mb-3 sm:mb-4">{t.support}</h3>
             <ul className="space-y-2 sm:space-y-3 text-sm sm:text-base text-[#6B7280] dark:text-gray-400">
+              <li><Link href="/blog" className="hover:text-[#4F46E5] transition-colors inline-block py-1">Blog</Link></li>
               <li><Link href="/faq" className="hover:text-[#4F46E5] transition-colors inline-block py-1">{t.faq}</Link></li>
               <li><Link href="/privacy" className="hover:text-[#4F46E5] transition-colors inline-block py-1">{t.privacyPolicy}</Link></li>
               <li><Link href="/contact" className="hover:text-[#4F46E5] transition-colors inline-block py-1">{t.contactUs}</Link></li>

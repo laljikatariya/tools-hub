@@ -23,6 +23,22 @@ export function Header() {
             <span className="text-lg sm:text-xl font-bold text-[#111827] dark:text-[#F9FAFB] truncate">Utilo</span>
           </Link>
 
+          {/* Navigation - Center */}
+          <nav className="hidden md:flex items-center gap-6">
+            <Link
+              href="/blog"
+              className="text-sm font-medium text-[#6B7280] dark:text-[#9CA3AF] hover:text-[#111827] dark:hover:text-[#F9FAFB] transition-colors"
+            >
+              Blog
+            </Link>
+            <Link
+              href="/about"
+              className="text-sm font-medium text-[#6B7280] dark:text-[#9CA3AF] hover:text-[#111827] dark:hover:text-[#F9FAFB] transition-colors"
+            >
+              About Us
+            </Link>
+          </nav>
+
           {/* Right Actions */}
           <div className="flex items-center gap-1.5 sm:gap-2 md:gap-3">
             <Button

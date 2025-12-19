@@ -12,10 +12,11 @@ export interface FeedbackEntry {
   id: string;
   name: string;
   email: string;
-  feedbackType: 'feedback' | 'bug' | 'suggestion' | 'newtool';
+  type: 'feedback' | 'bug' | 'suggestion' | 'newtool';
   message: string;
-  timestamp: string;
-  userAgent?: string;
+  pageUrl?: string;
+  status?: 'new' | 'reviewed' | 'resolved';
+  createdAt: string;
 }
 
 export interface AnalyticsData {
@@ -180,8 +181,9 @@ export function exportAnalytics(): string {
 export function trackFeedback(
   name: string,
   email: string,
-  feedbackType: 'feedback' | 'bug' | 'suggestion' | 'newtool',
-  message: string
+  type: 'feedback' | 'bug' | 'suggestion' | 'newtool',
+  message: string,
+  pageUrl?: string
 ): void {
   if (typeof window === 'undefined') return;
 
@@ -192,10 +194,11 @@ export function trackFeedback(
     id: `fb_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
     name: name || 'Anonymous',
     email: email || 'Not provided',
-    feedbackType,
+    type,
     message,
-    timestamp: now,
-    userAgent: navigator.userAgent,
+    pageUrl: pageUrl || window.location.href,
+    status: 'new',
+    createdAt: now,
   };
 
   data.feedback.push(feedbackEntry);
@@ -220,7 +223,7 @@ export async function getAllFeedback(): Promise<FeedbackEntry[]> {
   // Fallback to localStorage
   const data = getAnalyticsData();
   return data.feedback.sort((a, b) => 
-    new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
+    new Date(b.createdAt || (b as any).timestamp || b.createdAt).getTime() - new Date(a.createdAt || (a as any).timestamp || a.createdAt).getTime()
   );
 }
 
@@ -228,8 +231,8 @@ export async function getAllFeedback(): Promise<FeedbackEntry[]> {
 export async function getFeedbackByType(type: 'feedback' | 'bug' | 'suggestion' | 'newtool'): Promise<FeedbackEntry[]> {
   const allFeedback = await getAllFeedback();
   return allFeedback
-    .filter(fb => fb.feedbackType === type)
-    .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
+    .filter(fb => fb.type === type)
+    .sort((a, b) => new Date(b.createdAt || (b as any).timestamp).getTime() - new Date(a.createdAt || (a as any).timestamp).getTime());
 }
 
 // Get feedback statistics
@@ -238,10 +241,10 @@ export async function getFeedbackStats() {
 
   return {
     total: allFeedback.length,
-    feedback: allFeedback.filter(fb => fb.feedbackType === 'feedback').length,
-    bugs: allFeedback.filter(fb => fb.feedbackType === 'bug').length,
-    suggestions: allFeedback.filter(fb => fb.feedbackType === 'suggestion').length,
-    newTools: allFeedback.filter(fb => fb.feedbackType === 'newtool').length,
+    feedback: allFeedback.filter(fb => fb.type === 'feedback').length,
+    bugs: allFeedback.filter(fb => fb.type === 'bug').length,
+    suggestions: allFeedback.filter(fb => fb.type === 'suggestion').length,
+    newTools: allFeedback.filter(fb => fb.type === 'newtool').length,
   };
 }
 

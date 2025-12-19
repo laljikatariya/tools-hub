@@ -21,6 +21,10 @@ export default function AnalyticsPage() {
   const [contactStats, setContactStats] = useState<any>(null);
   const [contactSubmissions, setContactSubmissions] = useState<any[]>([]);
   const [timeFilter, setTimeFilter] = useState<'all' | 'day' | 'week' | 'month' | 'year'>('all');
+  const [feedbackTypeFilter, setFeedbackTypeFilter] = useState<string>('all');
+  const [feedbackStatusFilter, setFeedbackStatusFilter] = useState<string>('all');
+  const [feedbackPage, setFeedbackPage] = useState(1);
+  const [feedbackPageSize] = useState(20);
 
   // Check authentication on mount
   useEffect(() => {
@@ -58,13 +62,29 @@ export default function AnalyticsPage() {
   const loadAnalytics = async () => {
     const trending = getTrendingTools(15);
     const searches = getPopularSearches(10);
-    const feedback = await getAllFeedback();
+    
+    // Fetch feedback from admin API
+    let feedback = [];
+    try {
+      const response = await fetch('/api/admin/analytics/feedback');
+      if (response.ok) {
+        const data = await response.json();
+        feedback = data.feedback;
+      } else {
+        // Fallback to public API
+        feedback = await getAllFeedback();
+      }
+    } catch (error) {
+      console.error('Error fetching feedback:', error);
+      feedback = await getAllFeedback();
+    }
+    
     const contactFormStats = getContactFormStats();
     const contactData = getContactPageAnalytics();
 
     // Apply time filters
     const filteredTrending = filterDataByTime(trending);
-    const filteredFeedback = filterDataByTime(feedback, 'timestamp');
+    const filteredFeedback = filterDataByTime(feedback, 'createdAt');
     const filteredContactSubmissions = filterDataByTime(contactData.formSubmissions, 'timestamp');
 
     // Enrich trending tools with tool data
@@ -76,10 +96,13 @@ export default function AnalyticsPage() {
     // Calculate filtered stats
     const filteredStats = {
       total: filteredFeedback.length,
-      feedback: filteredFeedback.filter(fb => fb.feedbackType === 'feedback').length,
-      bugs: filteredFeedback.filter(fb => fb.feedbackType === 'bug').length,
-      suggestions: filteredFeedback.filter(fb => fb.feedbackType === 'suggestion').length,
-      newTools: filteredFeedback.filter(fb => fb.feedbackType === 'newtool').length,
+      feedback: filteredFeedback.filter((fb: any) => fb.type === 'feedback').length,
+      bugs: filteredFeedback.filter((fb: any) => fb.type === 'bug').length,
+      suggestions: filteredFeedback.filter((fb: any) => fb.type === 'suggestion').length,
+      newTools: filteredFeedback.filter((fb: any) => fb.type === 'newtool').length,
+      new: filteredFeedback.filter((fb: any) => fb.status === 'new').length,
+      reviewed: filteredFeedback.filter((fb: any) => fb.status === 'reviewed').length,
+      resolved: filteredFeedback.filter((fb: any) => fb.status === 'resolved').length,
     };
 
     setTrendingTools(enrichedTrending);
@@ -409,6 +432,53 @@ export default function AnalyticsPage() {
             </div>
           )}
 
+          {/* Feedback Status Stats */}
+          {feedbackStats && feedbackStats.total > 0 && (
+            <div className="grid grid-cols-3 gap-4 mb-8">
+              <Card className="bg-gradient-to-br from-red-50 to-red-100 dark:from-red-950 dark:to-red-900 border-red-200 dark:border-red-800">
+                <CardContent className="pt-6">
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-full bg-red-600 flex items-center justify-center text-white font-bold">!</div>
+                    <div>
+                      <div className="text-2xl font-bold text-red-900 dark:text-red-100">
+                        {feedbackStats.new}
+                      </div>
+                      <div className="text-sm text-red-700 dark:text-red-300">New</div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-gradient-to-br from-yellow-50 to-yellow-100 dark:from-yellow-950 dark:to-yellow-900 border-yellow-200 dark:border-yellow-800">
+                <CardContent className="pt-6">
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-full bg-yellow-600 flex items-center justify-center text-white font-bold">?</div>
+                    <div>
+                      <div className="text-2xl font-bold text-yellow-900 dark:text-yellow-100">
+                        {feedbackStats.reviewed}
+                      </div>
+                      <div className="text-sm text-yellow-700 dark:text-yellow-300">Reviewed</div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-gradient-to-br from-green-50 to-green-100 dark:from-green-950 dark:to-green-900 border-green-200 dark:border-green-800">
+                <CardContent className="pt-6">
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-full bg-green-600 flex items-center justify-center text-white font-bold">✓</div>
+                    <div>
+                      <div className="text-2xl font-bold text-green-900 dark:text-green-100">
+                        {feedbackStats.resolved}
+                      </div>
+                      <div className="text-sm text-green-700 dark:text-green-300">Resolved</div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          )}
+
           {/* Contact Page Analytics */}
           {contactStats && (
             <Card className="mb-8">
@@ -548,55 +618,173 @@ export default function AnalyticsPage() {
                 <CardDescription>Recent feedback, bug reports, and suggestions from users</CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="space-y-4 max-h-[600px] overflow-y-auto">
-                  {feedbackList.map((feedback) => {
-                    const typeConfig = {
-                      feedback: { icon: '💭', color: 'bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300', label: 'Feedback' },
-                      bug: { icon: '🐛', color: 'bg-red-100 dark:bg-red-900 text-red-700 dark:text-red-300', label: 'Bug Report' },
-                      suggestion: { icon: '💡', color: 'bg-yellow-100 dark:bg-yellow-900 text-yellow-700 dark:text-yellow-300', label: 'Suggestion' },
-                      newtool: { icon: '🔧', color: 'bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300', label: 'Tool Request' },
-                    };
+                {/* Feedback Filters */}
+                <div className="flex flex-wrap gap-4 mb-6 p-4 bg-slate-50 dark:bg-slate-800 rounded-lg">
+                  <div>
+                    <label className="block text-sm font-medium mb-2 text-slate-700 dark:text-slate-300">
+                      Type
+                    </label>
+                    <select
+                      value={feedbackTypeFilter}
+                      onChange={(e) => setFeedbackTypeFilter(e.target.value)}
+                      className="px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100"
+                    >
+                      <option value="all">All Types</option>
+                      <option value="feedback">General Feedback</option>
+                      <option value="bug">Bug Reports</option>
+                      <option value="suggestion">Suggestions</option>
+                      <option value="newtool">Tool Requests</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium mb-2 text-slate-700 dark:text-slate-300">
+                      Status
+                    </label>
+                    <select
+                      value={feedbackStatusFilter}
+                      onChange={(e) => setFeedbackStatusFilter(e.target.value)}
+                      className="px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100"
+                    >
+                      <option value="all">All Status</option>
+                      <option value="new">New</option>
+                      <option value="reviewed">Reviewed</option>
+                      <option value="resolved">Resolved</option>
+                    </select>
+                  </div>
+                </div>
 
-                    const config = typeConfig[feedback.feedbackType as keyof typeof typeConfig];
+                {/* Filtered Feedback List */}
+                {(() => {
+                  const filteredFeedback = feedbackList
+                    .filter(fb => feedbackTypeFilter === 'all' || fb.type === feedbackTypeFilter)
+                    .filter(fb => feedbackStatusFilter === 'all' || fb.status === feedbackStatusFilter)
+                    .slice((feedbackPage - 1) * feedbackPageSize, feedbackPage * feedbackPageSize);
 
-                    return (
-                      <div
-                        key={feedback.id}
-                        className="p-4 border border-slate-200 dark:border-slate-700 rounded-lg hover:shadow-md transition-shadow"
-                      >
-                        <div className="flex items-start justify-between mb-3">
-                          <div className="flex items-center gap-3">
-                            <span className={`px-3 py-1 rounded-full text-sm font-medium ${config.color}`}>
-                              {config.icon} {config.label}
-                            </span>
-                            <div className="text-sm text-slate-600 dark:text-slate-400">
-                              {new Date(feedback.timestamp).toLocaleString()}
+                  return (
+                    <>
+                      <div className="space-y-4 max-h-[600px] overflow-y-auto">
+                        {filteredFeedback.map((feedback) => {
+                          const typeConfig = {
+                            feedback: { icon: '💭', color: 'bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300', label: 'Feedback' },
+                            bug: { icon: '🐛', color: 'bg-red-100 dark:bg-red-900 text-red-700 dark:text-red-300', label: 'Bug Report' },
+                            suggestion: { icon: '💡', color: 'bg-yellow-100 dark:bg-yellow-900 text-yellow-700 dark:text-yellow-300', label: 'Suggestion' },
+                            newtool: { icon: '🔧', color: 'bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300', label: 'Tool Request' },
+                          };
+
+                          const statusConfig = {
+                            new: { color: 'bg-red-100 dark:bg-red-900 text-red-700 dark:text-red-300', label: 'New' },
+                            reviewed: { color: 'bg-yellow-100 dark:bg-yellow-900 text-yellow-700 dark:text-yellow-300', label: 'Reviewed' },
+                            resolved: { color: 'bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300', label: 'Resolved' },
+                          };
+
+                          const config = typeConfig[feedback.type as keyof typeof typeConfig];
+                          const statusConf = statusConfig[feedback.status as keyof typeof statusConfig];
+
+                          return (
+                            <div
+                              key={feedback.id}
+                              className="p-4 border border-slate-200 dark:border-slate-700 rounded-lg hover:shadow-md transition-shadow"
+                            >
+                              <div className="flex items-start justify-between mb-3">
+                                <div className="flex items-center gap-3 flex-wrap">
+                                  <span className={`px-3 py-1 rounded-full text-sm font-medium ${config.color}`}>
+                                    {config.icon} {config.label}
+                                  </span>
+                                  <span className={`px-3 py-1 rounded-full text-sm font-medium ${statusConf.color}`}>
+                                    {statusConf.label}
+                                  </span>
+                                  <div className="text-sm text-slate-600 dark:text-slate-400">
+                                    {new Date(feedback.createdAt).toLocaleString()}
+                                  </div>
+                                </div>
+                                <select
+                                  value={feedback.status}
+                                  onChange={async (e) => {
+                                    try {
+                                      const response = await fetch('/api/admin/analytics/feedback', {
+                                        method: 'PATCH',
+                                        headers: {
+                                          'Content-Type': 'application/json',
+                                        },
+                                        body: JSON.stringify({ id: feedback.id, status: e.target.value }),
+                                      });
+                                      if (response.ok) {
+                                        // Update local state
+                                        setFeedbackList(prev => prev.map(fb => 
+                                          fb.id === feedback.id ? { ...fb, status: e.target.value } : fb
+                                        ));
+                                      }
+                                    } catch (error) {
+                                      console.error('Error updating feedback status:', error);
+                                    }
+                                  }}
+                                  className="px-2 py-1 text-sm border border-slate-300 dark:border-slate-600 rounded bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100"
+                                >
+                                  <option value="new">New</option>
+                                  <option value="reviewed">Reviewed</option>
+                                  <option value="resolved">Resolved</option>
+                                </select>
+                              </div>
+                              
+                              <div className="mb-3">
+                                <p className="text-slate-800 dark:text-slate-200 whitespace-pre-wrap">
+                                  {feedback.message}
+                                </p>
+                              </div>
+
+                              <div className="flex items-center gap-4 text-sm text-slate-500 dark:text-slate-400 flex-wrap">
+                                {feedback.name && feedback.name !== 'Anonymous' && (
+                                  <span className="flex items-center gap-1">
+                                    👤 <span className="font-medium">{feedback.name}</span>
+                                  </span>
+                                )}
+                                {feedback.email && feedback.email !== 'Not provided' && (
+                                  <span className="flex items-center gap-1">
+                                    ✉️ <span className="font-medium">{feedback.email}</span>
+                                  </span>
+                                )}
+                                {feedback.pageUrl && (
+                                  <span className="flex items-center gap-1">
+                                    🔗 <a href={feedback.pageUrl} target="_blank" rel="noopener noreferrer" className="font-medium hover:underline">
+                                      Page
+                                    </a>
+                                  </span>
+                                )}
+                              </div>
                             </div>
+                          );
+                        })}
+                      </div>
+
+                      {/* Pagination */}
+                      {feedbackList.length > feedbackPageSize && (
+                        <div className="flex items-center justify-between mt-6">
+                          <div className="text-sm text-slate-600 dark:text-slate-400">
+                            Showing {((feedbackPage - 1) * feedbackPageSize) + 1} to {Math.min(feedbackPage * feedbackPageSize, feedbackList.length)} of {feedbackList.length} entries
+                          </div>
+                          <div className="flex gap-2">
+                            <Button
+                              variant="secondary"
+                              size="sm"
+                              onClick={() => setFeedbackPage(prev => Math.max(1, prev - 1))}
+                              disabled={feedbackPage === 1}
+                            >
+                              Previous
+                            </Button>
+                            <Button
+                              variant="secondary"
+                              size="sm"
+                              onClick={() => setFeedbackPage(prev => prev + 1)}
+                              disabled={feedbackPage * feedbackPageSize >= feedbackList.length}
+                            >
+                              Next
+                            </Button>
                           </div>
                         </div>
-                        
-                        <div className="mb-3">
-                          <p className="text-slate-800 dark:text-slate-200 whitespace-pre-wrap">
-                            {feedback.message}
-                          </p>
-                        </div>
-
-                        <div className="flex items-center gap-4 text-sm text-slate-500 dark:text-slate-400">
-                          {feedback.name && feedback.name !== 'Anonymous' && (
-                            <span className="flex items-center gap-1">
-                              👤 <span className="font-medium">{feedback.name}</span>
-                            </span>
-                          )}
-                          {feedback.email && feedback.email !== 'Not provided' && (
-                            <span className="flex items-center gap-1">
-                              ✉️ <span className="font-medium">{feedback.email}</span>
-                            </span>
-                          )}
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
+                      )}
+                    </>
+                  );
+                })()}
               </CardContent>
             </Card>
           )}

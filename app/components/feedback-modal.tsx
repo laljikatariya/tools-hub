@@ -16,17 +16,35 @@ export function FeedbackModal({ isOpen, onClose }: FeedbackModalProps) {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    feedbackType: 'feedback',
+    type: 'feedback',
     message: '',
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [errorMessage, setErrorMessage] = useState<string>('');
 
   if (!isOpen) return null;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+    
+    // Client-side validation
+    if (!formData.message || formData.message.length < 10) {
+      setErrorMessage('Message is required and must be at least 10 characters');
+      setSubmitStatus('error');
+      setTimeout(() => setSubmitStatus('idle'), 3000);
+      setIsSubmitting(false);
+      return;
+    }
+
+    if (!['feedback', 'bug', 'suggestion', 'newtool'].includes(formData.type)) {
+      setErrorMessage('Please select a valid feedback type');
+      setSubmitStatus('error');
+      setTimeout(() => setSubmitStatus('idle'), 3000);
+      setIsSubmitting(false);
+      return;
+    }
     
     try {
       // Send feedback to API
@@ -38,33 +56,40 @@ export function FeedbackModal({ isOpen, onClose }: FeedbackModalProps) {
         body: JSON.stringify({
           name: formData.name,
           email: formData.email,
-          feedbackType: formData.feedbackType,
+          type: formData.type,
           message: formData.message,
+          pageUrl: window.location.href,
         }),
       });
 
       if (!response.ok) {
-        throw new Error('Failed to submit feedback');
+        const errorData = await response.json().catch(() => ({ error: 'Failed to submit feedback' }));
+        throw new Error(errorData.error || 'Failed to submit feedback');
       }
 
       // Also track locally for immediate analytics access
       trackFeedback(
         formData.name,
         formData.email,
-        formData.feedbackType as 'feedback' | 'bug' | 'suggestion' | 'newtool',
-        formData.message
+        formData.type as 'feedback' | 'bug' | 'suggestion' | 'newtool',
+        formData.message,
+        window.location.href
       );
       
       setSubmitStatus('success');
       setTimeout(() => {
-        setFormData({ name: '', email: '', feedbackType: 'feedback', message: '' });
+        setFormData({ name: '', email: '', type: 'feedback', message: '' });
         setSubmitStatus('idle');
         onClose();
       }, 2000);
     } catch (error) {
       console.error('Error submitting feedback:', error);
+      setErrorMessage(error instanceof Error ? error.message : 'Something went wrong. Please try again.');
       setSubmitStatus('error');
-      setTimeout(() => setSubmitStatus('idle'), 3000);
+      setTimeout(() => {
+        setSubmitStatus('idle');
+        setErrorMessage('');
+      }, 3000);
     } finally {
       setIsSubmitting(false);
     }
@@ -141,9 +166,9 @@ export function FeedbackModal({ isOpen, onClose }: FeedbackModalProps) {
                 <div className="grid grid-cols-2 gap-3">
                   <button
                     type="button"
-                    onClick={() => setFormData({ ...formData, feedbackType: 'feedback' })}
+                    onClick={() => setFormData({ ...formData, type: 'feedback' })}
                     className={`p-4 rounded-lg border-2 transition-all ${
-                      formData.feedbackType === 'feedback'
+                      formData.type === 'feedback'
                         ? 'border-indigo-600 bg-indigo-50 dark:bg-indigo-950'
                         : 'border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600'
                     }`}
@@ -155,9 +180,9 @@ export function FeedbackModal({ isOpen, onClose }: FeedbackModalProps) {
                   
                   <button
                     type="button"
-                    onClick={() => setFormData({ ...formData, feedbackType: 'bug' })}
+                    onClick={() => setFormData({ ...formData, type: 'bug' })}
                     className={`p-4 rounded-lg border-2 transition-all ${
-                      formData.feedbackType === 'bug'
+                      formData.type === 'bug'
                         ? 'border-indigo-600 bg-indigo-50 dark:bg-indigo-950'
                         : 'border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600'
                     }`}
@@ -169,9 +194,9 @@ export function FeedbackModal({ isOpen, onClose }: FeedbackModalProps) {
                   
                   <button
                     type="button"
-                    onClick={() => setFormData({ ...formData, feedbackType: 'suggestion' })}
+                    onClick={() => setFormData({ ...formData, type: 'suggestion' })}
                     className={`p-4 rounded-lg border-2 transition-all ${
-                      formData.feedbackType === 'suggestion'
+                      formData.type === 'suggestion'
                         ? 'border-indigo-600 bg-indigo-50 dark:bg-indigo-950'
                         : 'border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600'
                     }`}
@@ -183,9 +208,9 @@ export function FeedbackModal({ isOpen, onClose }: FeedbackModalProps) {
                   
                   <button
                     type="button"
-                    onClick={() => setFormData({ ...formData, feedbackType: 'newtool' })}
+                    onClick={() => setFormData({ ...formData, type: 'newtool' })}
                     className={`p-4 rounded-lg border-2 transition-all ${
-                      formData.feedbackType === 'newtool'
+                      formData.type === 'newtool'
                         ? 'border-indigo-600 bg-indigo-50 dark:bg-indigo-950'
                         : 'border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600'
                     }`}
@@ -205,11 +230,11 @@ export function FeedbackModal({ isOpen, onClose }: FeedbackModalProps) {
                 <textarea
                   required
                   placeholder={
-                    formData.feedbackType === 'feedback'
+                    formData.type === 'feedback'
                       ? 'Share your thoughts about Utilo...'
-                      : formData.feedbackType === 'bug'
+                      : formData.type === 'bug'
                       ? 'Describe the problem you encountered...'
-                      : formData.feedbackType === 'suggestion'
+                      : formData.type === 'suggestion'
                       ? 'Tell us your ideas for improvement...'
                       : 'What tool would you like to see?'
                   }
@@ -225,7 +250,7 @@ export function FeedbackModal({ isOpen, onClose }: FeedbackModalProps) {
               {/* Error Message */}
               {submitStatus === 'error' && (
                 <div className="p-3 bg-red-50 dark:bg-red-950 border border-red-200 dark:border-red-800 rounded-lg text-red-700 dark:text-red-300 text-sm">
-                  Something went wrong. Please try again.
+                  {errorMessage || 'Something went wrong. Please try again.'}
                 </div>
               )}
 
@@ -243,7 +268,7 @@ export function FeedbackModal({ isOpen, onClose }: FeedbackModalProps) {
                 <Button
                   type="submit"
                   className="flex-1 bg-indigo-600 hover:bg-indigo-700"
-                  disabled={isSubmitting || formData.message.length < 10}
+                  disabled={isSubmitting}
                 >
                   {isSubmitting ? 'Submitting...' : 'Submit Feedback'}
                 </Button>

@@ -1,12 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
-
-// In-memory storage for feedback (in production, use a database)
-let feedbackStorage: any[] = [];
+import { feedbackStorage } from '@/lib/feedback-storage';
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { name, email, feedbackType, message } = body;
+    const { name, email, type, message, pageUrl } = body;
 
     // Validate required fields
     if (!message || message.length < 10) {
@@ -16,7 +14,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    if (!['feedback', 'bug', 'suggestion', 'newtool'].includes(feedbackType)) {
+    if (!['feedback', 'bug', 'suggestion', 'newtool'].includes(type)) {
       return NextResponse.json(
         { error: 'Invalid feedback type' },
         { status: 400 }
@@ -28,10 +26,11 @@ export async function POST(request: NextRequest) {
       id: `fb_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
       name: name || 'Anonymous',
       email: email || 'Not provided',
-      feedbackType,
+      type,
       message,
-      timestamp: new Date().toISOString(),
-      userAgent: request.headers.get('user-agent') || undefined,
+      pageUrl: pageUrl || request.headers.get('referer') || '',
+      status: 'new' as const,
+      createdAt: new Date().toISOString(),
     };
 
     // Store feedback (in production, save to database)
@@ -53,7 +52,7 @@ export async function POST(request: NextRequest) {
 }
 
 export async function GET() {
-  // Return all feedback (in production, add authentication)
+  // Return all feedback (for analytics, in production add authentication)
   return NextResponse.json({
     feedback: feedbackStorage,
     total: feedbackStorage.length
