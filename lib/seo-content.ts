@@ -1884,6 +1884,189 @@ export const seoContent: Record<string, ToolSEO> = {
     ],
     schemaType: 'WebApplication',
   },
+  'meta-tag-generator': {
+    slug: 'meta-tag-generator',
+    title: 'Free Meta Tag Generator - Create SEO Meta Tags Instantly | Utilo',
+    metaDescription: 'Generate SEO meta tags online for free. Create title, description, keywords, robots, author, language, and revisit-after tags with ready-to-copy HTML output.',
+    keywords: ['meta tag generator', 'seo meta tags', 'html meta tags', 'meta description generator', 'robots meta tag', 'open graph tags'],
+    h1: 'Meta Tag Generator - Create SEO Meta Tags in Seconds',
+    whatIs: {
+      title: 'What is a Meta Tag Generator?',
+      content: 'A meta tag generator is an online tool that creates important HTML meta tags for your web pages. It helps you quickly generate tags like title, description, keywords, robots, language, and author so search engines can better understand and index your content.',
+    },
+    whyUse: {
+      title: 'Why Use Our Meta Tag Generator?',
+      benefits: [
+        'Create complete SEO meta tags without coding manually',
+        'Generate clean, ready-to-copy HTML instantly',
+        'Set index and follow directives for search engine bots',
+        'Define page language and author metadata',
+        'Save time and reduce syntax mistakes in head tags',
+        'Useful for blogs, landing pages, business sites, and portfolios',
+      ],
+    },
+    features: {
+      title: 'Features',
+      list: [
+        'Fields for title, description, and keywords',
+        'Robots settings for index and follow behavior',
+        'Language, content type, author, and revisit-after options',
+        'One-click generation of meta tag code',
+        'Copy-to-clipboard output for quick implementation',
+      ],
+    },
+    howToUse: {
+      title: 'How to Use the Meta Tag Generator',
+      steps: [
+        'Enter your page title and meta description',
+        'Add relevant keywords separated by commas',
+        'Choose robots preferences such as index and follow',
+        'Set optional fields like language, author, and revisit interval',
+        'Generate and copy the HTML meta tags to your page head section',
+      ],
+    },
+    faqs: [
+      {
+        question: 'Which meta tags are most important for SEO?',
+        answer: 'The most important are the title tag, meta description, and robots directives. These directly influence how your page is understood and displayed in search results.',
+      },
+      {
+        question: 'Do meta keywords still matter?',
+        answer: 'Most modern search engines place little to no ranking value on meta keywords, but some platforms may still use them for internal categorization.',
+      },
+      {
+        question: 'Where should I place generated meta tags?',
+        answer: 'Place them inside the HTML head section of the page you want to optimize.',
+      },
+      {
+        question: 'Can I create different meta tags for each page?',
+        answer: 'Yes. Each page should have unique title and description tags to target specific user intent and improve click-through rates.',
+      },
+    ],
+    schemaType: 'WebApplication',
+  },
+  'emi-calculator': {
+    slug: 'emi-calculator',
+    title: 'Free EMI Calculator Online - Calculate Loan EMI with Interest | Utilo',
+    metaDescription: 'Calculate monthly EMI, total interest, and total repayment in seconds. Enter loan amount, interest rate, and tenure to get accurate EMI results instantly.',
+    keywords: ['EMI calculator', 'loan EMI calculator', 'monthly EMI calculator', 'home loan EMI', 'car loan EMI', 'personal loan EMI'],
+    h1: 'EMI Calculator - Calculate Monthly Loan EMI Instantly',
+    whatIs: {
+      title: 'What is an EMI Calculator?',
+      content: 'An EMI calculator is a financial tool that calculates your Equated Monthly Installment for a loan. By entering principal amount, annual interest rate, and loan tenure, you get an instant estimate of monthly EMI, total interest payable, and total repayment amount.',
+    },
+    whyUse: {
+      title: 'Why Use Our EMI Calculator?',
+      benefits: [
+        'Instantly estimate monthly EMI before applying for a loan',
+        'Plan repayments with better budget visibility',
+        'Compare different interest rates and tenures quickly',
+        'Avoid manual formula errors and save time',
+        'Useful for home, car, personal, and education loans',
+        'Free and available anytime on desktop or mobile',
+      ],
+    },
+    features: {
+      title: 'Features',
+      list: [
+        'Inputs for loan amount, interest rate, and tenure',
+        'Instant monthly EMI calculation',
+        'Breakdown of principal, total interest, and total payment',
+        'Real-time updates as values change',
+        'Clean interface for quick comparisons',
+      ],
+    },
+    howToUse: {
+      title: 'How to Use the EMI Calculator',
+      steps: [
+        'Enter the total loan amount you want to borrow',
+        'Set the annual interest rate offered by your lender',
+        'Choose the loan tenure in months or years',
+        'View monthly EMI, total interest, and total repayment instantly',
+        'Adjust values to compare scenarios and pick a manageable EMI',
+      ],
+    },
+    faqs: [
+      {
+        question: 'What does EMI include?',
+        answer: 'EMI includes both principal repayment and interest. At the beginning of the tenure, the interest component is usually higher than the principal component.',
+      },
+      {
+        question: 'How does tenure affect EMI?',
+        answer: 'A longer tenure generally lowers monthly EMI but increases total interest paid. A shorter tenure increases EMI but reduces total interest over time.',
+      },
+      {
+        question: 'Can I use this EMI calculator for different loan types?',
+        answer: 'Yes. You can use it for home loans, car loans, personal loans, education loans, and other standard reducing-balance loans.',
+      },
+      {
+        question: 'Is the EMI result accurate?',
+        answer: 'Yes, it uses the standard EMI formula and provides reliable estimates. Final repayment values may vary slightly based on lender-specific charges and rounding.',
+      },
+    ],
+    schemaType: 'WebApplication',
+  },
+  'age-calculator': {
+    slug: 'age-calculator',
+    title: 'Free Age Calculator Online - Calculate Exact Age by Date of Birth | Utilo',
+    metaDescription: 'Calculate exact age in years, months, and days from date of birth. Also check total days lived and next birthday countdown instantly with our free age calculator.',
+    keywords: ['age calculator', 'calculate age', 'date of birth calculator', 'DOB age calculator', 'exact age calculator', 'next birthday calculator'],
+    h1: 'Age Calculator - Find Exact Age in Years, Months, and Days',
+    whatIs: {
+      title: 'What is an Age Calculator?',
+      content: 'An age calculator is an online tool that calculates exact age based on date of birth and a selected current date. It returns age in years, months, and days, and can also show helpful details like total days lived and time left until the next birthday.',
+    },
+    whyUse: {
+      title: 'Why Use Our Age Calculator?',
+      benefits: [
+        'Get accurate age calculation in seconds',
+        'View age in multiple formats (years, months, days)',
+        'Find days remaining until next birthday',
+        'Useful for forms, eligibility checks, and records',
+        'No manual date calculation needed',
+        'Free, fast, and mobile-friendly',
+      ],
+    },
+    features: {
+      title: 'Features',
+      list: [
+        'Date of birth input with easy date selection',
+        'Accurate age output in years, months, and days',
+        'Optional calculation against a custom date',
+        'Next birthday countdown',
+        'Simple results panel for quick reading',
+      ],
+    },
+    howToUse: {
+      title: 'How to Use the Age Calculator',
+      steps: [
+        'Select your date of birth from the calendar field',
+        'Choose a current or custom comparison date if needed',
+        'Click calculate to get your exact age',
+        'Review age in years, months, and days',
+        'Check next birthday countdown and additional date insights',
+      ],
+    },
+    faqs: [
+      {
+        question: 'How is age calculated?',
+        answer: 'Age is calculated by comparing your date of birth with the current date (or a selected date), then computing the exact difference in years, months, and days.',
+      },
+      {
+        question: 'Does this calculator handle leap years?',
+        answer: 'Yes, leap years and varying month lengths are considered to provide accurate age results.',
+      },
+      {
+        question: 'Can I calculate age on a past or future date?',
+        answer: 'Yes, you can use a custom date to calculate age for legal, academic, or planning purposes.',
+      },
+      {
+        question: 'Is this age calculator free to use?',
+        answer: 'Yes, it is completely free and can be used as many times as needed without registration.',
+      },
+    ],
+    schemaType: 'WebApplication',
+  },
   'gst-calculator': {
     slug: 'gst-calculator',
     title: 'Free GST Calculator Online - Add or Remove GST Instantly | Utilo',
