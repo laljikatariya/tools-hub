@@ -5,8 +5,11 @@ import Link from 'next/link';
 import { ArrowLeft, Copy } from 'lucide-react';
 import { Header } from '@/app/components/header';
 import { Footer } from '@/app/components/footer';
+import { SEOContentSection } from '@/app/components/seo-content-section';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { getSEOContent } from '@/lib/seo-content';
+import { getToolName } from '@/lib/translations';
 
 type RobotsValue = 'index, follow' | 'noindex, nofollow';
 
@@ -67,6 +70,8 @@ function titleToPreviewPath(title: string): string {
 export default function MetaTagGeneratorClient() {
   const [form, setForm] = useState<MetaForm>(initialForm);
   const [copied, setCopied] = useState(false);
+  const seoContent = getSEOContent('meta-tag-generator');
+  const toolName = getToolName('meta-tag-generator');
 
   const generatedTags = useMemo(() => {
     const tags: string[] = [];
@@ -322,6 +327,10 @@ export default function MetaTagGeneratorClient() {
               </div>
             </div>
           </section>
+
+          {seoContent && (
+            <SEOContentSection seoContent={seoContent} toolName={toolName} slug="meta-tag-generator" />
+          )}
         </div>
       </main>
       <Footer />
