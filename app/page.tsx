@@ -3,9 +3,9 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
+import { Search } from 'lucide-react';
 import { Header } from './components/header';
 import { Footer } from './components/footer';
-import { Input } from '@/components/ui/input';
 import { toolsData, type Tool, getTranslatedToolName } from '@/lib/tools-data';
 import { getTrendingTools, trackSearch } from '@/lib/analytics';
 
@@ -25,6 +25,16 @@ export default function Home() {
   const [trendingToolsData, setTrendingToolsData] = useState<Tool[]>([]);
   const allToolsRef = useRef<HTMLDivElement>(null);
   const searchTrackingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  const quickAccessTools = useMemo(
+    () => [
+      { name: 'JSON Formatter', slug: 'json-formatter' },
+      { name: 'Image Compressor', slug: 'image-compressor' },
+      { name: 'Word Counter', slug: 'word-counter' },
+      { name: 'PDF Merger', slug: 'merge-pdfs' },
+    ],
+    []
+  );
 
   useEffect(() => {
     const queryFromUrl = searchParams?.get('search') || '';
@@ -95,6 +105,13 @@ export default function Home() {
     return result;
   }, [activeCategory, searchQuery]);
 
+  const instantResults = useMemo(() => {
+    if (!searchQuery.trim()) {
+      return [];
+    }
+    return filteredTools.slice(0, 6);
+  }, [filteredTools, searchQuery]);
+
   const categorySections = useMemo(() => {
     const groups = Array.from(new Set(toolsData.map((tool) => tool.category)));
     return groups.map((categoryId) => ({
@@ -125,26 +142,55 @@ export default function Home() {
         <section className="utilo-section border-b border-[#E8EDF6] bg-gradient-to-b from-[#F3F6FC] to-[#F8F9FB]">
           <div className="utilo-container text-center">
             <h1 className="mx-auto max-w-4xl text-3xl font-semibold leading-tight sm:text-4xl lg:text-5xl">
-              30+ Free Online Tools for Daily Work
+              Find the Right Tool in Seconds
             </h1>
             <p className="mx-auto mt-4 max-w-3xl text-base text-[#64748B] sm:text-lg">
-              One clean workspace for text, image, PDF, and developer tools. No sign-up, no clutter.
+              30+ free tools for text, images, PDFs, and developers - no login, no clutter.
             </p>
 
-            <div className="mx-auto mt-8 max-w-3xl rounded-xl border border-[#DBE3EF] bg-white p-2 shadow-[0_8px_30px_rgba(15,23,42,0.06)] sm:p-3">
-              <Input
-                type="text"
-                placeholder="Search by tool name, type, or task..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="h-12 border-0 bg-[#F8FAFE] shadow-none focus-visible:ring-2 focus-visible:ring-[#4F46E5]"
-              />
+            <div className="mx-auto mt-8 max-w-3xl">
+              <div className="relative">
+                <Search className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-[#94A3B8]" />
+                <input
+                  type="text"
+                  placeholder="Search tools like JSON formatter, image compressor..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="h-14 w-full rounded-xl border border-[#DBE3EF] bg-white pl-12 pr-4 text-sm text-[#0F172A] shadow-[0_8px_30px_rgba(15,23,42,0.08)] outline-none transition-all placeholder:text-[#94A3B8] focus:border-[#4F46E5] focus:ring-4 focus:ring-[#E0E7FF] sm:h-16 sm:text-base"
+                  aria-label="Search tools"
+                />
+              </div>
+
+              {searchQuery.trim() && (
+                <div className="mt-3 overflow-hidden rounded-xl border border-[#DBE3EF] bg-white text-left shadow-[0_12px_30px_rgba(15,23,42,0.08)]">
+                  {instantResults.length > 0 ? (
+                    instantResults.map((tool) => (
+                      <Link
+                        key={tool.id}
+                        href={`/tools/${tool.slug}`}
+                        className="flex items-center justify-between border-b border-[#F1F5F9] px-4 py-3 text-sm text-[#334155] transition-colors last:border-b-0 hover:bg-[#F8FAFC] sm:text-base"
+                      >
+                        <span className="font-medium text-[#0F172A]">{getTranslatedToolName(tool)}</span>
+                        <span className="text-xs text-[#64748B] sm:text-sm">Open</span>
+                      </Link>
+                    ))
+                  ) : (
+                    <p className="px-4 py-3 text-sm text-[#64748B]">No matching tools found.</p>
+                  )}
+                </div>
+              )}
             </div>
 
-            <div className="mt-5 flex flex-wrap items-center justify-center gap-2">
-              <span className="utilo-chip">No Login Required</span>
-              <span className="utilo-chip">Always Free</span>
-              <span className="utilo-chip">Fast and Secure</span>
+            <div className="mt-5 flex flex-col items-stretch justify-center gap-2 sm:flex-row sm:flex-wrap sm:items-center">
+              {quickAccessTools.map((tool) => (
+                <Link
+                  key={tool.slug}
+                  href={`/tools/${tool.slug}`}
+                  className="inline-flex min-h-[40px] w-full items-center justify-center rounded-full border border-[#C7D2E5] bg-white px-4 py-2 text-sm font-medium text-[#334155] transition-colors hover:border-[#A5B4FC] hover:bg-[#EEF2FF] hover:text-[#3730A3] sm:w-auto"
+                >
+                  {tool.name}
+                </Link>
+              ))}
             </div>
           </div>
         </section>
@@ -226,8 +272,8 @@ export default function Home() {
                     onClick={() => setActiveCategory(item)}
                     className={
                       activeCategory === item
-                        ? 'utilo-btn-primary min-w-[90px]'
-                        : 'utilo-btn-secondary min-w-[90px]'
+                        ? 'utilo-btn-primary min-w-[90px] w-full sm:w-auto'
+                        : 'utilo-btn-secondary min-w-[90px] w-full sm:w-auto'
                     }
                   >
                     {item === 'all' ? 'All' : item.charAt(0).toUpperCase() + item.slice(1)}
@@ -253,7 +299,7 @@ export default function Home() {
               <div className="utilo-card mx-auto max-w-xl p-10 text-center">
                 <h3 className="text-xl font-semibold text-[#0F172A]">No tools found</h3>
                 <p className="mt-3 text-sm text-[#64748B] sm:text-base">Try another keyword or switch category.</p>
-                <button type="button" onClick={() => setSearchQuery('')} className="utilo-btn-primary mt-6">
+                <button type="button" onClick={() => { setSearchQuery(''); setActiveCategory('all'); }} className="utilo-btn-primary mt-6 w-full sm:w-auto">
                   Clear Search
                 </button>
               </div>
