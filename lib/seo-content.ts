@@ -1845,67 +1845,6 @@ export const seoContent: Record<string, ToolSEO> = {
       ],
     },
     features: {
-    'gst-calculator': {
-      slug: 'gst-calculator',
-      title: 'Free GST Calculator Online - Add or Remove GST Instantly | Utilo',
-      metaDescription: 'Calculate GST amount, total amount including GST, and original amount excluding GST instantly. Switch between inclusive and exclusive GST modes for fast, accurate results.',
-      keywords: ['GST calculator', 'GST amount calculator', 'inclusive GST calculator', 'exclusive GST calculator', 'reverse GST calculator', 'GST rate calculator'],
-      h1: 'GST Calculator - Calculate GST Instantly',
-      whatIs: {
-        title: 'What is a GST Calculator?',
-        content: 'A GST calculator is an online tool that helps you quickly add or remove Goods and Services Tax from an amount. It calculates the GST amount, the final price including tax, and the original amount excluding tax so you can price products and invoices accurately.',
-      },
-      whyUse: {
-        title: 'Why Use Our GST Calculator?',
-        benefits: [
-          'Switch between GST-inclusive and GST-exclusive pricing',
-          'See GST amount and final total instantly',
-          'Reverse-calculate the original amount from a tax-inclusive price',
-          'Useful for billing, invoicing, and price planning',
-          'No sign-up or installation required',
-          'Works fully in your browser on desktop and mobile',
-        ],
-      },
-      features: {
-        title: 'Features',
-        list: [
-          'Enter an amount and GST rate',
-          'Toggle between include GST and exclude GST modes',
-          'Instant results with live recalculation',
-          'Clear final price card for quick scanning',
-          'Simple breakdown of GST and base amount',
-        ],
-      },
-      howToUse: {
-        title: 'How to Use the GST Calculator',
-        steps: [
-          'Enter the amount you want to work with',
-          'Choose the GST rate that applies',
-          'Select whether the amount already includes GST',
-          'View the GST amount, total amount, and original amount instantly',
-          'Use the reset button to start over with new values',
-        ],
-      },
-      faqs: [
-        {
-          question: 'What is the difference between include GST and exclude GST?',
-          answer: 'Exclude GST means the amount entered is before tax. Include GST means the amount entered already contains tax, and the calculator backs out the original amount.',
-        },
-        {
-          question: 'Can I use this as a reverse GST calculator?',
-          answer: 'Yes. When you switch to include GST mode, the calculator works as a reverse GST calculator and finds the original amount before tax.',
-        },
-        {
-          question: 'Is the GST calculator accurate for invoices?',
-          answer: 'Yes. It uses standard percentage formulas to calculate GST and total price, which makes it suitable for quick invoice estimates and pricing checks.',
-        },
-        {
-          question: 'Does the calculator work on mobile?',
-          answer: 'Yes, the layout is responsive and updates instantly on phones, tablets, and desktops.',
-        },
-      ],
-      schemaType: 'WebApplication',
-    },
       title: 'Features',
       list: [
         'Upload QR code image or use camera',
@@ -1941,6 +1880,67 @@ export const seoContent: Record<string, ToolSEO> = {
       {
         question: 'What if the QR code is damaged?',
         answer: 'QR codes have error correction. Minor damage can often be overcome, but severely damaged codes may not scan.',
+      },
+    ],
+    schemaType: 'WebApplication',
+  },
+  'gst-calculator': {
+    slug: 'gst-calculator',
+    title: 'Free GST Calculator Online - Add or Remove GST Instantly | Utilo',
+    metaDescription: 'Calculate GST amount, total amount including GST, and original amount excluding GST instantly. Switch between inclusive and exclusive GST modes for fast, accurate results.',
+    keywords: ['GST calculator', 'GST amount calculator', 'inclusive GST calculator', 'exclusive GST calculator', 'reverse GST calculator', 'GST rate calculator'],
+    h1: 'GST Calculator - Calculate GST Instantly',
+    whatIs: {
+      title: 'What is a GST Calculator?',
+      content: 'A GST calculator is an online tool that helps you quickly add or remove Goods and Services Tax from an amount. It calculates the GST amount, the final price including tax, and the original amount excluding tax so you can price products and invoices accurately.',
+    },
+    whyUse: {
+      title: 'Why Use Our GST Calculator?',
+      benefits: [
+        'Switch between GST-inclusive and GST-exclusive pricing',
+        'See GST amount and final total instantly',
+        'Reverse-calculate the original amount from a tax-inclusive price',
+        'Useful for billing, invoicing, and price planning',
+        'No sign-up or installation required',
+        'Works fully in your browser on desktop and mobile',
+      ],
+    },
+    features: {
+      title: 'Features',
+      list: [
+        'Enter an amount and GST rate',
+        'Toggle between include GST and exclude GST modes',
+        'Instant results with live recalculation',
+        'Clear final price card for quick scanning',
+        'Simple breakdown of GST and base amount',
+      ],
+    },
+    howToUse: {
+      title: 'How to Use the GST Calculator',
+      steps: [
+        'Enter the amount you want to work with',
+        'Choose the GST rate that applies',
+        'Select whether the amount already includes GST',
+        'View the GST amount, total amount, and original amount instantly',
+        'Use the reset button to start over with new values',
+      ],
+    },
+    faqs: [
+      {
+        question: 'What is the difference between include GST and exclude GST?',
+        answer: 'Exclude GST means the amount entered is before tax. Include GST means the amount entered already contains tax, and the calculator backs out the original amount.',
+      },
+      {
+        question: 'Can I use this as a reverse GST calculator?',
+        answer: 'Yes. When you switch to include GST mode, the calculator works as a reverse GST calculator and finds the original amount before tax.',
+      },
+      {
+        question: 'Is the GST calculator accurate for invoices?',
+        answer: 'Yes. It uses standard percentage formulas to calculate GST and total price, which makes it suitable for quick invoice estimates and pricing checks.',
+      },
+      {
+        question: 'Does the calculator work on mobile?',
+        answer: 'Yes, the layout is responsive and updates instantly on phones, tablets, and desktops.',
       },
     ],
     schemaType: 'WebApplication',
