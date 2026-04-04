@@ -15,24 +15,24 @@ export function SEOContentSection({ seoContent, toolName, slug }: SEOContentSect
       <div className="mt-16 space-y-12 max-w-4xl mx-auto">
         {/* What Is Section */}
         <section>
-          <h2 className="text-3xl font-bold mb-4 text-slate-900 dark:text-white">
+          <h2 className="text-3xl font-bold mb-4 text-slate-900">
             {seoContent.whatIs.title}
           </h2>
-          <p className="text-lg text-slate-700 dark:text-slate-300 leading-relaxed">
+          <p className="text-lg text-slate-700 leading-relaxed">
             {seoContent.whatIs.content}
           </p>
         </section>
 
         {/* Why Use Section */}
         <section>
-          <h2 className="text-3xl font-bold mb-4 text-slate-900 dark:text-white">
+          <h2 className="text-3xl font-bold mb-4 text-slate-900">
             {seoContent.whyUse.title}
           </h2>
           <ul className="space-y-3">
             {seoContent.whyUse.benefits.map((benefit, index) => (
               <li key={index} className="flex items-start gap-3">
-                <span className="text-indigo-600 dark:text-indigo-400 mt-1">✓</span>
-                <span className="text-slate-700 dark:text-slate-300">{benefit}</span>
+                <span className="text-indigo-600 mt-1">✓</span>
+                <span className="text-slate-700">{benefit}</span>
               </li>
             ))}
           </ul>
@@ -40,17 +40,17 @@ export function SEOContentSection({ seoContent, toolName, slug }: SEOContentSect
 
         {/* Features Section */}
         <section>
-          <h2 className="text-3xl font-bold mb-4 text-slate-900 dark:text-white">
+          <h2 className="text-3xl font-bold mb-4 text-slate-900">
             {seoContent.features.title}
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {seoContent.features.list.map((feature, index) => (
               <div
                 key={index}
-                className="flex items-center gap-2 p-3 bg-slate-50 dark:bg-slate-800 rounded-lg"
+                className="flex items-center gap-2 rounded-lg border border-slate-200 bg-white p-3"
               >
-                <span className="text-indigo-600 dark:text-indigo-400">•</span>
-                <span className="text-slate-700 dark:text-slate-300">{feature}</span>
+                <span className="text-indigo-600">•</span>
+                <span className="text-slate-700">{feature}</span>
               </div>
             ))}
           </div>
@@ -58,16 +58,16 @@ export function SEOContentSection({ seoContent, toolName, slug }: SEOContentSect
 
         {/* How to Use Section */}
         <section>
-          <h2 className="text-3xl font-bold mb-4 text-slate-900 dark:text-white">
+          <h2 className="text-3xl font-bold mb-4 text-slate-900">
             {seoContent.howToUse.title}
           </h2>
           <ol className="space-y-4">
             {seoContent.howToUse.steps.map((step, index) => (
               <li key={index} className="flex gap-4">
-                <span className="flex-shrink-0 w-8 h-8 rounded-full bg-indigo-600 dark:bg-indigo-500 text-white flex items-center justify-center font-bold">
+                <span className="flex-shrink-0 w-8 h-8 rounded-full bg-indigo-600 text-white flex items-center justify-center font-bold">
                   {index + 1}
                 </span>
-                <span className="text-slate-700 dark:text-slate-300 pt-1">{step}</span>
+                <span className="text-slate-700 pt-1">{step}</span>
               </li>
             ))}
           </ol>
@@ -75,16 +75,16 @@ export function SEOContentSection({ seoContent, toolName, slug }: SEOContentSect
 
         {/* FAQs Section */}
         <section>
-          <h2 className="text-3xl font-bold mb-6 text-slate-900 dark:text-white">
+          <h2 className="text-3xl font-bold mb-6 text-slate-900">
             Frequently Asked Questions
           </h2>
           <div className="space-y-6">
             {seoContent.faqs.map((faq, index) => (
-              <div key={index} className="border-b border-slate-200 dark:border-slate-700 pb-6 last:border-0">
-                <h3 className="text-xl font-semibold mb-2 text-slate-900 dark:text-white">
+              <div key={index} className="border-b border-slate-200 pb-6 last:border-0">
+                <h3 className="text-xl font-semibold mb-2 text-slate-900">
                   {faq.question}
                 </h3>
-                <p className="text-slate-700 dark:text-slate-300">
+                <p className="text-slate-700">
                   {faq.answer}
                 </p>
               </div>

@@ -5,9 +5,11 @@ import Link from 'next/link';
 import { ArrowLeft, BarChart3, Calculator, RotateCcw } from 'lucide-react';
 import { Header } from '@/app/components/header';
 import { Footer } from '@/app/components/footer';
+import { SEOContentSection } from '@/app/components/seo-content-section';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
+import { getSEOContent } from '@/lib/seo-content';
 
 type TenureMode = 'months' | 'years';
 
@@ -88,6 +90,7 @@ export default function EmiCalculatorPage() {
   const [tenureMode, setTenureMode] = useState<TenureMode>('years');
   const [tenureValue, setTenureValue] = useState(15);
   const [showChart, setShowChart] = useState(true);
+  const seoContent = getSEOContent('emi-calculator');
 
   const tenureMonths = useMemo(() => {
     const rawMonths = tenureMode === 'years' ? tenureValue * 12 : tenureValue;
@@ -367,6 +370,10 @@ export default function EmiCalculatorPage() {
               )}
             </div>
           </div>
+
+          {seoContent && (
+            <SEOContentSection seoContent={seoContent} toolName="EMI Calculator" slug="emi-calculator" />
+          )}
         </div>
       </main>
       <Footer />
