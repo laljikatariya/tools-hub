@@ -6,6 +6,14 @@
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#4F46E5",
+  "icons": [
+    {
+      "src": "/logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ],
   "orientation": "portrait-primary",
   "categories": ["productivity", "utilities", "development"],
   "shortcuts": [

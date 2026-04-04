@@ -50,7 +50,9 @@ export const metadata: Metadata = {
     },
   },
   icons: {
-    icon: '🧰',
+    icon: '/logo.svg',
+    shortcut: '/logo.svg',
+    apple: '/logo.svg',
   },
   alternates: {
     canonical: '/',
@@ -94,7 +96,7 @@ export default function RootLayout({
               '@type': 'Organization',
               name: 'Utilo',
               url: 'https://utilo.in',
-              logo: 'https://utilo.in/logo.png',
+              logo: 'https://utilo.in/logo.svg',
               description: 'Free online tools and utilities',
               sameAs: [
                 // Add your social media profiles

@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Menu, X } from 'lucide-react';
 
 export function Header() {
@@ -20,6 +21,7 @@ export function Header() {
       <div className="utilo-container">
         <div className="flex h-16 items-center justify-between gap-3">
           <Link href="/" className="flex min-w-[104px] items-center gap-2">
+            <Image src="/logo.svg" alt="Utilo logo" width={28} height={28} className="h-7 w-7 rounded-md" priority />
             <span className="truncate text-xl font-semibold text-[#0F172A]">Utilo</span>
           </Link>
 
