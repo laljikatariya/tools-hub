@@ -26,6 +26,7 @@ export interface Translations {
   colorTools: string;
   developerTools: string;
   securityTools: string;
+  calculatorsTools: string;
 
   // Category labels (shortened)
   text: string;
@@ -34,6 +35,7 @@ export interface Translations {
   color: string;
   developer: string;
   security: string;
+  calculators: string;
 
   // Sections
   trending: string;
@@ -100,12 +102,14 @@ export const translations: Translations = {
   colorTools: 'Color Tools',
   developerTools: 'Developer Tools',
   securityTools: 'Security Tools',
+  calculatorsTools: 'Calculators',
   text: 'Text',
   image: 'Image',
   pdf: 'PDF',
   color: 'Color',
   developer: 'Developer',
   security: 'Security',
+  calculators: 'Calculators',
   trending: 'Trending',
   trendingTools: 'Trending Tools',
   popularToolsUsage: 'Most popular tools based on usage and searches',
@@ -162,10 +166,14 @@ export const toolNameTranslations: Record<string, string> = {
   'image-to-base64': 'Image to Base64',
   'image-to-pdf': 'Image to PDF',
   'ip-lookup': 'IP Lookup',
+  'emi-calculator': 'EMI Calculator',
+  'age-calculator': 'Age Calculator',
+  'gst-calculator': 'GST Calculator',
   'json-formatter': 'JSON Formatter',
   'json-validator': 'JSON Validator',
   'lorem-ipsum': 'Lorem Ipsum',
   'merge-pdfs': 'Merge PDFs',
+  'meta-tag-generator': 'Meta Tag Generator',
   'password-generator': 'Password Generator',
   'pdf-to-text': 'PDF to Text',
   'qr-code-generator': 'QR Code Generator',

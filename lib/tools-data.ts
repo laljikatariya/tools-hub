@@ -3,7 +3,7 @@ import { getToolName } from './translations';
 export interface Tool {
   id: number;
   name: string;
-  category: 'text' | 'image' | 'pdf' | 'color' | 'developer' | 'security';
+  category: 'text' | 'image' | 'pdf' | 'color' | 'developer' | 'security' | 'calculators';
   icon: string;
   description: string;
   slug: string;
@@ -239,6 +239,15 @@ export const toolsData: Tool[] = [
     description: 'Validate JSON syntax and structure',
     slug: 'json-validator',
   },
+  {
+    id: 33,
+    name: 'Meta Tag Generator',
+    category: 'developer',
+    icon: '🏷️',
+    description: 'Generate SEO meta tags with live preview',
+    slug: 'meta-tag-generator',
+    trending: true,
+  },
 
   // Security & Utility Tools
   {
@@ -274,5 +283,29 @@ export const toolsData: Tool[] = [
     icon: '🌐',
     description: 'Get information about IP addresses',
     slug: 'ip-lookup',
+  },
+  {
+    id: 34,
+    name: 'EMI Calculator',
+    category: 'calculators',
+    icon: '🧮',
+    description: 'Calculate monthly EMI, interest, and total repayment instantly',
+    slug: 'emi-calculator',
+  },
+  {
+    id: 35,
+    name: 'Age Calculator',
+    category: 'calculators',
+    icon: '🎂',
+    description: 'Calculate age in years, months, days, and next birthday countdown',
+    slug: 'age-calculator',
+  },
+  {
+    id: 36,
+    name: 'GST Calculator',
+    category: 'calculators',
+    icon: '🧾',
+    description: 'Calculate GST amount, total price, and original amount instantly',
+    slug: 'gst-calculator',
   },
 ];

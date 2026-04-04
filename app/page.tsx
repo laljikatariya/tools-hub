@@ -16,6 +16,7 @@ const CATEGORY_META: Record<string, { title: string; icon: string; description: 
   color: { title: 'Color Tools', icon: '🎨', description: 'Pick, convert, and build color palettes quickly.' },
   developer: { title: 'Developer Tools', icon: '</>', description: 'Everyday utilities for coding workflows.' },
   security: { title: 'Security Tools', icon: '🔒', description: 'Generate secure outputs and protect your workflow.' },
+  calculators: { title: 'Calculators', icon: '🧮', description: 'Solve quick calculations and everyday formulas.' },
 };
 
 export default function Home() {
