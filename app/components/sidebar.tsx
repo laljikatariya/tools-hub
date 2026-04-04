@@ -3,22 +3,44 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { toolsData } from '@/lib/tools-data';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Menu, X, Home, TrendingUp, ChevronDown } from 'lucide-react';
 
-const categories = [
-  { id: 'text', label: 'Text Tools', icon: '📝' },
-  { id: 'image', label: 'Image Tools', icon: '🖼️' },
-  { id: 'pdf', label: 'PDF Tools', icon: '📄' },
-  { id: 'color', label: 'Color Tools', icon: '🎨' },
-  { id: 'developer', label: 'Developer Tools', icon: '💻' },
-  { id: 'security', label: 'Security Tools', icon: '🔒' },
-];
+const CATEGORY_META: Record<string, { label: string; icon: string }> = {
+  text: { label: 'Text Tools', icon: '📝' },
+  image: { label: 'Image Tools', icon: '🖼️' },
+  pdf: { label: 'PDF Tools', icon: '📄' },
+  color: { label: 'Color Tools', icon: '🎨' },
+  developer: { label: 'Developer Tools', icon: '💻' },
+  security: { label: 'Security Tools', icon: '🔒' },
+  calculators: { label: 'Calculators', icon: '🧮' },
+};
+
+function formatCategoryLabel(categoryId: string) {
+  return categoryId
+    .split('-')
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(' ');
+}
 
 export function Sidebar() {
   const pathname = usePathname();
   const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const categories = useMemo(() => {
+    const categoryIds = Array.from(new Set(toolsData.map((tool) => tool.category)));
+
+    return categoryIds.map((categoryId) => ({
+      id: categoryId,
+      ...(
+        CATEGORY_META[categoryId] || {
+          label: formatCategoryLabel(categoryId),
+          icon: '•',
+        }
+      ),
+    }));
+  }, []);
 
   const getToolsByCategory = (categoryId: string) => {
     return toolsData.filter(tool => tool.category === categoryId);
