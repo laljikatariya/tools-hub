@@ -1,7 +1,8 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
+import { ArrowLeft, Copy, Download } from 'lucide-react';
 import { Header } from '@/app/components/header';
 import { Footer } from '@/app/components/footer';
 import { Button } from '@/components/ui/button';
@@ -30,7 +31,27 @@ import {
   beautifyCode,
   testRegex,
 } from '@/lib/utils';
-import { ArrowLeft, Copy, Download } from 'lucide-react';
+
+type ToolOptions = {
+  removeExtraSpaces?: boolean;
+  removeLineBreaks?: boolean;
+  removeSpecialChars?: boolean;
+  trimLines?: boolean;
+  decode?: boolean;
+  caseType?: 'uppercase' | 'lowercase' | 'titlecase' | 'camelcase' | 'snakecase' | 'kebabcase';
+  minify?: boolean;
+  length?: number;
+  uppercase?: boolean;
+  lowercase?: boolean;
+  numbers?: boolean;
+  symbols?: boolean;
+  hashType?: 'sha256' | 'md5';
+  language?: string;
+  pattern?: string;
+  flags?: string;
+  testString?: string;
+  words?: number;
+};
 
 export default function ToolPageClient({ slug }: { slug: string }) {
   const tool = toolsData.find((t) => t.slug === slug);
@@ -38,15 +59,13 @@ export default function ToolPageClient({ slug }: { slug: string }) {
 
   const [input, setInput] = useState('');
   const [output, setOutput] = useState('');
-  const [options, setOptions] = useState<Record<string, any>>({});
+  const [options, setOptions] = useState<ToolOptions>({});
 
-  // Check if tool needs input box
   const needsInputBox = () => {
     const noInputTools = ['password-generator', 'uuid-generator', 'lorem-ipsum'];
     return !noInputTools.includes(slug);
   };
 
-  // Get button text based on tool
   const getButtonText = () => {
     const buttonTexts: Record<string, string> = {
       'text-cleaner': 'Clean Text',
@@ -69,12 +88,11 @@ export default function ToolPageClient({ slug }: { slug: string }) {
     return buttonTexts[slug] || 'Process';
   };
 
-  // Determine which buttons to show based on "How to Use" steps
   const shouldShowDownload = () => {
     const toolsWithDownload = [
       'image-compressor', 'image-resizer', 'image-cropper', 'image-to-pdf',
       'qr-code-generator', 'json-formatter', 'xml-formatter', 'code-beautifier',
-      'pdf-to-text', 'merge-pdfs', 'split-pdf', 'base64-to-image'
+      'pdf-to-text', 'merge-pdfs', 'split-pdf', 'base64-to-image',
     ];
     return toolsWithDownload.includes(slug);
   };
@@ -84,12 +102,21 @@ export default function ToolPageClient({ slug }: { slug: string }) {
       'text-cleaner', 'case-converter', 'word-counter', 'character-counter',
       'password-generator', 'uuid-generator', 'hash-generator', 'hex-to-rgb',
       'rgb-to-hex', 'lorem-ipsum', 'url-encoder', 'json-formatter', 'json-validator',
-      'xml-formatter', 'code-beautifier', 'regex-tester', 'image-to-base64', 'base64-to-image'
+      'xml-formatter', 'code-beautifier', 'regex-tester', 'image-to-base64', 'base64-to-image',
     ];
     return toolsWithCopy.includes(slug);
   };
 
-  // Track tool view when component mounts
+  const relatedTools = useMemo(() => {
+    if (!tool) {
+      return [];
+    }
+
+    return toolsData
+      .filter((item) => item.slug !== tool.slug && item.category === tool.category)
+      .slice(0, 6);
+  }, [tool]);
+
   useEffect(() => {
     if (tool) {
       trackToolView(tool.id, tool.slug);
@@ -100,14 +127,12 @@ export default function ToolPageClient({ slug }: { slug: string }) {
     return (
       <>
         <Header />
-        <div className="min-h-screen bg-gradient-to-b from-slate-50 dark:from-slate-900">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 text-center">
-            <h1 className="text-3xl font-bold mb-4">Tool Not Found</h1>
-            <p className="text-slate-600 dark:text-slate-400 mb-8">
-              The tool you're looking for doesn't exist.
-            </p>
+        <div className="min-h-screen bg-[#F8F9FB]">
+          <div className="utilo-container py-12 text-center">
+            <h1 className="mb-4 text-3xl font-semibold">Tool Not Found</h1>
+            <p className="mb-8 text-[#64748B]">The tool you are looking for does not exist.</p>
             <Link href="/">
-              <Button>← Back to Home</Button>
+              <Button>Back to Home</Button>
             </Link>
           </div>
         </div>
@@ -116,14 +141,13 @@ export default function ToolPageClient({ slug }: { slug: string }) {
   }
 
   const processInput = async () => {
-    setOutput(''); // Clear previous output
-    
+    setOutput('');
+
     try {
       let result = '';
 
-      // Validate input for tools that require it
       if (!input && !['password-generator', 'uuid-generator', 'lorem-ipsum'].includes(slug)) {
-        setOutput('⚠️ Please enter some text to process');
+        setOutput('Please enter some text to process');
         return;
       }
 
@@ -144,22 +168,15 @@ export default function ToolPageClient({ slug }: { slug: string }) {
           result = JSON.stringify(stats, null, 2);
           break;
         }
-        case 'character-counter': {
+        case 'character-counter':
           result = `Total: ${input.length}\nWithout spaces: ${input.replace(/\s/g, '').length}`;
           break;
-        }
         case 'json-formatter':
-          if (options.minify) {
-            result = minifyJSON(input);
-          } else {
-            result = beautifyJSON(input);
-          }
+          result = options.minify ? minifyJSON(input) : beautifyJSON(input);
           break;
         case 'json-validator': {
           const validation = validateJSON(input);
-          result = validation.valid
-            ? 'Valid JSON ✓'
-            : `Invalid JSON: ${validation.error}`;
+          result = validation.valid ? 'Valid JSON' : `Invalid JSON: ${validation.error}`;
           break;
         }
         case 'url-encoder':
@@ -178,12 +195,7 @@ export default function ToolPageClient({ slug }: { slug: string }) {
           result = generateUUID();
           break;
         case 'hash-generator':
-          if (options.hashType === 'md5') {
-            result = generateMD5(input);
-          } else {
-            // SHA256 is async now
-            result = await generateSHA256(input);
-          }
+          result = options.hashType === 'md5' ? generateMD5(input) : await generateSHA256(input);
           break;
         case 'hex-to-rgb': {
           const rgb = hexToRgb(input);
@@ -192,11 +204,9 @@ export default function ToolPageClient({ slug }: { slug: string }) {
         }
         case 'rgb-to-hex': {
           const parts = input.match(/\d+/g) || [];
-          if (parts.length === 3) {
-            result = rgbToHex(parseInt(parts[0]), parseInt(parts[1]), parseInt(parts[2]));
-          } else {
-            result = 'Invalid RGB format. Use: rgb(255, 0, 0)';
-          }
+          result = parts.length === 3
+            ? rgbToHex(parseInt(parts[0], 10), parseInt(parts[1], 10), parseInt(parts[2], 10))
+            : 'Invalid RGB format. Use: rgb(255, 0, 0)';
           break;
         }
         case 'lorem-ipsum':
@@ -211,29 +221,31 @@ export default function ToolPageClient({ slug }: { slug: string }) {
         case 'regex-tester': {
           const pattern = options.pattern || input;
           if (!pattern) {
-            result = '⚠️ Please enter a regex pattern';
+            result = 'Please enter a regex pattern';
             break;
           }
           const regexResult = testRegex(pattern, options.flags || 'g', options.testString || '');
-          if (regexResult.isValid) {
-            if (regexResult.matches && regexResult.matches.length > 0) {
-              let resultText = `Found ${regexResult.matchCount} match${regexResult.matchCount !== 1 ? 'es' : ''}:\n\n`;
-              regexResult.matches.forEach((m, i) => {
-                resultText += `Match ${i + 1}:\n`;
-                resultText += `  Text: "${m.match}"\n`;
-                resultText += `  Position: ${m.index}\n`;
-                if (m.groups && m.groups.length > 0) {
-                  resultText += `  Groups: ${JSON.stringify(m.groups)}\n`;
-                }
-                resultText += '\n';
-              });
-              result = resultText;
-            } else {
-              result = 'No matches found';
-            }
-          } else {
+          if (!regexResult.isValid) {
             result = `Error: ${regexResult.error}`;
+            break;
           }
+
+          if (!regexResult.matches || regexResult.matches.length === 0) {
+            result = 'No matches found';
+            break;
+          }
+
+          let resultText = `Found ${regexResult.matchCount} match${regexResult.matchCount !== 1 ? 'es' : ''}:\n\n`;
+          regexResult.matches.forEach((match, index) => {
+            resultText += `Match ${index + 1}:\n`;
+            resultText += `  Text: "${match.match}"\n`;
+            resultText += `  Position: ${match.index}\n`;
+            if (match.groups && match.groups.length > 0) {
+              resultText += `  Groups: ${JSON.stringify(match.groups)}\n`;
+            }
+            resultText += '\n';
+          });
+          result = resultText;
           break;
         }
         default:
@@ -255,8 +267,8 @@ export default function ToolPageClient({ slug }: { slug: string }) {
     try {
       const text = await navigator.clipboard.readText();
       setInput(text);
-    } catch (error) {
-      alert('Failed to paste from clipboard. Please make sure you have granted clipboard permissions.');
+    } catch {
+      alert('Failed to paste from clipboard. Please allow clipboard access and try again.');
     }
   };
 
@@ -264,7 +276,6 @@ export default function ToolPageClient({ slug }: { slug: string }) {
     const element = document.createElement('a');
     element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(output));
     element.setAttribute('download', `${tool.slug}-output.txt`);
-    element.style.display = 'none';
     document.body.appendChild(element);
     element.click();
     document.body.removeChild(element);
@@ -273,466 +284,253 @@ export default function ToolPageClient({ slug }: { slug: string }) {
   return (
     <>
       <Header />
-      <main className="min-h-screen bg-gradient-to-b from-slate-50 dark:from-slate-900 to-white dark:to-slate-950">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
-          {/* Back Button */}
-          <Link href="/" className="inline-flex items-center gap-2 text-indigo-600 hover:text-indigo-700 mb-6 sm:mb-8 touch-manipulation min-h-[40px]">
-            <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5" />
+      <main className="min-h-screen bg-[#F8F9FB]">
+        <div className="utilo-container py-6 sm:py-10">
+          <Link href="/" className="mb-6 inline-flex min-h-[40px] items-center gap-2 text-[#4F46E5] hover:text-[#4338CA] sm:mb-8">
+            <ArrowLeft className="h-4 w-4 sm:h-5 sm:w-5" />
             <span className="text-sm sm:text-base">Back to Tools</span>
           </Link>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
-            {/* Input Panel */}
-            <Card className="shadow-md">
-              <CardHeader className="pb-4">
-                <CardTitle className="flex items-center gap-2 sm:gap-3 text-xl sm:text-2xl">
-                  <span className="text-2xl sm:text-3xl">{tool.icon}</span>
-                  <span>{tool.name}</span>
-                </CardTitle>
-                <CardDescription className="text-sm sm:text-base">{tool.description}</CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                {/* Only show textarea for tools that need input */}
-                {needsInputBox() && (
-                  <textarea
-                    value={input}
-                    onChange={(e) => setInput(e.target.value)}
-                    placeholder={`Enter your ${tool.name.toLowerCase()}...`}
-                    className="w-full h-48 sm:h-64 p-3 text-sm sm:text-base border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none touch-manipulation"
-                  />
-                )}
+          <section className="utilo-card p-4 sm:p-6 lg:p-8">
+            <header className="mb-6 border-b border-[#E8EDF6] pb-5">
+              <h1 className="flex items-center gap-2 text-2xl font-semibold sm:gap-3 sm:text-3xl">
+                <span className="text-2xl sm:text-3xl">{tool.icon}</span>
+                <span>{tool.name}</span>
+              </h1>
+              <p className="mt-3 text-sm text-[#64748B] sm:text-base">{tool.description}</p>
+            </header>
 
-                {/* Tool-specific options */}
-                {['text-cleaner', 'case-converter', 'json-formatter', 'password-generator', 'hash-generator', 'code-beautifier', 'regex-tester', 'lorem-ipsum', 'url-encoder'].includes(slug) && (
-                  <div className="space-y-3 p-3 sm:p-4 bg-slate-50 dark:bg-slate-800 rounded-lg text-sm sm:text-base">
-                    {slug === 'text-cleaner' && (
-                          <>
-                            <div className="text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-                              Cleaning Options:
-                            </div>
-                        <label className="flex items-center gap-2 min-h-[40px] touch-manipulation cursor-pointer">
-                          <input
-                            type="checkbox"
-                            checked={options.removeExtraSpaces !== false}
-                            onChange={(e) => setOptions({ ...options, removeExtraSpaces: e.target.checked })}
-                            className="w-5 h-5 sm:w-4 sm:h-4"
-                          />
-                          <span className="text-sm">Remove extra spaces</span>
-                        </label>
-                        <label className="flex items-center gap-2 min-h-[40px] touch-manipulation cursor-pointer">
-                          <input
-                            type="checkbox"
-                            checked={options.removeLineBreaks !== false}
-                            onChange={(e) => setOptions({ ...options, removeLineBreaks: e.target.checked })}
-                            className="w-5 h-5 sm:w-4 sm:h-4"
-                          />
-                          <span className="text-sm">Remove extra line breaks</span>
-                        </label>
-                        <label className="flex items-center gap-2 min-h-[40px] touch-manipulation cursor-pointer">
-                          <input
-                            type="checkbox"
-                            checked={options.trimLines !== false}
-                            onChange={(e) => setOptions({ ...options, trimLines: e.target.checked })}
-                            className="w-5 h-5 sm:w-4 sm:h-4"
-                          />
-                          <span className="text-sm">Trim line edges</span>
-                        </label>
-                        <label className="flex items-center gap-2 min-h-[40px] touch-manipulation cursor-pointer">
-                          <input
-                            type="checkbox"
-                            checked={options.removeSpecialChars === true}
-                            onChange={(e) => setOptions({ ...options, removeSpecialChars: e.target.checked })}
-                            className="w-5 h-5 sm:w-4 sm:h-4"
-                          />
-                          <span className="text-sm">Remove special characters</span>
-                        </label>
-                      </>
+            <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+              <Card className="shadow-none">
+                <CardHeader>
+                  <CardTitle>Input</CardTitle>
+                  <CardDescription>Provide text, data, or settings for this tool.</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  {needsInputBox() && (
+                    <textarea
+                      value={input}
+                      onChange={(e) => setInput(e.target.value)}
+                      placeholder={`Enter your ${tool.name.toLowerCase()}...`}
+                      className="h-48 w-full resize-none rounded-xl border border-[#DBE3EF] bg-white p-3 text-sm text-[#0F172A] outline-none focus:ring-2 focus:ring-[#4F46E5] sm:h-64 sm:text-base"
+                    />
+                  )}
+
+                  <div className="space-y-3 rounded-xl border border-[#E2E8F4] bg-[#F7FAFF] p-3 text-sm sm:p-4">
+                    {slug === 'case-converter' && (
+                      <select
+                        value={options.caseType || 'lowercase'}
+                        onChange={(e) => setOptions({ ...options, caseType: e.target.value as ToolOptions['caseType'] })}
+                        className="w-full rounded-xl border border-[#DBE3EF] bg-white p-2.5"
+                      >
+                        <option value="uppercase">UPPERCASE</option>
+                        <option value="lowercase">lowercase</option>
+                        <option value="titlecase">Title Case</option>
+                        <option value="camelcase">camelCase</option>
+                        <option value="snakecase">snake_case</option>
+                        <option value="kebabcase">kebab-case</option>
+                      </select>
+                    )}
+
+                    {slug === 'json-formatter' && (
+                      <label className="flex items-center gap-2">
+                        <input
+                          type="checkbox"
+                          checked={options.minify || false}
+                          onChange={(e) => setOptions({ ...options, minify: e.target.checked })}
+                        />
+                        <span>Minify JSON</span>
+                      </label>
                     )}
 
                     {slug === 'url-encoder' && (
                       <div className="space-y-2">
-                        <div className="text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-                          Choose Operation:
-                        </div>
-                        <label className="flex items-center gap-2 min-h-[40px] touch-manipulation cursor-pointer">
+                        <label className="flex items-center gap-2">
                           <input
                             type="radio"
                             name="encodeMode"
                             checked={!options.decode}
                             onChange={() => setOptions({ ...options, decode: false })}
-                            className="w-5 h-5 sm:w-4 sm:h-4"
                           />
-                          <span className="text-sm">Encode URL</span>
+                          <span>Encode URL</span>
                         </label>
-                        <label className="flex items-center gap-2 min-h-[40px] touch-manipulation cursor-pointer">
+                        <label className="flex items-center gap-2">
                           <input
                             type="radio"
                             name="encodeMode"
                             checked={options.decode === true}
                             onChange={() => setOptions({ ...options, decode: true })}
-                            className="w-5 h-5 sm:w-4 sm:h-4"
                           />
-                          <span className="text-sm">Decode URL</span>
+                          <span>Decode URL</span>
                         </label>
                       </div>
                     )}
 
-                    {slug === 'case-converter' && (
-                      <>
-                        <div className="text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-                          Choose Case Format:
-                        </div>
-                        <select
-                          value={options.caseType || 'lowercase'}
-                          onChange={(e) => setOptions({ ...options, caseType: e.target.value })}
-                          className="w-full p-2.5 sm:p-2 text-sm sm:text-base border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-900 min-h-[44px] touch-manipulation"
-                        >
-                          <option value="uppercase">UPPERCASE</option>
-                          <option value="lowercase">lowercase</option>
-                          <option value="titlecase">Title Case</option>
-                          <option value="camelcase">camelCase</option>
-                          <option value="snakecase">snake_case</option>
-                          <option value="kebabcase">kebab-case</option>
-                        </select>
-                      </>
-                    )}
-
-                    {slug === 'json-formatter' && (
-                      <>
-                        <div className="text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-                          Format Options:
-                        </div>
-                        <label className="flex items-center gap-2 min-h-[40px] touch-manipulation cursor-pointer">
-                          <input
-                            type="checkbox"
-                            checked={options.minify || false}
-                            onChange={(e) => setOptions({ ...options, minify: e.target.checked })}
-                            className="w-5 h-5 sm:w-4 sm:h-4"
-                          />
-                          <span className="text-sm">Minify JSON (compress)</span>
-                        </label>
-                      </>
-                    )}
-
-                    {slug === 'password-generator' && (
-                      <>
-                        <div className="text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-                          Password Settings:
-                        </div>
-                        <div>
-                          <label className="text-sm text-slate-600 dark:text-slate-400">Password Length: {options.length || 16}</label>
-                          <input
-                            type="range"
-                            min="8"
-                            max="128"
-                            value={options.length || 16}
-                            onChange={(e) => setOptions({ ...options, length: parseInt(e.target.value) })}
-                            className="w-full h-8 touch-manipulation"
-                          />
-                        </div>
-                        <div className="text-sm font-medium text-slate-700 dark:text-slate-300 mt-2 mb-1">
-                          Character Types:
-                        </div>
-                        <label className="flex items-center gap-2 min-h-[40px] touch-manipulation cursor-pointer">
-                          <input
-                            type="checkbox"
-                            checked={options.uppercase !== false}
-                            onChange={(e) => setOptions({ ...options, uppercase: e.target.checked })}
-                            className="w-5 h-5 sm:w-4 sm:h-4"
-                          />
-                          <span className="text-sm">Uppercase (A-Z)</span>
-                        </label>
-                        <label className="flex items-center gap-2 min-h-[40px] touch-manipulation cursor-pointer">
-                          <input
-                            type="checkbox"
-                            checked={options.lowercase !== false}
-                            onChange={(e) => setOptions({ ...options, lowercase: e.target.checked })}
-                            className="w-5 h-5 sm:w-4 sm:h-4"
-                          />
-                          <span className="text-sm">Lowercase (a-z)</span>
-                        </label>
-                        <label className="flex items-center gap-2 min-h-[40px] touch-manipulation cursor-pointer">
-                          <input
-                            type="checkbox"
-                            checked={options.numbers !== false}
-                            onChange={(e) => setOptions({ ...options, numbers: e.target.checked })}
-                            className="w-5 h-5 sm:w-4 sm:h-4"
-                          />
-                          <span className="text-sm">Numbers (0-9)</span>
-                        </label>
-                        <label className="flex items-center gap-2 min-h-[40px] touch-manipulation cursor-pointer">
-                          <input
-                            type="checkbox"
-                            checked={options.symbols !== false}
-                            onChange={(e) => setOptions({ ...options, symbols: e.target.checked })}
-                            className="w-5 h-5 sm:w-4 sm:h-4"
-                          />
-                          <span className="text-sm">Symbols (!@#$)</span>
-                        </label>
-                      </>
-                    )}
-
                     {slug === 'hash-generator' && (
-                      <>
-                        <div className="text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-                          Select Hash Algorithm:
-                        </div>
-                        <select
-                          value={options.hashType || 'sha256'}
-                          onChange={(e) => setOptions({ ...options, hashType: e.target.value })}
-                          className="w-full p-2.5 sm:p-2 text-sm sm:text-base border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-900 min-h-[44px] touch-manipulation"
-                        >
-                          <option value="sha256">SHA256</option>
-                          <option value="md5">MD5</option>
-                        </select>
-                      </>
+                      <select
+                        value={options.hashType || 'sha256'}
+                        onChange={(e) => setOptions({ ...options, hashType: e.target.value as ToolOptions['hashType'] })}
+                        className="w-full rounded-xl border border-[#DBE3EF] bg-white p-2.5"
+                      >
+                        <option value="sha256">SHA256</option>
+                        <option value="md5">MD5</option>
+                      </select>
                     )}
 
                     {slug === 'code-beautifier' && (
-                      <>
-                        <div className="text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-                          Select Programming Language:
-                        </div>
-                        <select
-                          value={options.language || 'javascript'}
-                          onChange={(e) => setOptions({ ...options, language: e.target.value })}
-                          className="w-full p-2.5 sm:p-2 text-sm sm:text-base border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-900 min-h-[44px] touch-manipulation"
-                        >
-                          <option value="javascript">JavaScript</option>
-                          <option value="json">JSON</option>
-                          <option value="xml">XML</option>
-                          <option value="css">CSS</option>
-                          <option value="html">HTML</option>
-                        </select>
-                      </>
+                      <select
+                        value={options.language || 'javascript'}
+                        onChange={(e) => setOptions({ ...options, language: e.target.value })}
+                        className="w-full rounded-xl border border-[#DBE3EF] bg-white p-2.5"
+                      >
+                        <option value="javascript">JavaScript</option>
+                        <option value="json">JSON</option>
+                        <option value="xml">XML</option>
+                        <option value="css">CSS</option>
+                        <option value="html">HTML</option>
+                      </select>
                     )}
 
                     {slug === 'regex-tester' && (
-                      <>
-                        <div className="text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-                          Regex Pattern:
-                        </div>
+                      <div className="space-y-3">
                         <Input
-                          placeholder="Enter your regex pattern (e.g., \\d+)"
+                          placeholder="Enter regex pattern"
                           value={options.pattern || ''}
                           onChange={(e) => setOptions({ ...options, pattern: e.target.value })}
-                          className="mb-3 min-h-[44px] text-sm sm:text-base"
                         />
-                        <div className="text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-                          Flags:
-                        </div>
-                        <div className="flex flex-wrap gap-2 mb-3">
-                          <label className="flex items-center gap-1.5 min-h-[40px] touch-manipulation cursor-pointer">
-                            <input
-                              type="checkbox"
-                              checked={options.flags?.includes('g') ?? true}
-                              onChange={(e) => {
-                                const flags = options.flags || 'g';
-                                setOptions({
-                                  ...options,
-                                  flags: e.target.checked
-                                    ? flags.includes('g') ? flags : flags + 'g'
-                                    : flags.replace('g', '')
-                                });
-                              }}
-                              className="w-5 h-5 sm:w-4 sm:h-4"
-                            />
-                            <span className="text-xs sm:text-xs">g (global)</span>
-                          </label>
-                          <label className="flex items-center gap-1.5 min-h-[40px] touch-manipulation cursor-pointer">
-                            <input
-                              type="checkbox"
-                              checked={options.flags?.includes('i') ?? false}
-                              onChange={(e) => {
-                                const flags = options.flags || 'g';
-                                setOptions({
-                                  ...options,
-                                  flags: e.target.checked
-                                    ? flags.includes('i') ? flags : flags + 'i'
-                                    : flags.replace('i', '')
-                                });
-                              }}
-                              className="w-5 h-5 sm:w-4 sm:h-4"
-                            />
-                            <span className="text-xs sm:text-xs">i (case insensitive)</span>
-                          </label>
-                          <label className="flex items-center gap-1.5 min-h-[40px] touch-manipulation cursor-pointer">
-                            <input
-                              type="checkbox"
-                              checked={options.flags?.includes('m') ?? false}
-                              onChange={(e) => {
-                                const flags = options.flags || 'g';
-                                setOptions({
-                                  ...options,
-                                  flags: e.target.checked
-                                    ? flags.includes('m') ? flags : flags + 'm'
-                                    : flags.replace('m', '')
-                                });
-                              }}
-                              className="w-5 h-5 sm:w-4 sm:h-4"
-                            />
-                            <span className="text-xs sm:text-xs">m (multiline)</span>
-                          </label>
-                        </div>
-                        <div className="text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-                          Test String:
-                        </div>
+                        <Input
+                          placeholder="Flags (example: gi)"
+                          value={options.flags || 'g'}
+                          onChange={(e) => setOptions({ ...options, flags: e.target.value })}
+                        />
                         <textarea
-                          placeholder="Enter text to test against your regex pattern"
+                          placeholder="Test string"
                           value={options.testString || ''}
                           onChange={(e) => setOptions({ ...options, testString: e.target.value })}
-                          className="w-full h-20 sm:h-24 p-2 text-sm sm:text-base border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-900 touch-manipulation"
+                          className="h-24 w-full rounded-xl border border-[#DBE3EF] bg-white p-2.5"
                         />
-                      </>
+                      </div>
+                    )}
+
+                    {slug === 'password-generator' && (
+                      <div className="space-y-3">
+                        <label className="block text-sm text-[#475569]">Password Length: {options.length || 16}</label>
+                        <input
+                          type="range"
+                          min="8"
+                          max="128"
+                          value={options.length || 16}
+                          onChange={(e) => setOptions({ ...options, length: parseInt(e.target.value, 10) })}
+                          className="w-full"
+                        />
+                      </div>
                     )}
 
                     {slug === 'lorem-ipsum' && (
-                      <>
-                        <div className="text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-                          Text Length:
-                        </div>
-                        <div>
-                          <label className="text-sm text-slate-600 dark:text-slate-400">Number of words: {options.words || 50}</label>
-                          <input
-                            type="range"
-                            min="10"
-                            max="500"
-                            value={options.words || 50}
-                            onChange={(e) => setOptions({ ...options, words: parseInt(e.target.value) })}
-                            className="w-full h-8 touch-manipulation"
-                          />
-                        </div>
-                      </>
+                      <div className="space-y-3">
+                        <label className="block text-sm text-[#475569]">Words: {options.words || 50}</label>
+                        <input
+                          type="range"
+                          min="10"
+                          max="500"
+                          value={options.words || 50}
+                          onChange={(e) => setOptions({ ...options, words: parseInt(e.target.value, 10) })}
+                          className="w-full"
+                        />
+                      </div>
                     )}
                   </div>
-                )}
 
-                <div className="flex flex-col sm:flex-row gap-2">
-                  {needsInputBox() && (
-                    <>
-                      <Button onClick={handlePaste} variant="secondary" className="flex-1 min-h-[44px] touch-manipulation text-sm sm:text-base">
-                        Paste
+                  <div className="flex flex-col gap-2 sm:flex-row">
+                    {needsInputBox() && (
+                      <>
+                        <Button onClick={handlePaste} variant="secondary" className="flex-1">Paste</Button>
+                        <Button onClick={() => setInput('')} variant="secondary" className="flex-1">Clear</Button>
+                      </>
+                    )}
+                    <Button onClick={processInput} className="flex-1">{getButtonText()}</Button>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card className="shadow-none">
+                <CardHeader>
+                  <CardTitle>Output</CardTitle>
+                  <CardDescription>Processed result appears here.</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <textarea
+                    value={output}
+                    readOnly
+                    placeholder="Output will appear here..."
+                    className="h-48 w-full resize-none rounded-xl border border-[#DBE3EF] bg-[#F8FAFE] p-3 text-sm text-[#0F172A] sm:h-64 sm:text-base"
+                  />
+                  <div className="flex flex-col gap-2 sm:flex-row">
+                    {shouldShowCopy() && (
+                      <Button onClick={handleCopy} variant="secondary" className="flex-1">
+                        <Copy className="mr-2 h-4 w-4" />
+                        Copy
                       </Button>
-                      <Button onClick={() => setInput('')} variant="secondary" className="flex-1 min-h-[44px] touch-manipulation text-sm sm:text-base">
-                        Clear
+                    )}
+                    {shouldShowDownload() && (
+                      <Button onClick={handleDownload} className="flex-1">
+                        <Download className="mr-2 h-4 w-4" />
+                        Download
                       </Button>
-                    </>
-                  )}
-                  <Button onClick={processInput} className="flex-1 min-h-[44px] touch-manipulation text-sm sm:text-base">
-                    {getButtonText()}
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
+                    )}
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </section>
 
-            {/* Output Panel */}
-            <Card className="shadow-md">
-              <CardHeader className="pb-4">
-                <CardTitle className="text-xl sm:text-2xl">Output</CardTitle>
-                <CardDescription className="text-sm sm:text-base">Results will appear here</CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <textarea
-                  value={output}
-                  readOnly
-                  placeholder="Output will appear here..."
-                  className="w-full h-48 sm:h-64 p-3 text-sm sm:text-base border border-slate-300 dark:border-slate-600 rounded-lg bg-slate-50 dark:bg-slate-800 focus:outline-none resize-none touch-manipulation"
-                />
-                <div className="flex flex-col sm:flex-row gap-2">
-                  {shouldShowCopy() && (
-                    <Button onClick={handleCopy} variant="secondary" className="flex-1 min-h-[44px] touch-manipulation text-sm sm:text-base">
-                      <Copy className="w-4 h-4 mr-2" />
-                      Copy
-                    </Button>
-                  )}
-                  {shouldShowDownload() && (
-                    <Button onClick={handleDownload} className="flex-1 min-h-[44px] touch-manipulation text-sm sm:text-base">
-                      <Download className="w-4 h-4 mr-2" />
-                      Download
-                    </Button>
-                  )}
-                </div>
-              </CardContent>
-            </Card>
-          </div>
+          {relatedTools.length > 0 && (
+            <section className="mt-10">
+              <div className="mb-5">
+                <h2 className="text-2xl sm:text-3xl">Related Tools</h2>
+                <p className="mt-2 text-sm text-[#64748B] sm:text-base">More tools in the same category.</p>
+              </div>
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                {relatedTools.map((item) => (
+                  <Link key={item.id} href={`/tools/${item.slug}`} className="block h-full">
+                    <article className="utilo-card utilo-card-hover h-full p-5">
+                      <div className="mb-3 text-3xl">{item.icon}</div>
+                      <h3 className="text-base font-semibold text-[#0F172A] sm:text-lg">{item.name}</h3>
+                      <p className="mt-2 line-clamp-2 text-sm text-[#64748B]">{item.description}</p>
+                      <span className="mt-4 inline-flex text-sm font-semibold text-[#4F46E5]">Open Tool</span>
+                    </article>
+                  </Link>
+                ))}
+              </div>
+            </section>
+          )}
 
-          {/* SEO Content Sections */}
           {seoContent && (
-            <div className="mt-12 sm:mt-16 space-y-8 sm:space-y-12 max-w-4xl mx-auto">
-              {/* What Is Section */}
+            <div className="mx-auto mt-12 max-w-4xl space-y-8 sm:space-y-10">
               <section>
-                <h2 className="text-2xl sm:text-3xl font-bold mb-3 sm:mb-4 text-slate-900 dark:text-white">
-                  {seoContent.whatIs.title}
-                </h2>
-                <p className="text-base sm:text-lg text-slate-700 dark:text-slate-300 leading-relaxed">
-                  {seoContent.whatIs.content}
-                </p>
+                <h2 className="mb-3 text-2xl font-semibold text-[#0F172A] sm:text-3xl">{seoContent.whatIs.title}</h2>
+                <p className="text-base leading-relaxed text-[#475569] sm:text-lg">{seoContent.whatIs.content}</p>
               </section>
 
-              {/* Why Use Section */}
               <section>
-                <h2 className="text-2xl sm:text-3xl font-bold mb-3 sm:mb-4 text-slate-900 dark:text-white">
-                  {seoContent.whyUse.title}
-                </h2>
-                <ul className="space-y-2 sm:space-y-3">
+                <h2 className="mb-3 text-2xl font-semibold text-[#0F172A] sm:text-3xl">{seoContent.whyUse.title}</h2>
+                <ul className="space-y-2">
                   {seoContent.whyUse.benefits.map((benefit, index) => (
-                    <li key={index} className="flex items-start gap-2 sm:gap-3">
-                      <span className="text-indigo-600 dark:text-indigo-400 mt-1 text-base sm:text-lg">✓</span>
-                      <span className="text-sm sm:text-base text-slate-700 dark:text-slate-300">{benefit}</span>
+                    <li key={index} className="flex items-start gap-2 text-[#475569]">
+                      <span className="mt-1 text-[#4F46E5]">•</span>
+                      <span>{benefit}</span>
                     </li>
                   ))}
                 </ul>
               </section>
 
-              {/* Features Section */}
               <section>
-                <h2 className="text-2xl sm:text-3xl font-bold mb-3 sm:mb-4 text-slate-900 dark:text-white">
-                  {seoContent.features.title}
-                </h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-                  {seoContent.features.list.map((feature, index) => (
-                    <div
-                      key={index}
-                      className="flex items-center gap-2 p-3 bg-slate-50 dark:bg-slate-800 rounded-lg"
-                    >
-                      <span className="text-indigo-600 dark:text-indigo-400">•</span>
-                      <span className="text-sm sm:text-base text-slate-700 dark:text-slate-300">{feature}</span>
-                    </div>
-                  ))}
-                </div>
-              </section>
-
-              {/* How to Use Section */}
-              <section>
-                <h2 className="text-2xl sm:text-3xl font-bold mb-3 sm:mb-4 text-slate-900 dark:text-white">
-                  {seoContent.howToUse.title}
-                </h2>
-                <ol className="space-y-3 sm:space-y-4">
-                  {seoContent.howToUse.steps.map((step, index) => (
-                    <li key={index} className="flex gap-3 sm:gap-4">
-                      <span className="flex-shrink-0 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-indigo-600 dark:bg-indigo-500 text-white flex items-center justify-center font-bold text-sm sm:text-base">
-                        {index + 1}
-                      </span>
-                      <span className="text-sm sm:text-base text-slate-700 dark:text-slate-300 pt-1">{step}</span>
-                    </li>
-                  ))}
-                </ol>
-              </section>
-
-              {/* FAQs Section */}
-              <section>
-                <h2 className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-6 text-slate-900 dark:text-white">
-                  Frequently Asked Questions
-                </h2>
-                <div className="space-y-4 sm:space-y-6">
+                <h2 className="mb-3 text-2xl font-semibold text-[#0F172A] sm:text-3xl">Frequently Asked Questions</h2>
+                <div className="space-y-5">
                   {seoContent.faqs.map((faq, index) => (
-                    <div key={index} className="border-b border-slate-200 dark:border-slate-700 pb-4 sm:pb-6 last:border-0">
-                      <h3 className="text-lg sm:text-xl font-semibold mb-2 text-slate-900 dark:text-white">
-                        {faq.question}
-                      </h3>
-                      <p className="text-sm sm:text-base text-slate-700 dark:text-slate-300">
-                        {faq.answer}
-                      </p>
+                    <div key={index} className="border-b border-[#E2E8F4] pb-4 last:border-0">
+                      <h3 className="mb-2 text-lg font-semibold text-[#0F172A]">{faq.question}</h3>
+                      <p className="text-sm text-[#475569] sm:text-base">{faq.answer}</p>
                     </div>
                   ))}
                 </div>
@@ -741,7 +539,6 @@ export default function ToolPageClient({ slug }: { slug: string }) {
           )}
         </div>
 
-        {/* Schema.org JSON-LD Structured Data */}
         {seoContent && (
           <script
             type="application/ld+json"
@@ -749,8 +546,8 @@ export default function ToolPageClient({ slug }: { slug: string }) {
               __html: JSON.stringify({
                 '@context': 'https://schema.org',
                 '@type': seoContent.schemaType,
-                name: tool?.name,
-                description: tool?.description,
+                name: tool.name,
+                description: tool.description,
                 url: `https://utilo.in/tools/${slug}`,
                 applicationCategory: 'UtilityApplication',
                 operatingSystem: 'Any',

@@ -3,14 +3,14 @@
 import * as React from 'react';
 import { cn } from '@/lib/cn';
 
-interface CardProps extends React.HTMLAttributes<HTMLDivElement> {}
+type CardProps = React.HTMLAttributes<HTMLDivElement>;
 
 const Card = React.forwardRef<HTMLDivElement, CardProps>(
   ({ className, ...props }, ref) => (
     <div
       ref={ref}
       className={cn(
-        'rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm',
+        'rounded-xl border border-[#DBE3EF] bg-white shadow-[0_8px_30px_rgba(15,23,42,0.06)]',
         className
       )}
       {...props}
@@ -32,11 +32,11 @@ const CardHeader = React.forwardRef<HTMLDivElement, CardProps>(
 
 CardHeader.displayName = 'CardHeader';
 
-const CardTitle = React.forwardRef<HTMLParagraphElement, React.HTMLAttributes<HTMLHeadingElement>>(
+const CardTitle = React.forwardRef<HTMLHeadingElement, React.HTMLAttributes<HTMLHeadingElement>>(
   ({ className, ...props }, ref) => (
     <h2
-      ref={ref as any}
-      className={cn('text-xl sm:text-2xl font-semibold leading-none tracking-tight', className)}
+      ref={ref}
+      className={cn('text-xl sm:text-2xl font-semibold leading-tight tracking-tight text-[#0F172A]', className)}
       {...props}
     />
   )
@@ -48,7 +48,7 @@ const CardDescription = React.forwardRef<HTMLParagraphElement, React.HTMLAttribu
   ({ className, ...props }, ref) => (
     <p
       ref={ref}
-      className={cn('text-xs sm:text-sm text-slate-500 dark:text-slate-400', className)}
+      className={cn('text-xs sm:text-sm text-[#64748B]', className)}
       {...props}
     />
   )

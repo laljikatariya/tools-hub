@@ -1,71 +1,87 @@
 'use client';
 
+import { useMemo, useState } from 'react';
 import Link from 'next/link';
-import { ThemeToggle } from './theme-toggle';
-// import { LanguageSelector } from './language-selector';
-import { FeedbackModal } from './feedback-modal';
-import { Button } from '@/components/ui/button';
-import { useState } from 'react';
-import { MessageSquare } from 'lucide-react';
-import { useLanguage } from '@/app/contexts/language-context';
+import { useRouter } from 'next/navigation';
+import { ChevronDown, Search } from 'lucide-react';
+import { toolsData } from '@/lib/tools-data';
 
 export function Header() {
-  const [isFeedbackOpen, setIsFeedbackOpen] = useState(false);
-  const { t } = useLanguage();
+  const [query, setQuery] = useState('');
+  const [category, setCategory] = useState('all');
+  const router = useRouter();
+
+  const categories = useMemo(() => {
+    const unique = Array.from(new Set(toolsData.map((tool) => tool.category)));
+    return unique.sort();
+  }, []);
+
+  const handleSearch = () => {
+    const trimmed = query.trim();
+    if (!trimmed) {
+      router.push('/');
+      return;
+    }
+    router.push(`/?search=${encodeURIComponent(trimmed)}`);
+  };
+
+  const handleCategoryChange = (value: string) => {
+    setCategory(value);
+    if (value === 'all') {
+      router.push('/');
+      return;
+    }
+    router.push(`/?category=${encodeURIComponent(value)}`);
+  };
 
   return (
-    <header className="sticky top-0 z-50 border-b border-[#E5E7EB] dark:border-[#1E293B] bg-white/95 dark:bg-[#0F172A]/95 backdrop-blur-md">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-14 sm:h-16">
-          {/* Logo - Left */}
-          <Link href="/" className="flex items-center gap-2 group min-w-0 flex-shrink">
-            <span className="text-xl sm:text-2xl group-hover:scale-110 transition-transform duration-200">🧰</span>
-            <span className="text-lg sm:text-xl font-bold text-[#111827] dark:text-[#F9FAFB] truncate">Utilo</span>
+    <header className="sticky top-0 z-50 border-b border-[#DBE3EF] bg-white/95 backdrop-blur">
+      <div className="utilo-container">
+        <div className="flex h-16 items-center gap-3 sm:gap-4">
+          <Link href="/" className="flex min-w-[104px] items-center gap-2">
+            <span className="text-xl">▣</span>
+            <span className="truncate text-xl font-semibold text-[#0F172A]">Utilo</span>
           </Link>
 
-          {/* Navigation - Center */}
-          <nav className="hidden md:flex items-center gap-6">
-            <Link
-              href="/blog"
-              className="text-sm font-medium text-[#6B7280] dark:text-[#9CA3AF] hover:text-[#111827] dark:hover:text-[#F9FAFB] transition-colors"
-            >
-              Blog
-            </Link>
-            <Link
-              href="/about"
-              className="text-sm font-medium text-[#6B7280] dark:text-[#9CA3AF] hover:text-[#111827] dark:hover:text-[#F9FAFB] transition-colors"
-            >
-              About Us
-            </Link>
-          </nav>
+          <div className="relative hidden flex-1 md:block">
+            <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#64748B]" />
+            <input
+              type="text"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+              placeholder="Search tools..."
+              className="utilo-input pl-10"
+            />
+          </div>
 
-          {/* Right Actions */}
-          <div className="flex items-center gap-1.5 sm:gap-2 md:gap-3">
-            <Button
-              onClick={() => setIsFeedbackOpen(true)}
-              variant="outline"
-              size="sm"
-              className="hidden md:inline-flex items-center gap-2 border-indigo-200 dark:border-indigo-800 hover:bg-indigo-50 dark:hover:bg-indigo-950 text-indigo-600 dark:text-indigo-400 min-h-[40px]"
+          <div className="ml-auto flex items-center gap-2">
+            <div className="relative hidden sm:block">
+              <select
+                value={category}
+                onChange={(e) => handleCategoryChange(e.target.value)}
+                className="h-11 min-w-[150px] appearance-none rounded-xl border border-[#DBE3EF] bg-white px-3 pr-8 text-sm font-medium text-[#334155] outline-none transition-colors focus:ring-2 focus:ring-[#4F46E5]"
+                aria-label="Select category"
+              >
+                <option value="all">Categories</option>
+                {categories.map((item) => (
+                  <option key={item} value={item}>
+                    {item.charAt(0).toUpperCase() + item.slice(1)}
+                  </option>
+                ))}
+              </select>
+              <ChevronDown className="pointer-events-none absolute right-2 top-1/2 h-4 w-4 -translate-y-1/2 text-[#64748B]" />
+            </div>
+
+            <Link
+              href="/#all-tools"
+              className="inline-flex h-11 items-center rounded-xl border border-[#C7D2E5] bg-white px-4 text-sm font-semibold text-[#334155] transition-colors hover:bg-[#F3F6FC]"
             >
-              <MessageSquare className="w-4 h-4" />
-              <span className="hidden lg:inline">{t.feedback}</span>
-            </Button>
-            <Button
-              onClick={() => setIsFeedbackOpen(true)}
-              variant="outline"
-              size="sm"
-              className="md:hidden p-2 min-w-[40px] min-h-[40px] border-indigo-200 dark:border-indigo-800 hover:bg-indigo-50 dark:hover:bg-indigo-950"
-              aria-label="Feedback"
-            >
-              <MessageSquare className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
-            </Button>
-            {/* LanguageSelector removed */}
-            <ThemeToggle />
+              All Tools
+            </Link>
           </div>
         </div>
       </div>
-      
-      <FeedbackModal isOpen={isFeedbackOpen} onClose={() => setIsFeedbackOpen(false)} />
     </header>
   );
 }

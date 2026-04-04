@@ -1,4 +1,3 @@
-/* ⚡ Optimized font loading with display=swap for instant text rendering */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
 @tailwind base;
@@ -7,34 +6,31 @@
 
 @layer base {
   :root {
-    /* Minimal Color Palette */
-    --color-primary: #4F46E5; /* Indigo */
-    --color-background: #F9FAFB; /* Snow White */
-    --color-text: #111827; /* Gray-900 */
-    --color-accent: #06B6D4; /* Cyan-500 */
-    --color-text-secondary: #6B7280; /* Gray-500 */
-    --color-border: #E5E7EB; /* Gray-200 */
-    
-    /* Dark mode overrides */
-    --color-background-dark: #0F172A; /* Slate-900 */
-    --color-text-dark: #F9FAFB;
-    --color-border-dark: #1E293B;
+    --utilo-bg: #f8f9fb;
+    --utilo-surface: #ffffff;
+    --utilo-surface-muted: #f3f6fc;
+    --utilo-text: #0f172a;
+    --utilo-text-muted: #64748b;
+    --utilo-border: #dbe3ef;
+    --utilo-primary: #4f46e5;
+    --utilo-primary-hover: #4338ca;
+    --utilo-radius: 12px;
+    --utilo-shadow: 0 8px 30px rgba(15, 23, 42, 0.06);
+    --utilo-shadow-hover: 0 12px 36px rgba(15, 23, 42, 0.12);
   }
 
   body {
-    @apply bg-[#F9FAFB] dark:bg-[#0F172A] text-[#111827] dark:text-[#F9FAFB] transition-colors;
+    @apply m-0 bg-[#F8F9FB] text-[#0F172A];
     font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    /* ⚡ Performance optimizations */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    text-rendering: optimizeLegibility;
   }
   
-  /* ⚡ Optimize scrolling performance */
   * {
+    @apply box-border;
     scroll-behavior: smooth;
   }
-  
+
   @media (prefers-reduced-motion: reduce) {
     * {
       animation-duration: 0.01ms !important;
@@ -45,96 +41,57 @@
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply font-bold;
-  }
-
-  h1 {
-    @apply text-4xl md:text-5xl;
-  }
-
-  h2 {
-    @apply text-3xl md:text-4xl;
-  }
-
-  h3 {
-    @apply text-2xl md:text-3xl;
+    @apply font-semibold text-[#0F172A];
   }
 }
 
 @layer components {
-  .container {
+  .utilo-container {
     @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
   }
 
-  .btn {
-    @apply inline-flex items-center justify-center px-4 py-2.5 sm:px-6 sm:py-3 rounded-xl font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#4F46E5] text-sm sm:text-base min-h-[44px] touch-manipulation;
+  .utilo-section {
+    @apply py-12 sm:py-16;
   }
 
-  .btn-primary {
-    @apply bg-[#4F46E5] text-white hover:bg-[#4338CA] shadow-sm hover:shadow-md active:scale-95;
+  .utilo-card {
+    background: var(--utilo-surface);
+    border: 1px solid var(--utilo-border);
+    border-radius: var(--utilo-radius);
+    box-shadow: var(--utilo-shadow);
+    @apply transition-all duration-200;
   }
 
-  .btn-secondary {
-    @apply bg-white dark:bg-[#1E293B] text-[#111827] dark:text-[#F9FAFB] hover:bg-gray-50 dark:hover:bg-[#334155] border border-[#E5E7EB] dark:border-[#334155] active:scale-95;
+  .utilo-card-hover:hover {
+    box-shadow: var(--utilo-shadow-hover);
+    transform: translateY(-2px);
   }
 
-  .card {
-    @apply bg-white dark:bg-[#1E293B] rounded-2xl shadow-sm p-4 sm:p-6 lg:p-8 transition-all hover:shadow-md border border-[#E5E7EB] dark:border-[#334155];
-    /* ⚡ GPU acceleration for smooth animations */
-    transform: translateZ(0);
-    will-change: transform;
+  .utilo-input {
+    @apply h-12 w-full rounded-xl border border-[#DBE3EF] bg-white px-4 text-sm text-[#0F172A] outline-none transition-all placeholder:text-[#94A3B8] focus:border-transparent focus:ring-2 focus:ring-[#4F46E5] sm:text-base;
   }
 
-  .card-minimal {
-    @apply bg-white dark:bg-[#1E293B] rounded-xl shadow-sm p-4 sm:p-6 border border-[#E5E7EB] dark:border-[#334155];
+  .utilo-btn {
+    @apply inline-flex min-h-[44px] items-center justify-center rounded-xl px-5 py-2.5 text-sm font-semibold transition-all duration-200 sm:text-base;
   }
 
-  .input-minimal {
-    @apply w-full px-3 py-2.5 sm:px-4 sm:py-3 rounded-xl border border-[#E5E7EB] dark:border-[#334155] bg-white dark:bg-[#1E293B] text-[#111827] dark:text-[#F9FAFB] focus:outline-none focus:ring-2 focus:ring-[#4F46E5] focus:border-transparent transition-all text-base min-h-[44px];
+  .utilo-btn-primary {
+    @apply utilo-btn border border-[#4F46E5] bg-[#4F46E5] text-white hover:border-[#4338CA] hover:bg-[#4338CA];
   }
 
-  .tool-card {
-    @apply flex flex-col gap-4 sm:gap-6;
+  .utilo-btn-secondary {
+    @apply utilo-btn border border-[#C7D2E5] bg-white text-[#1E293B] hover:bg-[#F3F6FC];
   }
 
-  /* Minimal Badge */
-  .badge {
-    @apply inline-flex items-center px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-full text-xs sm:text-sm font-medium;
+  .utilo-chip {
+    @apply inline-flex items-center rounded-full bg-[#EEF2FF] px-3 py-1.5 text-xs font-medium text-[#4338CA] sm:text-sm;
   }
 
-  .badge-primary {
-    @apply bg-[#4F46E5]/10 text-[#4F46E5] dark:bg-[#4F46E5]/20;
+  .utilo-surface {
+    @apply rounded-xl border border-[#DBE3EF] bg-white;
   }
 
-  .badge-accent {
-    @apply bg-[#06B6D4]/10 text-[#06B6D4] dark:bg-[#06B6D4]/20;
-  }
-
-  /* Mobile-friendly touch targets */
-  button, a {
-    @apply touch-manipulation;
-  }
-
-  /* Icon sizes */
-  .icon-sm {
-    @apply w-4 h-4 sm:w-5 sm:h-5;
-  }
-
-  .icon-md {
-    @apply w-5 h-5 sm:w-6 sm:h-6;
-  }
-
-  .icon-lg {
-    @apply w-6 h-6 sm:w-8 sm:h-8;
-  }
-
-  /* Hide scrollbar but keep functionality */
-  .scrollbar-hide {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-  }
-
-  .scrollbar-hide::-webkit-scrollbar {
-    display: none;
+  .utilo-text-muted {
+    @apply text-[#64748B];
   }
 }
