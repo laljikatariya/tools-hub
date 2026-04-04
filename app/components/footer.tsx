@@ -4,9 +4,36 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useLanguage } from '@/app/contexts/language-context';
 import { getToolName } from '@/lib/translations';
+import { toolsData } from '@/lib/tools-data';
+
+const CATEGORY_META: Record<string, { label: string }> = {
+  text: { label: 'Text Tools' },
+  image: { label: 'Image Tools' },
+  pdf: { label: 'PDF Tools' },
+  color: { label: 'Color Tools' },
+  developer: { label: 'Developer Tools' },
+  security: { label: 'Security Tools' },
+  calculators: { label: 'Calculators' },
+};
+
+function formatCategoryLabel(categoryId: string) {
+  return categoryId
+    .split('-')
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(' ');
+}
 
 export function Footer() {
   const { t } = useLanguage();
+  const categories = Array.from(new Set(toolsData.map((tool) => tool.category))).map((categoryId) => ({
+    id: categoryId,
+    label: CATEGORY_META[categoryId]?.label || formatCategoryLabel(categoryId),
+  }));
+  const latestTools = [...toolsData].sort((a, b) => b.id - a.id).slice(0, 4);
+  const trendingTools = toolsData.filter((tool) => tool.trending);
+  const popularTools = Array.from(
+    new Map([...latestTools, ...trendingTools].map((tool) => [tool.slug, tool])).values()
+  ).slice(0, 4);
 
   return (
     <footer className="border-t border-[#DBE3EF] bg-[#F3F6FC] py-12">
@@ -25,22 +52,26 @@ export function Footer() {
           <div>
             <h3 className="mb-4 text-base font-semibold text-[#0F172A] sm:text-lg">{t.categories}</h3>
             <ul className="space-y-2 text-sm text-[#64748B] sm:text-base">
-              <li><Link href="/?category=text" className="transition-colors hover:text-[#4F46E5]">{t.textTools}</Link></li>
-              <li><Link href="/?category=image" className="transition-colors hover:text-[#4F46E5]">{t.imageTools}</Link></li>
-              <li><Link href="/?category=pdf" className="transition-colors hover:text-[#4F46E5]">{t.pdfTools}</Link></li>
-              <li><Link href="/?category=color" className="transition-colors hover:text-[#4F46E5]">{t.colorTools}</Link></li>
-              <li><Link href="/?category=developer" className="transition-colors hover:text-[#4F46E5]">{t.developerTools}</Link></li>
-              <li><Link href="/?category=security" className="transition-colors hover:text-[#4F46E5]">{t.securityTools}</Link></li>
+              {categories.map((category) => (
+                <li key={category.id}>
+                  <Link href={`/?category=${category.id}`} className="transition-colors hover:text-[#4F46E5]">
+                    {category.label}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
           <div>
             <h3 className="mb-4 text-base font-semibold text-[#0F172A] sm:text-lg">{t.popularTools}</h3>
             <ul className="space-y-2 text-sm text-[#64748B] sm:text-base">
-              <li><Link href="/tools/json-formatter" className="transition-colors hover:text-[#4F46E5]">{getToolName('json-formatter')}</Link></li>
-              <li><Link href="/tools/password-generator" className="transition-colors hover:text-[#4F46E5]">{getToolName('password-generator')}</Link></li>
-              <li><Link href="/tools/qr-code-generator" className="transition-colors hover:text-[#4F46E5]">{getToolName('qr-code-generator')}</Link></li>
-              <li><Link href="/tools/image-compressor" className="transition-colors hover:text-[#4F46E5]">{getToolName('image-compressor')}</Link></li>
+              {popularTools.map((tool) => (
+                <li key={tool.slug}>
+                  <Link href={`/tools/${tool.slug}`} className="transition-colors hover:text-[#4F46E5]">
+                    {getToolName(tool.slug)}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 

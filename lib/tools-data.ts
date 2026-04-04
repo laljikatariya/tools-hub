@@ -3,7 +3,7 @@ import { getToolName } from './translations';
 export interface Tool {
   id: number;
   name: string;
-  category: 'text' | 'image' | 'pdf' | 'color' | 'developer' | 'security' | 'calculators';
+  category: string;
   icon: string;
   description: string;
   slug: string;
