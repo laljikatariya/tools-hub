@@ -27,7 +27,9 @@ export function Footer() {
               <li><Link href="/?category=text" className="transition-colors hover:text-[#4F46E5]">{t.textTools}</Link></li>
               <li><Link href="/?category=image" className="transition-colors hover:text-[#4F46E5]">{t.imageTools}</Link></li>
               <li><Link href="/?category=pdf" className="transition-colors hover:text-[#4F46E5]">{t.pdfTools}</Link></li>
+              <li><Link href="/?category=color" className="transition-colors hover:text-[#4F46E5]">{t.colorTools}</Link></li>
               <li><Link href="/?category=developer" className="transition-colors hover:text-[#4F46E5]">{t.developerTools}</Link></li>
+              <li><Link href="/?category=security" className="transition-colors hover:text-[#4F46E5]">{t.securityTools}</Link></li>
             </ul>
           </div>
 

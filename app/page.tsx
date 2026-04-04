@@ -13,7 +13,9 @@ const CATEGORY_META: Record<string, { title: string; icon: string; description: 
   text: { title: 'Text Tools', icon: 'Aa', description: 'Format, clean, and transform content quickly.' },
   image: { title: 'Image Tools', icon: '◫', description: 'Resize, compress, and convert images in one place.' },
   pdf: { title: 'PDF Tools', icon: 'PDF', description: 'Merge, split, and convert PDFs with zero setup.' },
+  color: { title: 'Color Tools', icon: '🎨', description: 'Pick, convert, and build color palettes quickly.' },
   developer: { title: 'Developer Tools', icon: '</>', description: 'Everyday utilities for coding workflows.' },
+  security: { title: 'Security Tools', icon: '🔒', description: 'Generate secure outputs and protect your workflow.' },
 };
 
 export default function Home() {
@@ -94,7 +96,7 @@ export default function Home() {
   }, [activeCategory, searchQuery]);
 
   const categorySections = useMemo(() => {
-    const groups = ['text', 'image', 'pdf', 'developer'];
+    const groups = Array.from(new Set(toolsData.map((tool) => tool.category)));
     return groups.map((categoryId) => ({
       categoryId,
       ...(CATEGORY_META[categoryId] || {
@@ -105,6 +107,8 @@ export default function Home() {
       tools: toolsData.filter((tool) => tool.category === categoryId).slice(0, 6),
     }));
   }, []);
+
+  const allCategories = useMemo(() => Array.from(new Set(toolsData.map((tool) => tool.category))), []);
 
   const mostUsedTools = useMemo(() => {
     if (trendingToolsData.length >= 4) {
@@ -215,7 +219,7 @@ export default function Home() {
               </div>
 
               <div className="flex flex-wrap gap-2">
-                {['all', 'text', 'image', 'pdf', 'developer'].map((item) => (
+                {['all', ...allCategories].map((item) => (
                   <button
                     key={item}
                     type="button"
