@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { useLanguage } from '@/app/contexts/language-context';
 import { getToolName } from '@/lib/translations';
 
@@ -13,7 +14,7 @@ export function Footer() {
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4 lg:gap-10">
           <div>
             <div className="mb-4 flex items-center gap-2">
-              <span className="text-xl">▣</span>
+              <Image src="/logo.svg" alt="Utilo logo" width={28} height={28} className="h-7 w-7 rounded-md" />
               <span className="text-xl font-semibold text-[#0F172A]">Utilo</span>
             </div>
             <p className="text-sm leading-relaxed text-[#64748B] sm:text-base">
