@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { ToolSEO } from '@/lib/seo-content';
 
 interface SEOContentSectionProps {
@@ -13,6 +14,16 @@ export function SEOContentSection({ seoContent, toolName, slug }: SEOContentSect
     <>
       {/* SEO Content Sections - Always Visible */}
       <div className="mt-16 space-y-12 max-w-4xl mx-auto">
+
+        {/* Introduction */}
+        {seoContent.introduction && (
+          <section>
+            <p className="text-lg text-slate-700 leading-relaxed border-l-4 border-indigo-500 pl-5 py-2 bg-indigo-50/60 rounded-r-lg">
+              {seoContent.introduction}
+            </p>
+          </section>
+        )}
+
         {/* What Is Section */}
         <section>
           <h2 className="text-3xl font-bold mb-4 text-slate-900">
@@ -73,6 +84,32 @@ export function SEOContentSection({ seoContent, toolName, slug }: SEOContentSect
           </ol>
         </section>
 
+        {/* Formula / Logic Section */}
+        {seoContent.formula && (
+          <section>
+            <h2 className="text-3xl font-bold mb-4 text-slate-900">Formula &amp; Calculation Logic</h2>
+            <div className="rounded-xl border border-slate-200 bg-slate-50 p-6">
+              <pre className="text-sm text-slate-800 whitespace-pre-wrap font-mono leading-relaxed">
+                {seoContent.formula}
+              </pre>
+            </div>
+          </section>
+        )}
+
+        {/* Detailed Explanation Section */}
+        {seoContent.detailedExplanation && (
+          <section>
+            <h2 className="text-3xl font-bold mb-4 text-slate-900">About This Tool</h2>
+            <div className="prose prose-slate max-w-none">
+              {seoContent.detailedExplanation.split('\n\n').map((paragraph, index) => (
+                <p key={index} className="text-lg text-slate-700 leading-relaxed mb-4 last:mb-0">
+                  {paragraph}
+                </p>
+              ))}
+            </div>
+          </section>
+        )}
+
         {/* FAQs Section */}
         <section>
           <h2 className="text-3xl font-bold mb-6 text-slate-900">
@@ -91,6 +128,24 @@ export function SEOContentSection({ seoContent, toolName, slug }: SEOContentSect
             ))}
           </div>
         </section>
+
+        {/* Related Tools Section */}
+        {seoContent.relatedTools && seoContent.relatedTools.length > 0 && (
+          <section>
+            <h2 className="text-3xl font-bold mb-6 text-slate-900">Related Tools</h2>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+              {seoContent.relatedTools.map((tool) => (
+                <Link
+                  key={tool.slug}
+                  href={`/tools/${tool.slug}`}
+                  className="rounded-lg border border-slate-200 bg-white px-4 py-3 text-sm font-medium text-indigo-600 hover:border-indigo-300 hover:bg-indigo-50 transition-colors text-center"
+                >
+                  {tool.label}
+                </Link>
+              ))}
+            </div>
+          </section>
+        )}
       </div>
 
       {/* Schema.org JSON-LD Structured Data */}
