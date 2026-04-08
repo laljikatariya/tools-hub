@@ -3,335 +3,527 @@ export interface ToolSEO {
   title: string;
   metaDescription: string;
   keywords: string[];
+
   h1: string;
   introduction?: string;
+
   whatIs: {
     title: string;
     content: string;
   };
+
   whyUse: {
     title: string;
     benefits: string[];
   };
+
   features: {
     title: string;
     list: string[];
   };
+
   howToUse: {
     title: string;
     steps: string[];
   };
+
+  // ✅ NEW SEO SECTION (fixes your error)
+  useCases?: {
+    title: string;
+    list: string[];
+  };
+
   detailedExplanation?: string;
+
   formula?: string;
+
+  // ✅ OPTIONAL FUTURE SEO SECTIONS (VERY POWERFUL)
+  tips?: {
+    title: string;
+    list: string[];
+  };
+
   faqs: {
     question: string;
     answer: string;
   }[];
-  relatedTools?: { slug: string; label: string }[];
+
+  relatedTools?: {
+    slug: string;
+    label: string;
+  }[];
+
   schemaType: string;
 }
 
 export const seoContent: Record<string, ToolSEO> = {
   'word-counter': {
-    slug: 'word-counter',
-    title: 'Free Word Counter – Count Words, Characters & Sentences | Utilo',
-    metaDescription: 'Instantly count words, characters, sentences, and paragraphs in any text. Free online word counter — no sign-up, no ads, real-time results.',
-    keywords: ['word counter', 'online word counter', 'word count tool', 'character counter', 'sentence counter', 'paragraph counter', 'word count checker', 'free word counter', 'count words online', 'text word count'],
-    h1: 'Free Word Counter Online',
-    introduction: 'Writing an essay, blog post, or social media caption with a strict word limit? Our free word counter tells you exactly how many words, characters, sentences, and paragraphs you have — instantly, as you type. No sign-up, no copy-paste delays.',
-    whatIs: {
-      title: 'What is a Word Counter?',
-      content: 'A word counter is an online tool that analyzes your text and reports an accurate count of words, characters (with and without spaces), sentences, and paragraphs in real time. It is a go-to utility for writers, students, content marketers, and SEO professionals who need to stay within — or reach — a specific length for their content.',
-    },
-    whyUse: {
-      title: 'Why Use Utilo\'s Word Counter?',
-      benefits: [
-        'Real-time word count that updates with every keystroke',
-        'Counts words, characters (with & without spaces), sentences, and paragraphs',
-        'Perfect for essays, blog posts, tweets, LinkedIn bios, and meta descriptions',
-        'Runs entirely in your browser — your text stays private',
-        'Zero ads or distractions — just your text and the numbers',
-        'Works on desktop, tablet, and mobile without installation',
-        'Completely free with no usage limits',
-      ],
-    },
-    features: {
-      title: 'Key Features',
-      list: [
-        'Live word count as you type or paste',
-        'Character count with AND without spaces',
-        'Sentence and paragraph counter',
-        'One-click clear button to start fresh',
-        'Copy-to-clipboard for the analyzed text',
-        'Handles any language or special characters',
-      ],
-    },
-    howToUse: {
-      title: 'How to Use the Word Counter',
-      steps: [
-        'Open the Word Counter on Utilo.in',
-        'Type directly into the text area or paste your content',
-        'Watch words, characters, sentences, and paragraphs update live',
-        'Note your count and adjust your writing as needed',
-        'Click \'Clear\' when you want to start a new session',
-      ],
-    },
-    detailedExplanation: 'Word count matters across virtually every form of writing. Academic institutions set essay limits (500, 1000, or 2000 words). SEO professionals monitor blog post length — studies consistently show posts over 1,500 words rank higher. Social media platforms enforce hard limits: Twitter/X at 280 characters, Instagram captions at 2,200 characters, and LinkedIn posts at 3,000 characters.\n\nOur word counter is built for speed and accuracy. It splits text on whitespace (spaces, tabs, newlines) to count words, counts every Unicode character for character totals, detects sentence boundaries using punctuation marks, and counts paragraph breaks for the paragraph figure.\n\nWho uses a word counter? Students hitting minimum word counts for assignments, authors tracking chapter progress, content writers meeting SEO targets, social media managers fitting content into platform limits, and translators comparing source vs. translated word counts.',
-    faqs: [
-      {
-        question: 'How is a word counted?',
-        answer: 'Each sequence of characters separated by a space, tab, or newline is counted as one word. Hyphenated words like "well-being" are typically counted as one word.',
-      },
-      {
-        question: 'Does it count spaces as characters?',
-        answer: 'Yes — the total character count includes spaces. We also show a separate count excluding spaces so you can use whichever metric is relevant.',
-      },
-      {
-        question: 'Is my text stored anywhere?',
-        answer: 'No. Everything runs in your browser. Your text is never sent to our servers, logged, or stored in any way.',
-      },
-      {
-        question: 'Can I use this for academic papers?',
-        answer: 'Absolutely. Many academic institutions use word count (not character count) for length requirements, making this the ideal tool for essays, dissertations, and research papers.',
-      },
-      {
-        question: 'Does the word counter work with non-English text?',
-        answer: 'Yes, it handles any Unicode text including Hindi, Arabic, Chinese, and other scripts. Character counts are accurate for all languages.',
-      },
-    ],
-    relatedTools: [
-      { slug: 'character-counter', label: 'Character Counter' },
-      { slug: 'text-cleaner', label: 'Text Cleaner' },
-      { slug: 'case-converter', label: 'Case Converter' },
-      { slug: 'lorem-ipsum', label: 'Lorem Ipsum Generator' },
-    ],
-    schemaType: 'WebApplication',
+  slug: 'word-counter',
+  title: 'Free Word Counter – Count Words, Characters, Sentences & Paragraphs | Utilo',
+  metaDescription: 'Count words, characters, sentences, and paragraphs instantly. Free online word counter with real-time results — no sign-up required.',
+  keywords: [
+    'word counter',
+    'online word counter',
+    'word count tool',
+    'character counter',
+    'sentence counter',
+    'paragraph counter',
+    'word count checker',
+    'free word counter',
+    'count words online',
+    'text word count'
+  ],
+
+  h1: 'Free Word Counter Online',
+
+  introduction:
+    'Need to stay within a word limit? Our free Word Counter instantly shows your total words, characters, sentences, and paragraphs in real time. Perfect for essays, blog posts, SEO content, and social media writing.',
+
+  whatIs: {
+    title: 'What is a Word Counter?',
+    content:
+      'A word counter is a free online tool that analyzes your text and provides an accurate count of words, characters (with and without spaces), sentences, and paragraphs instantly. It helps writers, students, marketers, and professionals ensure their content meets specific length requirements for academic, professional, or SEO purposes.',
   },
+
+  whyUse: {
+    title: 'Why Use Our Word Counter?',
+    benefits: [
+      'Real-time word count that updates as you type',
+      'Counts words, characters, sentences, and paragraphs',
+      'Ideal for essays, blogs, and SEO content',
+      'Helps meet platform and academic word limits',
+      'Works directly in your browser — no data stored',
+      'Simple, fast, and distraction-free interface',
+      'Compatible with desktop, tablet, and mobile'
+    ],
+  },
+
+  features: {
+    title: 'Key Features',
+    list: [
+      'Live word count as you type or paste text',
+      'Character count with and without spaces',
+      'Sentence and paragraph detection',
+      'Instant updates for editing and optimization',
+      'Supports all languages and Unicode characters'
+    ],
+  },
+
+  howToUse: {
+    title: 'How to Use the Word Counter',
+    steps: [
+      'Open the Word Counter tool',
+      'Type or paste your text into the input area',
+      'View live updates for words, characters, and sentences',
+      'Adjust your content to meet required limits',
+      'Clear the text to start a new session'
+    ],
+  },
+
+  // 🔥 NEW SEO BOOST SECTION
+  useCases: {
+    title: 'Where Can You Use a Word Counter?',
+    list: [
+      'Writing essays and academic assignments',
+      'Optimizing blog posts for SEO (1000–2000+ words)',
+      'Creating social media captions',
+      'Drafting email content and subject lines',
+      'Preparing reports, articles, and documentation',
+      'Tracking content length for professional writing'
+    ],
+  },
+
+  detailedExplanation:
+    'Word count plays a crucial role in many types of writing. Academic assignments often require specific word limits, while SEO content typically performs better with longer, well-structured articles. Social media platforms and professional writing also depend on clear and concise text.\n\nOur word counter is designed for speed and accuracy. It counts words based on spaces and line breaks, tracks every Unicode character, identifies sentence boundaries, and detects paragraph structure. This ensures reliable results across all types of content.\n\nThis tool is widely used by students, bloggers, writers, marketers, and professionals who need to manage content length efficiently and improve writing quality.',
+
+  faqs: [
+    {
+      question: 'How is a word counted?',
+      answer:
+        'Each group of characters separated by spaces, tabs, or line breaks is counted as one word. Hyphenated words are usually counted as a single word.',
+    },
+    {
+      question: 'Does it count spaces as characters?',
+      answer:
+        'Yes, spaces are included in the total character count. We also provide a separate count excluding spaces.',
+    },
+    {
+      question: 'Is my text stored or saved?',
+      answer:
+        'No, your text is processed entirely in your browser. We do not store or track any user data.',
+    },
+    {
+      question: 'Can I use this for academic writing?',
+      answer:
+        'Yes, it is ideal for essays, research papers, and assignments where word limits are important.',
+    },
+    {
+      question: 'Does it support multiple languages?',
+      answer:
+        'Yes, the tool supports all languages and Unicode characters, ensuring accurate counting worldwide.',
+    },
+  ],
+
+  relatedTools: [
+    { slug: 'character-counter', label: 'Character Counter' },
+    { slug: 'text-cleaner', label: 'Text Cleaner' },
+    { slug: 'case-converter', label: 'Case Converter' },
+    { slug: 'lorem-ipsum', label: 'Lorem Ipsum Generator' },
+  ],
+
+  schemaType: 'WebApplication',
+},
   'text-cleaner': {
-    slug: 'text-cleaner',
-    title: 'Free Text Cleaner – Remove Extra Spaces & Formatting Online | Utilo',
-    metaDescription: 'Clean messy text in one click. Remove extra spaces, blank lines, and broken formatting from PDFs, emails, or websites. Free and instant — no sign-up.',
-    keywords: ['text cleaner', 'remove extra spaces', 'clean text online', 'text formatter', 'whitespace remover', 'remove line breaks', 'strip formatting', 'pdf text cleaner', 'text cleanup tool', 'fix text formatting'],
-    h1: 'Free Text Cleaner Online',
-    introduction: 'Copied text from a PDF or website and it arrived full of extra spaces, broken lines, and random symbols? Our Text Cleaner fixes messy text in a single click — no plugins, no accounts, just paste and clean.',
-    whatIs: {
-      title: 'What is a Text Cleaner?',
-      content: 'A text cleaner is an online formatting tool that strips unwanted characters, collapses multiple spaces into one, removes unnecessary line breaks, and produces clean, readable text. It solves the everyday frustration of copying text from PDFs, spreadsheets, or web pages where hidden formatting tags and whitespace get carried over.',
-    },
-    whyUse: {
-      title: 'Why Use Utilo\'s Text Cleaner?',
-      benefits: [
-        'Remove double spaces and trailing whitespace in one click',
-        'Fix broken line breaks from PDF-copied text',
-        'Strip invisible Unicode or special formatting characters',
-        'Preserve real paragraph breaks while removing redundant ones',
-        'No software to install — runs entirely in your browser',
-        'Handles text of any length without restrictions',
-        '100% free with no account required',
-      ],
-    },
-    features: {
-      title: 'Key Features',
-      list: [
-        'Collapse multiple spaces into single spaces',
-        'Remove unwanted line breaks and blank lines',
-        'Strip non-printable characters and smart quotes',
-        'Preserve intentional paragraph spacing',
-        'One-click copy of cleaned output',
-        'Supports very large text blocks without lag',
-      ],
-    },
-    howToUse: {
-      title: 'How to Use the Text Cleaner',
-      steps: [
-        'Paste your messy text into the input field',
-        'Choose any formatting options (e.g., keep paragraph breaks)',
-        'Click the \'Clean Text\' button',
-        'Review the instantly cleaned output',
-        'Click \'Copy\' to use it wherever you need',
-      ],
-    },
-    detailedExplanation: 'Text copied from PDFs is infamous for carrying over line breaks at every line-wrap point, turning a single paragraph into dozens of short lines. Copying from web pages often brings hidden HTML whitespace characters. Spreadsheet exports may include tab characters scattered throughout the text.\n\nOur Text Cleaner intelligently detects and removes these issues without losing real content. It collapses runs of spaces into a single space, joins orphaned line breaks mid-sentence, removes null characters, and normalizes quotation marks.\n\nCommon use cases include: cleaning blog content pasted from Google Docs, fixing survey responses exported from data tools, preparing text for AI prompts where extra whitespace wastes tokens, and normalizing addresses or product descriptions before importing into a database.',
-    faqs: [
-      {
-        question: 'Will the tool remove formatting I need?',
-        answer: 'No — the cleaner targets unwanted whitespace and hidden characters. Options let you keep intentional paragraph breaks so your structure remains intact.',
-      },
-      {
-        question: 'Can it fix text copied from a PDF?',
-        answer: 'Yes. PDF-to-text conversion notoriously inserts line breaks at every line end. Our cleaner joins those fragments back into continuous sentences.',
-      },
-      {
-        question: 'Is there a text size limit?',
-        answer: 'No limit. The tool processes text of any length directly in your browser.',
-      },
-      {
-        question: 'Does it work on pasted HTML?',
-        answer: 'The cleaner works on plain text. If you paste HTML, it will clean the visible characters but is not an HTML-to-text converter.',
-      },
-      {
-        question: 'Is my text sent to a server?',
-        answer: 'Never. All processing happens locally in your browser. No data is sent, stored, or logged.',
-      },
-    ],
-    relatedTools: [
-      { slug: 'word-counter', label: 'Word Counter' },
-      { slug: 'case-converter', label: 'Case Converter' },
-      { slug: 'character-counter', label: 'Character Counter' },
-      { slug: 'url-encoder', label: 'URL Encoder/Decoder' },
-    ],
-    schemaType: 'WebApplication',
+  slug: 'text-cleaner',
+  title: 'Free Text Cleaner – Remove Extra Spaces, Line Breaks & Formatting | Utilo',
+  metaDescription: 'Clean messy text instantly. Remove extra spaces, line breaks, and unwanted formatting from PDFs, emails, or websites. Free online text cleaner — no sign-up.',
+  keywords: [
+    'text cleaner',
+    'remove extra spaces',
+    'clean text online',
+    'text formatter',
+    'whitespace remover',
+    'remove line breaks',
+    'strip formatting',
+    'pdf text cleaner',
+    'text cleanup tool',
+    'fix text formatting'
+  ],
+
+  h1: 'Free Text Cleaner Online',
+
+  introduction:
+    'Pasted text full of extra spaces, broken lines, or weird formatting? Our Text Cleaner instantly fixes messy text in one click — no installation, no login, just paste and clean your text effortlessly.',
+
+  whatIs: {
+    title: 'What is a Text Cleaner?',
+    content:
+      'A text cleaner is a free online tool that removes unwanted formatting such as extra spaces, line breaks, invisible characters, and inconsistent spacing from your text. It helps convert messy, unstructured text into clean, readable content, especially when copying from PDFs, websites, or documents.',
   },
+
+  whyUse: {
+    title: 'Why Use Our Text Cleaner?',
+    benefits: [
+      'Remove extra spaces and duplicate whitespace instantly',
+      'Fix broken line breaks from copied PDF or web text',
+      'Clean invisible or special Unicode characters',
+      'Preserve meaningful paragraph structure',
+      'Fast and lightweight — works in your browser',
+      'No installation or registration required',
+      'Handles large text without performance issues'
+    ],
+  },
+
+  features: {
+    title: 'Key Features',
+    list: [
+      'Collapse multiple spaces into a single space',
+      'Remove unwanted line breaks and blank lines',
+      'Strip non-printable and special characters',
+      'Preserve intentional paragraph spacing',
+      'One-click copy of cleaned text',
+      'Supports large text inputs smoothly'
+    ],
+  },
+
+  howToUse: {
+    title: 'How to Use the Text Cleaner',
+    steps: [
+      'Paste your messy text into the input box',
+      'Select cleaning options if available',
+      'Click the "Clean Text" button',
+      'Review the cleaned output instantly',
+      'Copy and use your cleaned text anywhere'
+    ],
+  },
+
+  // 🔥 SEO BOOST SECTION
+  useCases: {
+    title: 'Where Can You Use a Text Cleaner?',
+    list: [
+      'Cleaning text copied from PDFs',
+      'Fixing formatting from websites or blogs',
+      'Preparing text for AI prompts or ChatGPT',
+      'Cleaning survey or spreadsheet exports',
+      'Formatting content for CMS or databases',
+      'Removing whitespace before coding or data processing'
+    ],
+  },
+
+  detailedExplanation:
+    'Text copied from PDFs often contains unwanted line breaks at every line, making paragraphs unreadable. Similarly, content copied from websites may include hidden formatting and extra spaces. Spreadsheet exports can introduce tab spaces and inconsistent formatting.\n\nOur text cleaner automatically removes these issues while preserving meaningful content. It collapses multiple spaces, fixes broken lines, removes invisible characters, and normalizes formatting for better readability.\n\nThis tool is widely used by writers, developers, students, and professionals who need clean, structured text for content creation, data processing, or automation workflows.',
+
+  faqs: [
+    {
+      question: 'Will the tool remove important formatting?',
+      answer:
+        'No, the tool focuses on removing unwanted whitespace and hidden characters. It preserves meaningful paragraph structure where possible.',
+    },
+    {
+      question: 'Can it fix text copied from a PDF?',
+      answer:
+        'Yes, it removes unwanted line breaks and joins broken sentences, making PDF text readable again.',
+    },
+    {
+      question: 'Is there a text size limit?',
+      answer:
+        'No, the tool can handle large amounts of text efficiently in your browser.',
+    },
+    {
+      question: 'Does it work with HTML content?',
+      answer:
+        'It works on plain text. If you paste HTML, it cleans visible text but does not convert HTML into plain text.',
+    },
+    {
+      question: 'Is my data safe?',
+      answer:
+        'Yes, all processing happens locally in your browser. No data is stored or sent to any server.',
+    },
+  ],
+
+  relatedTools: [
+    { slug: 'word-counter', label: 'Word Counter' },
+    { slug: 'case-converter', label: 'Case Converter' },
+    { slug: 'character-counter', label: 'Character Counter' },
+    { slug: 'url-encoder', label: 'URL Encoder/Decoder' },
+  ],
+
+  schemaType: 'WebApplication',
+},
   'case-converter': {
-    slug: 'case-converter',
-    title: 'Free Case Converter – Uppercase, Lowercase & Title Case | Utilo',
-    metaDescription: 'Convert text to UPPERCASE, lowercase, Title Case, or Sentence case instantly. Free online case changer — paste, click, done. No sign-up required.',
-    keywords: ['case converter', 'uppercase converter', 'lowercase converter', 'title case converter', 'sentence case tool', 'text case changer', 'change text case online', 'capitalize text', 'all caps converter', 'toggle case'],
-    h1: 'Free Case Converter Online',
-    introduction: 'Stop manually retyping text just to change its capitalization. Our Case Converter transforms any text to UPPERCASE, lowercase, Title Case, Sentence case, or alternating case instantly — paste your text, choose a format, done.',
-    whatIs: {
-      title: 'What is a Case Converter?',
-      content: 'A case converter is a text formatting tool that changes the capitalization style of any text with a single click. It supports UPPERCASE (all caps), lowercase (all small), Title Case (first letter of each word capitalized), Sentence case (only the first word capitalized), and Alternating case (aLtErNaTiNg). It saves time and prevents errors in headings, titles, and content formatting.',
-    },
-    whyUse: {
-      title: 'Why Use Utilo\'s Case Converter?',
-      benefits: [
-        'Convert text to 5 different case styles instantly',
-        'Avoid manually re-typing headlines or headings',
-        'Fix accidental ALL CAPS from copy-paste or Caps Lock',
-        'Format blog post and article titles correctly every time',
-        'Works with any language or special character set',
-        'No installation or account — works in your browser',
-        'Unlimited conversions, completely free',
-      ],
-    },
-    features: {
-      title: 'Key Features',
-      list: [
-        'UPPERCASE conversion',
-        'lowercase conversion',
-        'Title Case conversion',
-        'Sentence case conversion',
-        'aLtErNaTiNg CaSe for fun or emphasis',
-        'Instant one-click copy of the result',
-      ],
-    },
-    howToUse: {
-      title: 'How to Use the Case Converter',
-      steps: [
-        'Paste or type your text into the input box',
-        'Click the case style you want (e.g., Title Case)',
-        'See your converted text appear instantly',
-        'Click Copy to copy it to your clipboard',
-        'Repeat for any other portion of text',
-      ],
-    },
-    detailedExplanation: 'Capitalization errors are surprisingly common in professional writing. Press Caps Lock accidentally and an entire paragraph is in ALL CAPS. Copy a heading from a web page and it arrives in lowercase. Paste a product name and the casing is inconsistent.\n\nOur Case Converter handles all standard English capitalization rules:\n\nUPPERCASE — every letter is capitalized. Used in acronyms, design headlines, and legal document labels.\nlowercase — every letter is small. Useful for programming variables, hashtags, and certain design styles.\nTitle Case — the first letter of each significant word is capitalized. Minor words like "the", "a", "and", "in", and "of" remain lowercase unless they are the first word.\nSentence case — only the first word of each sentence is capitalized. This is standard for body text, email subject lines, and blog titles in some style guides.\nalTeRnAtInG cAsE — letters alternate between upper and lower. Primarily used for creative or humorous effect.\n\nThe tool is popular among content writers who need consistent title formatting, social media managers, students cleaning up essay headings, and developers working with display strings.',
-    faqs: [
-      {
-        question: 'What is the difference between Title Case and Sentence case?',
-        answer: 'Title Case capitalizes the first letter of every major word (like a book title), while Sentence case only capitalizes the first word of the sentence, like a normal sentence.',
-      },
-      {
-        question: 'Does it handle punctuation correctly?',
-        answer: 'Yes. Punctuation and special characters are preserved as-is; only letter characters are changed.',
-      },
-      {
-        question: 'Is there a limit on how much text I can convert?',
-        answer: 'No limit at all. You can convert large documents in one go.',
-      },
-      {
-        question: 'Does it work for non-English languages?',
-        answer: 'Uppercase and lowercase conversion works for most Latin-script languages like French, Spanish, and German. Non-Latin scripts (Arabic, Chinese) will be preserved unchanged.',
-      },
-      {
-        question: 'Can I undo a conversion?',
-        answer: 'Just click a different case style or paste your original text again. There\'s no destructive action — your browser history also lets you undo.',
-      },
-    ],
-    relatedTools: [
-      { slug: 'word-counter', label: 'Word Counter' },
-      { slug: 'text-cleaner', label: 'Text Cleaner' },
-      { slug: 'character-counter', label: 'Character Counter' },
-      { slug: 'lorem-ipsum', label: 'Lorem Ipsum Generator' },
-    ],
-    schemaType: 'WebApplication',
+  slug: 'case-converter',
+  title: 'Free Case Converter – Uppercase, Lowercase, Title & Sentence Case | Utilo',
+  metaDescription: 'Convert text to uppercase, lowercase, title case, or sentence case instantly. Free online case converter — fast, accurate, no sign-up required.',
+  keywords: [
+    'case converter',
+    'uppercase converter',
+    'lowercase converter',
+    'title case converter',
+    'sentence case tool',
+    'text case changer',
+    'change text case online',
+    'capitalize text',
+    'all caps converter',
+    'toggle case'
+  ],
+
+  h1: 'Free Case Converter Online',
+
+  introduction:
+    'Quickly change text capitalization without retyping. Our Case Converter lets you convert text to UPPERCASE, lowercase, Title Case, Sentence case, or alternating case instantly — just paste your text and choose a format.',
+
+  whatIs: {
+    title: 'What is a Case Converter?',
+    content:
+      'A case converter is a free online tool that changes the capitalization style of text automatically. It allows you to convert text into uppercase, lowercase, title case, sentence case, or alternating case instantly. This helps ensure consistent formatting and saves time when editing content.',
   },
+
+  whyUse: {
+    title: 'Why Use Our Case Converter?',
+    benefits: [
+      'Convert text into multiple case styles instantly',
+      'Avoid manual retyping or formatting errors',
+      'Fix accidental ALL CAPS text quickly',
+      'Perfect for formatting headings, titles, and content',
+      'Supports multiple languages and Unicode text',
+      'No installation or registration required',
+      'Works on all devices with a fast, simple interface'
+    ],
+  },
+
+  features: {
+    title: 'Key Features',
+    list: [
+      'Convert to UPPERCASE instantly',
+      'Convert to lowercase instantly',
+      'Title Case formatting for headings',
+      'Sentence case for normal writing',
+      'Alternating case for creative text',
+      'One-click copy of converted text'
+    ],
+  },
+
+  howToUse: {
+    title: 'How to Use the Case Converter',
+    steps: [
+      'Paste or type your text into the input box',
+      'Select the case format you want',
+      'View the converted text instantly',
+      'Copy the result with one click',
+      'Repeat as needed for different formats'
+    ],
+  },
+
+  // 🔥 SEO BOOST SECTION
+  useCases: {
+    title: 'Where Can You Use a Case Converter?',
+    list: [
+      'Formatting blog titles and article headings',
+      'Fixing text copied in ALL CAPS or lowercase',
+      'Creating properly formatted email subject lines',
+      'Preparing social media captions and posts',
+      'Standardizing text formatting in documents',
+      'Cleaning and formatting data for development or databases'
+    ],
+  },
+
+  detailedExplanation:
+    'Incorrect capitalization can affect readability and professionalism in writing. Whether you accidentally typed in all caps or need to format headings correctly, a case converter helps maintain consistency quickly.\n\nOur case converter supports multiple capitalization styles including uppercase, lowercase, title case, sentence case, and alternating case. It ensures proper formatting without manual editing and reduces errors in content creation.\n\nThis tool is widely used by writers, students, marketers, and developers who need fast and accurate text formatting for blogs, emails, social media, and professional documents.',
+
+  faqs: [
+    {
+      question: 'What is the difference between Title Case and Sentence case?',
+      answer:
+        'Title Case capitalizes the first letter of each important word, while Sentence case only capitalizes the first word of a sentence.',
+    },
+    {
+      question: 'Does it change punctuation?',
+      answer:
+        'No, punctuation and special characters remain unchanged. Only text capitalization is modified.',
+    },
+    {
+      question: 'Is there a limit on text length?',
+      answer:
+        'No, you can convert large amounts of text without any restrictions.',
+    },
+    {
+      question: 'Does it work with all languages?',
+      answer:
+        'It works with most languages using Latin scripts. Other scripts are preserved without modification.',
+    },
+    {
+      question: 'Can I undo a conversion?',
+      answer:
+        'Yes, you can simply choose another format or re-paste your original text.',
+    },
+  ],
+
+  relatedTools: [
+    { slug: 'word-counter', label: 'Word Counter' },
+    { slug: 'text-cleaner', label: 'Text Cleaner' },
+    { slug: 'character-counter', label: 'Character Counter' },
+    { slug: 'lorem-ipsum', label: 'Lorem Ipsum Generator' },
+  ],
+
+  schemaType: 'WebApplication',
+},
   'image-compressor': {
-    slug: 'image-compressor',
-    title: 'Free Image Compressor – Reduce Image Size Without Quality Loss | Utilo',
-    metaDescription: 'Compress JPG, PNG, and WEBP images online for free. Reduce file size by up to 80% while keeping quality intact. No upload to servers — 100% browser-based.',
-    keywords: ['image compressor', 'compress image online', 'reduce image size', 'image file size reducer', 'jpg compressor', 'png compressor', 'webp compressor', 'image optimizer', 'compress photo online free', 'reduce photo size'],
-    h1: 'Free Image Compressor Online',
-    introduction: 'Large images slow down websites and get rejected by upload forms. Our Image Compressor reduces JPG, PNG, and WEBP file sizes by up to 80% while keeping quality visually intact — all in your browser, no file ever leaves your device.',
-    whatIs: {
-      title: 'What is an Image Compressor?',
-      content: 'An image compressor is a tool that reduces the byte size of image files using compression algorithms, making them faster to upload, share, and load on the web. Our browser-based compressor uses lossy and lossless compression to achieve the best size-to-quality ratio for JPG, PNG, and WEBP formats without sending your images to any server.',
-    },
-    whyUse: {
-      title: 'Why Use Utilo\'s Image Compressor?',
-      benefits: [
-        'Reduce image size by up to 80% with minimal quality loss',
-        'Works entirely in your browser — images never leave your device',
-        'Adjustable quality slider to balance size and sharpness',
-        'Side-by-side original vs. compressed file size comparison',
-        'Download compressed images instantly',
-        'Supports JPG, PNG, and WEBP formats',
-        'Free, unlimited compressions with no sign-up',
-      ],
-    },
-    features: {
-      title: 'Key Features',
-      list: [
-        'Drag-and-drop or click to upload images',
-        'Quality slider (1–100) for fine-grained control',
-        'Instant preview of compressed output',
-        'Before/after file size display with percentage saved',
-        'One-click download of the compressed image',
-        'Supports JPG, PNG, and WEBP',
-      ],
-    },
-    howToUse: {
-      title: 'How to Use the Image Compressor',
-      steps: [
-        'Upload your image by clicking the upload area or dragging and dropping',
-        'Adjust the quality slider to choose your compression level',
-        'See the compressed preview and new file size instantly',
-        'Compare original and compressed sizes to confirm savings',
-        'Click Download to save the compressed image',
-      ],
-    },
-    detailedExplanation: 'Page speed is a confirmed Google ranking factor, and images are typically the largest content on a web page. Google\'s Core Web Vitals (especially Largest Contentful Paint) rewards sites that serve smaller images. Compressing images before upload is the single most impactful optimization most websites can make.\n\nOur tool supports two types of compression: lossy compression (for JPG and WEBP) slightly reduces detail in areas where the human eye is least sensitive, achieving the biggest size reductions. Lossless compression (available for PNG) removes metadata and redundant data without changing any pixels.\n\nCommon use cases: compressing product images for e-commerce sites before uploading to Shopify or WooCommerce; reducing profile photos for web apps; shrinking images before attaching to emails; preparing images for social media where oversized files can degrade quality after platform re-compression.',
-    faqs: [
-      {
-        question: 'How much can I reduce an image\'s file size?',
-        answer: 'Typically 50–80% reduction is achievable for JPG images. PNG files with large flat-color areas compress very well losslessly. WEBP usually offers the best compression ratio of any format.',
-      },
-      {
-        question: 'Will my image look blurry after compression?',
-        answer: 'At quality settings above 70%, most viewers cannot detect any difference. Drop the slider gradually and compare — stop when quality looks acceptable to you.',
-      },
-      {
-        question: 'Does my image get uploaded to your server?',
-        answer: 'No. Compression happens entirely in your browser using JavaScript. Your images are never sent over the internet or stored on any server.',
-      },
-      {
-        question: 'What formats are supported?',
-        answer: 'We support JPEG/JPG, PNG, and WEBP. GIF files are not currently supported for compression.',
-      },
-      {
-        question: 'Can I compress multiple images at once?',
-        answer: 'Yes, you can process multiple images one after another. Batch compression will allow multiple uploads in sequence.',
-      },
-    ],
-    relatedTools: [
-      { slug: 'image-resizer', label: 'Image Resizer' },
-      { slug: 'image-cropper', label: 'Image Cropper' },
-      { slug: 'image-to-pdf', label: 'Image to PDF' },
-      { slug: 'image-to-base64', label: 'Image to Base64' },
-    ],
-    schemaType: 'WebApplication',
+  slug: 'image-compressor',
+  title: 'Free Image Compressor – Reduce Image Size Without Losing Quality | Utilo',
+  metaDescription: 'Compress JPG, PNG, and WEBP images online. Reduce image size by up to 80% without quality loss. Fast, free, and secure — no upload required.',
+  keywords: [
+    'image compressor',
+    'compress image online',
+    'reduce image size',
+    'image file size reducer',
+    'jpg compressor',
+    'png compressor',
+    'webp compressor',
+    'image optimizer',
+    'compress photo online free',
+    'reduce photo size'
+  ],
+
+  h1: 'Free Image Compressor Online',
+
+  introduction:
+    'Large images slow down websites and increase loading time. Our Image Compressor reduces JPG, PNG, and WEBP file sizes by up to 80% while keeping quality intact — all directly in your browser with no uploads required.',
+
+  whatIs: {
+    title: 'What is an Image Compressor?',
+    content:
+      'An image compressor is a free online tool that reduces the file size of images using advanced compression techniques. It helps optimize images for faster loading, easier sharing, and better performance on websites and applications. This tool supports formats like JPG, PNG, and WEBP while maintaining visual quality.',
   },
+
+  whyUse: {
+    title: 'Why Use Our Image Compressor?',
+    benefits: [
+      'Reduce image size by up to 80% without noticeable quality loss',
+      'Improve website speed and performance (SEO boost)',
+      'Compress images directly in your browser — no uploads',
+      'Adjust compression level with a quality slider',
+      'Instant preview with before/after comparison',
+      'Supports JPG, PNG, and WEBP formats',
+      'Free and unlimited usage with no registration'
+    ],
+  },
+
+  features: {
+    title: 'Key Features',
+    list: [
+      'Drag-and-drop image upload',
+      'Adjustable compression quality (1–100)',
+      'Real-time preview of compressed image',
+      'Compare original vs compressed file size',
+      'One-click download of optimized image',
+      'Supports multiple image formats'
+    ],
+  },
+
+  howToUse: {
+    title: 'How to Use the Image Compressor',
+    steps: [
+      'Upload your image or drag and drop it into the tool',
+      'Adjust the compression quality using the slider',
+      'Preview the compressed image and file size',
+      'Compare original and compressed sizes',
+      'Download your optimized image instantly'
+    ],
+  },
+
+  // 🔥 SEO BOOST SECTION
+  useCases: {
+    title: 'Where Can You Use an Image Compressor?',
+    list: [
+      'Optimizing images for faster website loading',
+      'Reducing file size for email attachments',
+      'Compressing images for social media uploads',
+      'Preparing product images for e-commerce stores',
+      'Saving storage space on devices',
+      'Improving SEO and Core Web Vitals performance'
+    ],
+  },
+
+  detailedExplanation:
+    'Images are one of the largest elements on any website and significantly impact loading speed. Faster websites rank better on search engines and provide a better user experience.\n\nOur image compressor uses both lossy and lossless compression techniques to reduce file size while preserving visual quality. JPG and WEBP formats benefit from lossy compression for higher reduction, while PNG uses lossless compression to maintain pixel-perfect quality.\n\nThis tool is widely used by developers, designers, bloggers, and marketers to optimize images for websites, apps, and digital platforms.',
+
+  faqs: [
+    {
+      question: 'How much can I reduce image size?',
+      answer:
+        'Most images can be reduced by 50–80% depending on the format and compression level.',
+    },
+    {
+      question: 'Will image quality be affected?',
+      answer:
+        'At higher quality settings, there is little to no visible difference. You can adjust the compression level to balance size and quality.',
+    },
+    {
+      question: 'Are my images uploaded to a server?',
+      answer:
+        'No, all compression happens locally in your browser. Your images are never uploaded or stored.',
+    },
+    {
+      question: 'Which formats are supported?',
+      answer:
+        'The tool supports JPG, PNG, and WEBP image formats.',
+    },
+    {
+      question: 'Can I compress multiple images?',
+      answer:
+        'Yes, you can compress multiple images one by one. Batch processing can be implemented for multiple uploads.',
+    },
+  ],
+
+  relatedTools: [
+    { slug: 'image-resizer', label: 'Image Resizer' },
+    { slug: 'image-cropper', label: 'Image Cropper' },
+    { slug: 'image-to-pdf', label: 'Image to PDF' },
+    { slug: 'image-to-base64', label: 'Image to Base64' },
+  ],
+
+  schemaType: 'WebApplication',
+},
   'qr-code-generator': {
     slug: 'qr-code-generator',
     title: 'Free QR Code Generator – Create QR Codes for URLs & Text | Utilo',
@@ -860,78 +1052,120 @@ export const seoContent: Record<string, ToolSEO> = {
     schemaType: 'WebApplication',
   },
   'character-counter': {
-    slug: 'character-counter',
-    title: 'Free Character Counter – Count Characters, Letters & Symbols | Utilo',
-    metaDescription: 'Count characters instantly online. Track character limits for Twitter, Instagram, SMS, and meta descriptions. Live character counter — free, no sign-up.',
-    keywords: ['character counter', 'count characters online', 'letter counter', 'text character counter', 'twitter character counter', 'sms character limit', 'character count tool', 'characters with spaces', 'instagram caption length', 'meta description length'],
-    h1: 'Free Character Counter Online',
-    introduction: 'Stay within platform character limits without guessing. Our Character Counter shows your total characters (with and without spaces), updates live as you type, and highlights the exact count you need for Twitter, SMS, meta descriptions, and more.',
-    whatIs: {
-      title: 'What is a Character Counter?',
-      content: 'A character counter is an online tool that counts the total number of characters, letters, numbers, and symbols in your text. It\'s essential for writers, social media managers, and anyone who needs to track text length for platforms with character limits like Twitter, Instagram, or SMS messages.',
-    },
-    whyUse: {
-      title: 'Why Use Our Character Counter?',
-      benefits: [
-        'Instantly count characters with and without spaces',
-        'Track character limits for social media posts',
-        'Perfect for Twitter (280 chars), Instagram (2,200 chars), and SMS (160 chars)',
-        'Real-time counting as you type',
-        'Count letters, numbers, and special characters separately',
-        'No installation or registration required',
-        'Works on any device - desktop, tablet, or mobile',
-      ],
-    },
-    features: {
-      title: 'Features',
-      list: [
-        'Type or paste text into input area',
-        'Real-time character count updates',
-        'View detailed breakdown of characters, letters, and symbols',
-        'Check text against specific limits',
-        'Edit text with instant count updates',
-      ],
-    },
-    howToUse: {
-      title: 'How to Use the Character Counter',
-      steps: [
-        'Type or paste your text into the input area',
-        'Watch the character count update in real-time',
-        'View detailed breakdown of characters, letters, and symbols',
-        'Check if your text fits within specific limits',
-        'Edit your text and see counts update instantly',
-      ],
-    },
-    faqs: [
-      {
-        question: 'Do spaces count as characters?',
-        answer: 'Yes, spaces are counted as characters in the total count. We also provide a separate count excluding spaces for your convenience.',
-      },
-      {
-        question: 'What is the Twitter/X character limit?',
-        answer: 'Twitter/X allows 280 characters per post. URLs are shortened to 23 characters regardless of actual length. Our counter shows you the raw character count.',
-      },
-      {
-        question: 'What is the ideal length for a meta description?',
-        answer: 'Google displays approximately 155-160 characters of a meta description in search results. Aim for 140-160 characters for full visibility.',
-      },
-      {
-        question: 'Does the tool count emoji?',
-        answer: 'Yes, emojis and special Unicode characters are counted. Note that some emoji count as 2+ characters on some platforms due to UTF-16 encoding.',
-      },
-      {
-        question: 'What is the standard SMS character limit?',
-        answer: 'A single SMS message is 160 characters. Messages longer than 160 characters are split into multi-part messages and may be billed accordingly.',
-      },
-    ],
-    relatedTools: [
-      { slug: 'word-counter', label: 'Word Counter' },
-      { slug: 'text-cleaner', label: 'Text Cleaner' },
-      { slug: 'case-converter', label: 'Case Converter' },
-      { slug: 'meta-tag-generator', label: 'Meta Tag Generator' },
-    ],
-    schemaType: 'WebApplication',
+  slug: 'character-counter',
+  title: 'Free Character Counter – Count Characters, Letters & Symbols | Utilo',
+  metaDescription: 'Count characters instantly online. Track character limits for Twitter, Instagram, SMS, and meta descriptions. Live character counter — free, no sign-up.',
+  keywords: [
+    'character counter',
+    'count characters online',
+    'letter counter',
+    'text character counter',
+    'twitter character counter',
+    'sms character limit',
+    'character count tool',
+    'characters with spaces',
+    'instagram caption length',
+    'meta description length'
+  ],
+
+  h1: 'Free Character Counter Online',
+
+  introduction:
+    'Stay within platform character limits without guessing. Our Character Counter shows your total characters (with and without spaces), updates live as you type, and helps you optimize content for Twitter, SMS, meta descriptions, and more.',
+
+  whatIs: {
+    title: 'What is a Character Counter?',
+    content:
+      'A character counter is a free online tool that helps you instantly count the total number of characters, letters, words, numbers, spaces, and symbols in your text. It is widely used to check text length and ensure your content fits within specific character limits. This tool is especially useful for platforms like Twitter (X), Instagram, SMS, and meta descriptions. Whether you are a writer, student, developer, or digital marketer, it helps improve accuracy and save time.',
   },
+
+  whyUse: {
+    title: 'Why Use Our Character Counter?',
+    benefits: [
+      'Instantly count characters with and without spaces',
+      'Real-time character counting as you type',
+      'Track character limits for social media and SEO',
+      'Optimized for Twitter/X (280 characters)',
+      'Ideal for Instagram captions (2,200 characters)',
+      'Supports SMS limits (160 characters)',
+      'Count letters, numbers, and special characters separately',
+      'No installation or registration required',
+      'Works seamlessly on desktop, tablet, and mobile'
+    ],
+  },
+
+  features: {
+    title: 'Features',
+    list: [
+      'Type or paste text into input area',
+      'Real-time character count updates',
+      'View detailed breakdown of characters, letters, and symbols',
+      'Check text against specific limits',
+      'Edit text with instant count updates'
+    ],
+  },
+
+  howToUse: {
+    title: 'How to Use the Character Counter',
+    steps: [
+      'Type or paste your text into the input area',
+      'Watch the character count update in real-time',
+      'View detailed breakdown of characters, letters, and symbols',
+      'Check if your text fits within platform limits',
+      'Edit your text and optimize instantly'
+    ],
+  },
+
+  // 🔥 NEW SEO SECTION (HIGH IMPACT)
+  useCases: {
+    title: 'Where Can You Use a Character Counter?',
+    list: [
+      'Writing tweets within the 280-character limit',
+      'Creating SEO meta descriptions (140–160 characters)',
+      'Drafting SMS messages (160 characters)',
+      'Optimizing Google Ads copy',
+      'Writing concise email subject lines',
+      'Checking academic or assignment text limits'
+    ],
+  },
+
+  faqs: [
+    {
+      question: 'Do spaces count as characters?',
+      answer:
+        'Yes, spaces are included in the total character count. Our tool also provides a separate count excluding spaces for better accuracy.',
+    },
+    {
+      question: 'What is the Twitter/X character limit?',
+      answer:
+        'Twitter (X) allows up to 280 characters per post. URLs are automatically shortened to 23 characters regardless of their original length.',
+    },
+    {
+      question: 'What is the ideal length for a meta description?',
+      answer:
+        'Google typically displays 155–160 characters. For best results, keep your meta description between 140–160 characters.',
+    },
+    {
+      question: 'Does the tool count emojis?',
+      answer:
+        'Yes, emojis and Unicode characters are counted. Some emojis may count as 2 or more characters depending on encoding (UTF-16).',
+    },
+    {
+      question: 'What is the standard SMS character limit?',
+      answer:
+        'A single SMS supports 160 characters. Longer messages are split into multiple parts and may incur additional charges.',
+    },
+  ],
+
+  relatedTools: [
+    { slug: 'word-counter', label: 'Word Counter' },
+    { slug: 'text-cleaner', label: 'Text Cleaner' },
+    { slug: 'case-converter', label: 'Case Converter' },
+    { slug: 'meta-tag-generator', label: 'Meta Tag Generator' },
+  ],
+
+  schemaType: 'WebApplication',
+},
   'json-validator': {
     slug: 'json-validator',
     title: 'Free JSON Validator – Validate & Check JSON Syntax Online | Utilo',
