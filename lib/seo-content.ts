@@ -2482,67 +2482,7 @@ export const seoContent: Record<string, ToolSEO> = {
     ],
     schemaType: 'WebApplication',
   },
-  'emi-calculator': {
-    slug: 'emi-calculator',
-    title: 'Free EMI Calculator Online - Calculate Loan EMI with Interest | Utilo',
-    metaDescription: 'Calculate monthly EMI, total interest, and total repayment in seconds. Enter loan amount, interest rate, and tenure to get accurate EMI results instantly.',
-    keywords: ['EMI calculator', 'loan EMI calculator', 'monthly EMI calculator', 'home loan EMI', 'car loan EMI', 'personal loan EMI'],
-    h1: 'EMI Calculator - Calculate Monthly Loan EMI Instantly',
-    whatIs: {
-      title: 'What is an EMI Calculator?',
-      content: 'An EMI calculator is a financial tool that calculates your Equated Monthly Installment for a loan. By entering principal amount, annual interest rate, and loan tenure, you get an instant estimate of monthly EMI, total interest payable, and total repayment amount.',
-    },
-    whyUse: {
-      title: 'Why Use Our EMI Calculator?',
-      benefits: [
-        'Instantly estimate monthly EMI before applying for a loan',
-        'Plan repayments with better budget visibility',
-        'Compare different interest rates and tenures quickly',
-        'Avoid manual formula errors and save time',
-        'Useful for home, car, personal, and education loans',
-        'Free and available anytime on desktop or mobile',
-      ],
-    },
-    features: {
-      title: 'Features',
-      list: [
-        'Inputs for loan amount, interest rate, and tenure',
-        'Instant monthly EMI calculation',
-        'Breakdown of principal, total interest, and total payment',
-        'Real-time updates as values change',
-        'Clean interface for quick comparisons',
-      ],
-    },
-    howToUse: {
-      title: 'How to Use the EMI Calculator',
-      steps: [
-        'Enter the total loan amount you want to borrow',
-        'Set the annual interest rate offered by your lender',
-        'Choose the loan tenure in months or years',
-        'View monthly EMI, total interest, and total repayment instantly',
-        'Adjust values to compare scenarios and pick a manageable EMI',
-      ],
-    },
-    faqs: [
-      {
-        question: 'What does EMI include?',
-        answer: 'EMI includes both principal repayment and interest. At the beginning of the tenure, the interest component is usually higher than the principal component.',
-      },
-      {
-        question: 'How does tenure affect EMI?',
-        answer: 'A longer tenure generally lowers monthly EMI but increases total interest paid. A shorter tenure increases EMI but reduces total interest over time.',
-      },
-      {
-        question: 'Can I use this EMI calculator for different loan types?',
-        answer: 'Yes. You can use it for home loans, car loans, personal loans, education loans, and other standard reducing-balance loans.',
-      },
-      {
-        question: 'Is the EMI result accurate?',
-        answer: 'Yes, it uses the standard EMI formula and provides reliable estimates. Final repayment values may vary slightly based on lender-specific charges and rounding.',
-      },
-    ],
-    schemaType: 'WebApplication',
-  },
+
   'age-calculator': {
     slug: 'age-calculator',
     title: 'Free Age Calculator Online - Calculate Exact Age by Date of Birth | Utilo',
@@ -2662,6 +2602,79 @@ export const seoContent: Record<string, ToolSEO> = {
         question: 'Does the calculator work on mobile?',
         answer: 'Yes, the layout is responsive and updates instantly on phones, tablets, and desktops.',
       },
+    ],
+    schemaType: 'WebApplication',
+  },
+  'emi-calculator': {
+    slug: 'emi-calculator',
+    title: 'Free EMI Calculator – Calculate Home, Car & Personal Loan EMI | Utilo',
+    metaDescription: 'Calculate your Equated Monthly Installment (EMI) instantly. Plan your home loan, car loan, or personal loan with our free visual EMI calculator with amortization schedule.',
+    keywords: ['emi calculator', 'home loan emi calculator', 'car loan emi calculator', 'personal loan emi calculator', 'loan calculator online', 'interest calculator', 'calculate emi free', 'loan amortization table', 'emi chart', 'monthly installment calculator'],
+    h1: 'Free EMI Calculator Online',
+    introduction: 'Planning for a new home, car, or personal loan? Our EMI calculator helps you instantly figure out your monthly payment, total interest, and repayment schedule with visual charts and detailed amortization tables.',
+    whatIs: {
+      title: 'What is an EMI?',
+      content: 'EMI stands for Equated Monthly Installment. It is a fixed payment amount made by a borrower to a lender at a specified date each calendar month. EMIs are used to pay off both interest and principal each month so that over a specified number of years, the loan is paid off in full.',
+    },
+    whyUse: {
+      title: 'Why Use Utilo\'s EMI Calculator?',
+      benefits: [
+        'Instant, real-time EMI calculations as you adjust sliders',
+        'Visual interactive Donut Chart for Principal vs Interest breakdown',
+        'Loan Balance Line Chart to see your debt reduce over time',
+        'Detailed Amortization Table showing month-by-month repayment',
+        'Fast presets for common loan amounts and interest rates',
+        'Toggle seamlessly between Months and Years for tenure',
+        'Download your EMI report to PDF instantly',
+      ],
+    },
+    features: {
+      title: 'Key Features',
+      list: [
+        'Interactive financial charts (Line & Donut)',
+        'Support for Tenures up to 30 years',
+        'Exact Principal & Interest Breakdown',
+        'Paginated Amortization Repayment Schedule',
+        'Responsive layout perfect for mobile & desktop',
+        'No data saved — 100% private',
+      ],
+    },
+    howToUse: {
+      title: 'How to Calculate Your EMI',
+      steps: [
+        'Enter your Principal Loan Amount using the slider or text box.',
+        'Set your Annual Interest Rate provided by your bank.',
+        'Choose your Loan Tenure (duration) in either Months or Years.',
+        'Your Monthly EMI, Total Interest, and Total Amount will update instantly.',
+        'Scroll down to view detailed charts and your complete repayment schedule.',
+      ],
+    },
+    formula: 'EMI = [P x R x (1+R)^N]/[(1+R)^N-1]\n\nWhere:\nP = Principal Loan Amount\nR = Rate of Interest per month (Annual Rate / 12 / 100)\nN = Total number of monthly installments',
+    faqs: [
+      {
+        question: 'Does the EMI calculator include processing fees?',
+        answer: 'No, this calculator strictly computes the EMI based on principal, interest rate, and tenure. Banks may charge additional processing fees, insurance, or document charges.'
+      },
+      {
+        question: 'Are EMIs always fixed?',
+        answer: 'If you opt for a Fixed Rate Loan, your EMI remains constant. If you opt for a Floating Rate Loan, your EMI or loan tenure may change if the central bank changes baseline interest rates.'
+      },
+      {
+        question: 'Is it better to have a shorter or longer tenure?',
+        answer: 'A shorter tenure increases your monthly EMI but significantly reduces the total interest you pay. A longer tenure reduces your monthly burden but costs much more in total interest.'
+      },
+      {
+        question: 'Can I prepay my loan to reduce EMI?',
+        answer: 'Yes, prepaying a lump sum reduces your outstanding principal. This usually allows you to either lower your future EMI or shorten your remaining loan tenure.'
+      },
+      {
+        question: 'Is this calculator accurate for all types of loans?',
+        answer: 'Yes, the underlying mathematical formula is identical whether it is a Home Loan, Car Loan, Personal Loan, or Education Loan.'
+      }
+    ],
+    relatedTools: [
+      { slug: 'gst-calculator', label: 'GST Calculator' },
+      { slug: 'percentage-calculator', label: 'Percentage Calculator' },
     ],
     schemaType: 'WebApplication',
   },
