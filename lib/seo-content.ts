@@ -2837,7 +2837,7 @@ export const seoContent: Record<string, ToolSEO> = {
       ],
     },
     relatedTools: [
-      { slug: 'calculator', label: 'Calculator' },
+      { slug: 'gst-calculator', label: 'GST Calculator' },
       { slug: 'sip-calculator', label: 'SIP Calculator' },
       { slug: 'emi-calculator', label: 'EMI Calculator' },
     ],
