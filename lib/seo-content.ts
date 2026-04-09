@@ -2843,6 +2843,84 @@ export const seoContent: Record<string, ToolSEO> = {
     ],
     schemaType: 'WebApplication',
   },
+  'cagr-calculator': {
+    slug: 'cagr-calculator',
+    title: 'Free CAGR Calculator – Calculate Compound Annual Growth Rate | Utilo',
+    metaDescription: 'Calculate your Compound Annual Growth Rate (CAGR) instantly. Free visual CAGR calculator to measure the true annual growth of your investments.',
+    keywords: ['cagr calculator', 'compound annual growth rate calculator', 'cagr formula calculator', 'investment growth calculator', 'annual growth rate', 'calculate cagr', 'portfolio growth calculator'],
+    h1: 'Free CAGR Calculator Online',
+    introduction: 'Want to know the true annual growth rate of your investment? Our CAGR calculator helps you figure out the exact Compound Annual Growth Rate of your portfolio with beautiful, interactive charts.',
+    whatIs: {
+      title: 'What is Compound Annual Growth Rate (CAGR)?',
+      content: 'CAGR stands for Compound Annual Growth Rate. It is a measure used to calculate the mean annual growth rate of an investment over a specified period of time longer than one year, assuming that profits were reinvested at the end of each year.',
+    },
+    whyUse: {
+      title: 'Why Use Utilo\'s CAGR Calculator?',
+      benefits: [
+        'Instant, real-time CAGR calculation',
+        'Visual Donut Chart for Investment vs Returns Breakdown',
+        'Growth Area Chart to visualize growth over time',
+        'Detailed Yearly Breakdown Table',
+        'Fast presets for common values',
+        'Free, private, and works directly in your browser',
+      ],
+    },
+    features: {
+      title: 'Key Features',
+      list: [
+        'Interactive financial charts (Area & Donut)',
+        'Accurate mathematical formula built-in',
+        'Initial & Final Value tracking',
+        'Year-by-year value projections',
+        'Responsive layout for all devices',
+        'Export to PDF feature',
+      ],
+    },
+    howToUse: {
+      title: 'How to Calculate Your CAGR',
+      steps: [
+        'Enter your Initial Investment Amount.',
+        'Enter your Final Investment Value.',
+        'Choose your Investment Duration in years.',
+        'Your Compound Annual Growth Rate (CAGR) and Total Gain will update instantly.',
+      ],
+    },
+    formula: 'CAGR = [(Final Value / Initial Value) ^ (1 / Number of Years)] - 1\n\nWhere:\nFinal Value = Ending balance of the investment\nInitial Value = Beginning balance of the investment\nNumber of Years = Time period in years',
+    detailedExplanation: 'Unlike absolute returns, which just show the total percentage growth, CAGR smooths out the performance of an investment over time to give you a single standardized annual rate. This makes it the most accurate way to compare the performance of different investments (like mutual funds, stocks, or real estate) over multiple years.',
+    faqs: [
+      {
+        question: 'What is a good CAGR?',
+        answer: 'A "good" CAGR depends on the asset class and your risk profile. For equity investments like stocks or mutual funds, a CAGR of 10% to 15% is generally considered good. For safer debt instruments, 6% to 8% is typical.'
+      },
+      {
+        question: 'What is the difference between Absolute Return and CAGR?',
+        answer: 'Absolute return calculates the total percentage gain or loss over a period (e.g., 50% in 5 years). CAGR calculates the smoothed, annualized rate required to achieve that absolute return (e.g., 8.45% per year for 5 years).'
+      },
+      {
+        question: 'Does CAGR account for volatility?',
+        answer: 'No, CAGR assumes a steady growth rate every year. It hides the volatility (ups and downs) that happened between the initial and final years.'
+      },
+      {
+        question: 'Can CAGR be negative?',
+        answer: 'Yes, if your final investment value is lower than your initial investment, your CAGR will be negative, indicating an annualized loss.'
+      }
+    ],
+    useCases: {
+      title: 'People Also Search For',
+      list: [
+        'CAGR formula excel',
+        'Stock CAGR calculator',
+        'Mutual fund return calculator',
+        'Absolute return vs CAGR'
+      ],
+    },
+    relatedTools: [
+      { slug: 'sip-calculator', label: 'SIP Calculator' },
+      { slug: 'fd-calculator', label: 'FD Calculator' },
+      { slug: 'emi-calculator', label: 'EMI Calculator' },
+    ],
+    schemaType: 'WebApplication',
+  },
 };
 
 // Generate SEO content for remaining tools with generic but optimized content

@@ -326,4 +326,13 @@ export const toolsData: Tool[] = [
     slug: 'fd-calculator',
     trending: true,
   },
+  {
+    id: 39,
+    name: 'CAGR Calculator',
+    category: 'calculators',
+    icon: '📊',
+    description: 'Calculate the Compound Annual Growth Rate (CAGR) of your investments over time',
+    slug: 'cagr-calculator',
+    trending: true,
+  },
 ];

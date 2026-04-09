@@ -188,6 +188,7 @@ export const toolNameTranslations: Record<string, string> = {
   'xml-formatter': 'XML Formatter',
   'sip-calculator': 'SIP Calculator',
   'fd-calculator': 'FD Calculator',
+  'cagr-calculator': 'CAGR Calculator',
 };
 
 export function getTranslation(): Translations {
