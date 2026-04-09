@@ -2765,6 +2765,84 @@ export const seoContent: Record<string, ToolSEO> = {
     ],
     schemaType: 'WebApplication',
   },
+  'fd-calculator': {
+    slug: 'fd-calculator',
+    title: 'Free FD Calculator – Calculate Fixed Deposit Returns | Utilo',
+    metaDescription: 'Calculate your Fixed Deposit (FD) maturity amount and interest earned instantly. Free visual FD calculator with yearly growth charts.',
+    keywords: ['fd calculator', 'fixed deposit calculator', 'fd interest calculator', 'fd maturity calculator', 'calculate fd interest', 'fd returns calculator', 'fixed deposit returns'],
+    h1: 'Free FD Calculator Online',
+    introduction: 'Want to know how much your Fixed Deposit will grow over time? Our FD calculator helps you calculate your exact maturity amount and total interest earned with beautiful, interactive growth charts.',
+    whatIs: {
+      title: 'What is a Fixed Deposit (FD)?',
+      content: 'A Fixed Deposit is a highly safe financial instrument offered by banks which provides a higher rate of interest than a regular savings account, until the given maturity date.',
+    },
+    whyUse: {
+      title: 'Why Use Utilo\'s FD Calculator?',
+      benefits: [
+        'Instant, real-time FD return calculations',
+        'Visual Donut Chart for Principal vs Interest Breakdown',
+        'Growth Area Chart to see your wealth accumulate',
+        'Detailed Yearly Breakdown Table',
+        'Fast presets for common investment amounts and interest rates',
+        'Free, private, and works directly in your browser',
+      ],
+    },
+    features: {
+      title: 'Key Features',
+      list: [
+        'Interactive financial charts (Area & Donut)',
+        'Quarterly compounding formula built-in',
+        'Exact Principal & Interest Breakdown',
+        'Yearly Maturity Schedule',
+        'Responsive layout for all devices',
+        'Export to PDF feature',
+      ],
+    },
+    howToUse: {
+      title: 'How to Calculate Your FD Returns',
+      steps: [
+        'Enter your Total Investment Amount (Principal).',
+        'Set the Annual Interest Rate offered by your bank.',
+        'Choose your Investment Duration in years.',
+        'Your Total Interest Earned and Maturity Amount will update instantly.',
+      ],
+    },
+    formula: 'A = P(1 + r/n)^(n*t)\n\nWhere:\nA = Maturity Amount\nP = Principal amount\nr = Annual interest rate (in decimal)\nn = Number of times interest is compounded per year (Usually 4 for quarterly)\nt = Tenure in years',
+    detailedExplanation: 'Fixed Deposits use the power of compound interest to multiply your money safely. In India, most banks compound FD interest on a quarterly basis. This means that every three months, the interest earned gets added to your principal, and the next interest is calculated on this new, higher amount.',
+    faqs: [
+      {
+        question: 'Is FD interest taxable?',
+        answer: 'Yes, the interest earned on Fixed Deposits is fully taxable as per your income tax slab. Banks may also deduct TDS if the interest exceeds a certain limit.'
+      },
+      {
+        question: 'Is FD safe?',
+        answer: 'Yes, Fixed Deposits are considered one of the safest investment options because the returns are guaranteed and not subject to market volatility. In many countries, a portion of bank deposits is also insured.'
+      },
+      {
+        question: 'Can I break my FD before maturity?',
+        answer: 'Yes, you can typically withdraw your FD prematurely, but banks usually charge a small penalty (e.g., 0.5% - 1%) on the interest rate applicable for the period the deposit was actually held.'
+      },
+      {
+        question: 'How often is FD interest compounded?',
+        answer: 'Most commercial banks compound FD interest on a quarterly basis. Our calculator uses the quarterly compounding formula by default.'
+      }
+    ],
+    useCases: {
+      title: 'People Also Search For',
+      list: [
+        'FD calculator quarterly',
+        'FD compounding calculator',
+        'post office FD calculator',
+        'SBI FD calculator'
+      ],
+    },
+    relatedTools: [
+      { slug: 'calculator', label: 'Calculator' },
+      { slug: 'sip-calculator', label: 'SIP Calculator' },
+      { slug: 'emi-calculator', label: 'EMI Calculator' },
+    ],
+    schemaType: 'WebApplication',
+  },
 };
 
 // Generate SEO content for remaining tools with generic but optimized content

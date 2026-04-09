@@ -317,4 +317,13 @@ export const toolsData: Tool[] = [
     slug: 'sip-calculator',
     trending: true,
   },
+  {
+    id: 38,
+    name: 'FD Calculator',
+    category: 'calculators',
+    icon: '🏦',
+    description: 'Calculate Fixed Deposit maturity amount and total interest earned over time',
+    slug: 'fd-calculator',
+    trending: true,
+  },
 ];
