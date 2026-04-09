@@ -101,10 +101,11 @@ const nextConfig = {
       };
     }
 
-    config.resolve.alias = {
-      ...config.resolve.alias,
-      lodash: "lodash-es",
-    };
+    // Removed lodash alias since lodash-es is not installed
+    // config.resolve.alias = {
+    //   ...config.resolve.alias,
+    //   lodash: "lodash-es",
+    // };
 
     return config;
   },
