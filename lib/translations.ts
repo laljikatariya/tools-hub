@@ -186,6 +186,8 @@ export const toolNameTranslations: Record<string, string> = {
   'uuid-generator': 'UUID Generator',
   'word-counter': 'Word Counter',
   'xml-formatter': 'XML Formatter',
+  'sip-calculator': 'SIP Calculator',
+  'fd-calculator': 'FD Calculator',
 };
 
 export function getTranslation(): Translations {
