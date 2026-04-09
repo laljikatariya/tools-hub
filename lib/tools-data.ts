@@ -308,4 +308,13 @@ export const toolsData: Tool[] = [
     description: 'Calculate GST amount, total price, and original amount instantly',
     slug: 'gst-calculator',
   },
+  {
+    id: 37,
+    name: 'SIP Calculator',
+    category: 'calculators',
+    icon: '📈',
+    description: 'Calculate your systematic investment plan (SIP) returns and visualize wealth growth',
+    slug: 'sip-calculator',
+    trending: true,
+  },
 ];
