@@ -1,7 +1,9 @@
 'use client';
 
+import { useMemo } from 'react';
 import Link from 'next/link';
 import { ToolSEO } from '@/lib/seo-content';
+import { toolsData } from '@/lib/tools-data';
 
 interface SEOContentSectionProps {
   seoContent: ToolSEO;
@@ -10,6 +12,30 @@ interface SEOContentSectionProps {
 }
 
 export function SEOContentSection({ seoContent, toolName, slug }: SEOContentSectionProps) {
+  const displayRelatedTools = useMemo(() => {
+    let tools = [...(seoContent.relatedTools || [])];
+
+    if (tools.length < 3) {
+      const currentTool = toolsData.find((t) => t.slug === slug);
+      if (currentTool) {
+        const otherTools = toolsData.filter(
+          (t) => t.category === currentTool.category && t.slug !== slug
+        );
+
+        const existingSlugs = new Set(tools.map((t) => t.slug));
+
+        for (const t of otherTools) {
+          if (tools.length >= 3) break;
+          if (!existingSlugs.has(t.slug)) {
+            tools.push({ slug: t.slug, label: t.name });
+            existingSlugs.add(t.slug);
+          }
+        }
+      }
+    }
+    return tools.slice(0, 3);
+  }, [seoContent.relatedTools, slug]);
+
   return (
     <>
       {/* SEO Content Sections - Always Visible */}
@@ -130,11 +156,11 @@ export function SEOContentSection({ seoContent, toolName, slug }: SEOContentSect
         </section>
 
         {/* Related Tools Section */}
-        {seoContent.relatedTools && seoContent.relatedTools.length > 0 && (
+        {displayRelatedTools.length > 0 && (
           <section>
             <h2 className="text-3xl font-bold mb-6 text-slate-900">Related Tools</h2>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-              {seoContent.relatedTools.map((tool) => (
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              {displayRelatedTools.map((tool) => (
                 <Link
                   key={tool.slug}
                   href={`/tools/${tool.slug}`}
